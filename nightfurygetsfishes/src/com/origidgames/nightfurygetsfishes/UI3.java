@@ -104,11 +104,12 @@ public class UI3 extends Activity {
 		new CountDownTimer(TIME_LIMIT, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
-		        countdown.setText(Long.toString(millisUntilFinished/1000-1));
+		        countdown.setText(Long.toString(millisUntilFinished/1000));
 		     }
 
 		     public void onFinish() {
 			     closeDataBase();
+			     countdown.setText("0");
 		    	 finishGame(false);
 		     }
 		  }.start();
@@ -212,6 +213,8 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
+		ImageView road = (ImageView) findViewById(R.id.road);
+		road.startAnimation(PublicResource.FadeIn());
 		ImageView clock = (ImageView) findViewById(R.id.clock);
 		clock.startAnimation(PublicResource.FadeIn());
 		clock.startAnimation(PublicResource.Rotate());
