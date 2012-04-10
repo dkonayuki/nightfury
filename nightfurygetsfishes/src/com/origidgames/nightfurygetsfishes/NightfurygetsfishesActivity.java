@@ -1,6 +1,7 @@
 package com.origidgames.nightfurygetsfishes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class NightfurygetsfishesActivity extends Activity {
@@ -9,5 +10,6 @@ public class NightfurygetsfishesActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        startActivity(new Intent("com.origidgames.nightfuryUI3"));
     }
 }
