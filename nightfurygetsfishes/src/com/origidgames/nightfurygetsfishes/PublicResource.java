@@ -1,6 +1,7 @@
 package com.origidgames.nightfurygetsfishes;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -16,6 +17,8 @@ public class PublicResource {
 	anim_FadeIn,
 	anim_FadeOut,
 	anim_Rotate;
+	private static final String PrefName = "Preferences";
+	
 	public static void LoadResource(Context ct) {
 		anim_InFromLeft = AnimationUtils.loadAnimation(ct, R.anim.infromleft);
 		anim_InFromRight = AnimationUtils.loadAnimation(ct, R.anim.infromright);
@@ -33,4 +36,17 @@ public class PublicResource {
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
 	public static Animation InFromBot() { return anim_InFromBot; }
+	
+	public static Boolean getAudioPref(Context ct) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+		Boolean b = m_Pref.getBoolean("Audio", true);
+		return b;
+	}
+	
+	public static void setAudioPref(Context ct,Boolean b) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = m_Pref.edit();
+		if (b) editor.putBoolean("Audio", true); else editor.putBoolean("Audio", false);
+		editor.commit();
+	}
 }

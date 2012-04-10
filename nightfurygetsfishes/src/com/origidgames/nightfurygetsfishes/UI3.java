@@ -49,6 +49,7 @@ public class UI3 extends Activity {
 	private Button ans[] = new Button[5];
 	private TextView question,countdown;
 	private ImageView nightfury;
+	private Boolean flag = true;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -67,7 +68,7 @@ public class UI3 extends Activity {
 	protected void onResume(){
 		super.onResume();
 		if (mediaPlayer != null) {
-			mediaPlayer.start();
+			if (PublicResource.getAudioPref(this.getBaseContext())) mediaPlayer.start();
 		}
 		wakeLock.acquire();
 	}
@@ -108,8 +109,8 @@ public class UI3 extends Activity {
 		     }
 
 		     public void onFinish() {
-			     closeDataBase();
 			     countdown.setText("0");
+			     closeDataBase();
 		    	 finishGame(false);
 		     }
 		  }.start();
@@ -128,12 +129,19 @@ public class UI3 extends Activity {
 			mediaPlayer.prepare();
 			mediaPlayer.setLooping(true);
 			ToggleButton btt_sound = (ToggleButton) findViewById(R.id.btn_sound);
+			if (PublicResource.getAudioPref(getBaseContext())) btt_sound.setChecked(false); else btt_sound.setChecked(true);
 			btt_sound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					// TODO Auto-generated method stub
-					if (isChecked) mediaPlayer.pause(); else mediaPlayer.start();
+					if (isChecked) {
+						mediaPlayer.pause(); 
+						PublicResource.setAudioPref(getBaseContext(), false);
+					}else {
+						mediaPlayer.start();
+						PublicResource.setAudioPref(getBaseContext(), true);
+					}
 				}
 				
 			});
@@ -183,6 +191,7 @@ public class UI3 extends Activity {
 	}
 	
 	private void processAnswer(final int a) {
+		flag=false;
 		if (getAnswer()==a) {
 			stars++; 
 			final Handler handler = new Handler();
@@ -192,6 +201,7 @@ public class UI3 extends Activity {
 			    //Do something after 1s
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					if (stars==WIN) finishGame(true);
+					flag=true;
 					displayNewQuestion();
 			  }
 			}, 1000);
@@ -205,6 +215,7 @@ public class UI3 extends Activity {
 			    //Do something after 1s
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					ans[getAnswer()].setBackgroundResource(R.drawable.button_answer);
+					flag=true;
 					displayNewQuestion();
 			  }
 			}, 1000);
@@ -234,7 +245,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				processAnswer(1);
+				if(flag)processAnswer(1);
 			}
 			
 		});
@@ -242,7 +253,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				processAnswer(2);
+				if(flag)processAnswer(2);
 			}
 			
 		});
@@ -250,7 +261,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				processAnswer(3);
+				if(flag)processAnswer(3);
 			}
 			
 		});
@@ -258,7 +269,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				processAnswer(4);
+				if(flag)processAnswer(4);
 			}
 			
 		});
