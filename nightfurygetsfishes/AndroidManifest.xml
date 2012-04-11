@@ -25,6 +25,12 @@
                 <action android:name="com.origidgames.nightfuryUI3" />
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter></activity>
+            <activity 
+            android:name=".UI1"
+            ><intent-filter >
+                <action android:name="com.origidgames.nightfuryUI1" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter></activity>
     </application>
 
 </manifest>

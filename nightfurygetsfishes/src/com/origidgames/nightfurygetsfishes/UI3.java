@@ -31,16 +31,24 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 25;
-	private static final int TIME_LIMIT = 60000;
+	private static final int TIME_LIMIT = 90000;
+	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
+	private static final int[] NIGHTFURY[] = {
+		{450,220},{410,220},{370,220},{330,230},{290,190},{230,220},{190,200},{160,220},{110,230},{50,220}
+	};
+	private int currentPosition;
+	private RelativeLayout.LayoutParams m_Params;
 	private int question_checked[] = new int[QUESTION_NUMBER];
+	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
-	private int stars = 0;
+	private int stars = 1;
 	private DBAdapter db;
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
@@ -50,6 +58,8 @@ public class UI3 extends Activity {
 	private TextView question,countdown;
 	private ImageView nightfury;
 	private Boolean flag = true;
+	private int answer_random[] = new int[5];
+	private float density;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -157,7 +167,8 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareDataBase() {
-		setUncheckedAll();
+		setUncheckedAll(question_checked);
+		currentPosition = 0;
         try {
         	String destPath = "/data/data/" + getPackageName() + "/databases/MyDB";
         	//File f = new File(destPath);
@@ -182,8 +193,8 @@ public class UI3 extends Activity {
 		question_checked[i]=1;
 	}
 	
-	private void setUncheckedAll() {
-		Arrays.fill(question_checked, 0);
+	private void setUncheckedAll(int arr[]) {
+		Arrays.fill(arr, 0);
 	}
 	
 	private int getAnswer() {
@@ -192,8 +203,9 @@ public class UI3 extends Activity {
 	
 	private void processAnswer(final int a) {
 		flag=false;
-		if (getAnswer()==a) {
+		if (getAnswer()==answer_random[a]) {
 			stars++; 
+			currentPosition++;
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_right);
 			handler.postDelayed(new Runnable() {
@@ -202,11 +214,16 @@ public class UI3 extends Activity {
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					if (stars==WIN) finishGame(true);
 					flag=true;
+					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
+					nightfury.setLayoutParams(m_Params);
 					displayNewQuestion();
 			  }
 			}, 1000);
 		} else {
-			stars--;
+			if (stars>1) {
+				stars--;
+				currentPosition--;
+			}
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
 			ans[getAnswer()].setBackgroundResource(R.drawable.img_answer_right);
@@ -216,6 +233,8 @@ public class UI3 extends Activity {
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					ans[getAnswer()].setBackgroundResource(R.drawable.button_answer);
 					flag=true;
+					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
+					nightfury.setLayoutParams(m_Params);
 					displayNewQuestion();
 			  }
 			}, 1000);
@@ -224,6 +243,9 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
+		m_Params = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+		density = getBaseContext().getResources().getDisplayMetrics().density;
 		ImageView road = (ImageView) findViewById(R.id.road);
 		road.startAnimation(PublicResource.FadeIn());
 		ImageView clock = (ImageView) findViewById(R.id.clock);
@@ -232,9 +254,12 @@ public class UI3 extends Activity {
 		countdown = (TextView) findViewById(R.id.count);
 		countdown.startAnimation(PublicResource.FadeIn());
 		nightfury = (ImageView) findViewById(R.id.nightfury);
+		nightfury.setLayoutParams(m_Params);
+		m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 		nightfury.startAnimation(PublicResource.FadeIn());
 		question = (TextView) findViewById(R.id.question);
 		question.startAnimation(PublicResource.InFromLeft());
+		
 		ans[1] = (Button) findViewById(R.id.ans1);
 		ans[2] = (Button) findViewById(R.id.ans2);
 		ans[3] = (Button) findViewById(R.id.ans3);
@@ -288,8 +313,13 @@ public class UI3 extends Activity {
 			e.printStackTrace();
 		}
 		question.setText(_question.getString(1));
-		for (int i=1;i<=4;i++)
-		ans[i].setText(_question.getString(i+1));
+		setUncheckedAll(answer_checked);
+		for (int i=1;i<=4;i++) {
+			while (answer_checked[q = m_random.nextInt(ANSWER_NUMBER)]==1);
+			answer_random[i] = q + 1;
+			ans[i].setText(_question.getString(q+2));	
+			answer_checked[q] = 1;
+		}
 	}
 
     private void CopyDB(InputStream inputStream,OutputStream outputStream) throws IOException {

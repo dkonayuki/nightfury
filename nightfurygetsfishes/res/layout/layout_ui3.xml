@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" 
@@ -27,7 +30,7 @@
             android:textColor="#DDDDDD"
             android:textSize="30px"
             android:textStyle="bold"
-            android:text="@string/_60"/>
+            android:text="@string/_90"/>
     </FrameLayout>
 	<FrameLayout
 	     android:layout_width="match_parent"
@@ -45,6 +48,8 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:textColor="#333333"
+				android:paddingLeft="20dp"
+				android:paddingRight="20dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Button
@@ -54,6 +59,8 @@
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
+               	android:paddingLeft="20dp"
+				android:paddingRight="20dp"
                 android:textColor="#333333" />
              <Button
                 android:id="@+id/ans2"
@@ -62,6 +69,8 @@
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
+                android:paddingLeft="20dp"
+				android:paddingRight="20dp"
                 android:textColor="#333333"/>
               <Button
                 android:id="@+id/ans3"
@@ -70,6 +79,8 @@
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
+                android:paddingLeft="20dp"
+				android:paddingRight="20dp"
                 android:textColor="#333333" />
                <Button
                 android:id="@+id/ans4"
@@ -78,6 +89,8 @@
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
+                android:paddingLeft="20dp"
+				android:paddingRight="20dp"
                 android:textColor="#333333"/>
 
         </LinearLayout>
@@ -93,23 +106,102 @@
             /></FrameLayout>
     </LinearLayout>
 
-    <FrameLayout
+    <FrameLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+		
         <ImageView
             android:id="@+id/road"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_road" />
-
-        <ImageView
-            android:id="@+id/nightfury"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:src="@drawable/img_nightfury" />
-
+       
     </FrameLayout>
 
 </LinearLayout>
+ <RelativeLayout 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="60dip"
+        android:src="@drawable/img_easy" />
+
+	<com.origidgames.nightfurygetsfishes.GifView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="480dip"
+	android:layout_marginLeft="260dp"
+	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="440dip"
+	android:layout_marginLeft="260dp"
+	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="400dip"
+	android:layout_marginLeft="260dp"
+	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	   android:layout_marginTop="360dip"
+	   android:layout_marginLeft="270dp"
+	 />
+	<com.origidgames.nightfurygetsfishes.GifView
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	   android:layout_marginTop="320dip"
+	   android:layout_marginLeft="230dp"
+	 />
+	<com.origidgames.nightfurygetsfishes.GifView
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	   android:layout_marginTop="260dip"
+	   android:layout_marginLeft="260dp"
+	 />
+	<com.origidgames.nightfurygetsfishes.GifView
+ 	android:layout_width="wrap_content"
+ 	android:layout_height="wrap_content"
+    android:layout_marginTop="230dip"
+    android:layout_marginLeft="240dp"
+	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	 android:layout_marginTop="190dip"
+	 android:layout_marginLeft="260dp"
+ 		 />
+	<com.origidgames.nightfurygetsfishes.GifView
+ 		 android:layout_width="wrap_content"
+ 		 android:layout_height="wrap_content"
+ 		 android:layout_marginTop="140dip"
+ 		 android:layout_marginLeft="270dp"
+ 	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+ 		 android:layout_width="wrap_content"
+ 		 android:layout_height="wrap_content"
+ 		 android:layout_marginTop="80dip"
+ 		 android:layout_marginLeft="260dp"
+ 	/>
+		 		
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+      		 <ImageView
+         		   android:id="@+id/nightfury"
+         		   android:layout_width="wrap_content"
+        		   android:layout_height="wrap_content"
+         		   android:layout_marginTop="450dip"
+         		   android:layout_marginLeft="220dp"
+          		   android:src="@drawable/img_nightfury" />
+	</RelativeLayout>
+</FrameLayout>
