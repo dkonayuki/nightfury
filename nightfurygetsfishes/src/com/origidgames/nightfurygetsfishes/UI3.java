@@ -37,7 +37,7 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 25;
-	private static final int TIME_LIMIT = 900000;
+	private static final int TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int[] NIGHTFURY[] = {
