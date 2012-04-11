@@ -37,7 +37,7 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 25;
-	private static final int TIME_LIMIT = 90000;
+	private static final int TIME_LIMIT = 900000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int[] NIGHTFURY[] = {
@@ -48,7 +48,7 @@ public class UI3 extends Activity {
 	private int question_checked[] = new int[QUESTION_NUMBER];
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
-	private int stars = 1;
+	private int stars = 0;
 	private DBAdapter db;
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
@@ -60,6 +60,7 @@ public class UI3 extends Activity {
 	private Boolean flag = true;
 	private int answer_random[] = new int[5];
 	private float density;
+	private Boolean finish = false;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,6 +122,7 @@ public class UI3 extends Activity {
 		     public void onFinish() {
 			     countdown.setText("0");
 			     closeDataBase();
+			     finish = true;
 		    	 finishGame(false);
 		     }
 		  }.start();
@@ -213,25 +215,29 @@ public class UI3 extends Activity {
 			    //Do something after 1s
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					if (stars==WIN) finishGame(true);
-					flag=true;
-					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
-					nightfury.setLayoutParams(m_Params);
-					displayNewQuestion();
+					else {
+						flag=true;
+						m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
+						nightfury.setLayoutParams(m_Params);
+						displayNewQuestion();
+					}
 			  }
 			}, 1000);
 		} else {
-			if (stars>1) {
+			if (stars>0) {
 				stars--;
 				currentPosition--;
 			}
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
-			ans[getAnswer()].setBackgroundResource(R.drawable.img_answer_right);
+			for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
+				ans[i].setBackgroundResource(R.drawable.img_answer_right);
 			handler.postDelayed(new Runnable() {
 			  public void run() {
 			    //Do something after 1s
 					ans[a].setBackgroundResource(R.drawable.button_answer);
-					ans[getAnswer()].setBackgroundResource(R.drawable.button_answer);
+					for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
+						ans[i].setBackgroundResource(R.drawable.button_answer);
 					flag=true;
 					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 					nightfury.setLayoutParams(m_Params);
@@ -302,23 +308,25 @@ public class UI3 extends Activity {
 	
 	private void displayNewQuestion() {
 		int q;
-		while (question_checked[q=m_random.nextInt(QUESTION_NUMBER)]==1);
-		setChecked(q);
-		
-		_question = null;
-		try {
-			_question = db.getContact(q+1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		question.setText(_question.getString(1));
-		setUncheckedAll(answer_checked);
-		for (int i=1;i<=4;i++) {
-			while (answer_checked[q = m_random.nextInt(ANSWER_NUMBER)]==1);
-			answer_random[i] = q + 1;
-			ans[i].setText(_question.getString(q+2));	
-			answer_checked[q] = 1;
+		if (!finish) {
+			while (question_checked[q=m_random.nextInt(QUESTION_NUMBER)]==1);
+			setChecked(q);
+			
+			_question = null;
+			try {
+				_question = db.getContact(q+1);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			question.setText(_question.getString(1));
+			setUncheckedAll(answer_checked);
+			for (int i=1;i<=4;i++) {
+				while (answer_checked[q = m_random.nextInt(ANSWER_NUMBER)]==1);
+				answer_random[i] = q + 1;
+				ans[i].setText(_question.getString(q+2));	
+				answer_checked[q] = 1;
+			}
 		}
 	}
 
