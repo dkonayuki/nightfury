@@ -1,8 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
- 
-
-</LinearLayout>
+	<ImageView
+        android:id="@+id/layer0"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/layer0" />
+	<ImageView
+        android:id="@+id/background"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background" />
+	<ImageView
+	    android:id="@+id/nightfury"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nightfury" />
+	<ImageView
+	    android:id="@+id/layer3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/layer3" />
+	<ImageView
+	    android:id="@+id/layer3copy"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/layer3copy" />
+	<ImageView
+	    android:id="@+id/layer4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/layer4" />
+	<ImageView
+	    android:id="@+id/gets"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gets" />
+	<ImageView
+	    android:id="@+id/nightfurytext"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nightfurytext" />
+	<ImageView
+	    android:id="@+id/help"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/help" />
+	<ImageView
+	    android:id="@+id/highscore"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/highscore" />
+	
+        
+    
+    
+</RelativeLayout>
