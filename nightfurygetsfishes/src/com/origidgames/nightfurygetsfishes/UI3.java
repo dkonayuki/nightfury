@@ -61,6 +61,7 @@ public class UI3 extends Activity {
 	private int answer_random[] = new int[5];
 	private float density;
 	private Boolean finish = false;
+	private CountDownTimer countDown;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,6 +102,7 @@ public class UI3 extends Activity {
 	}
 	
 	private void finishGame(boolean result) {
+		stopCountDown();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage((result==true)?"You win":"Gameover! You lost")
     			.setPositiveButton("OK", new DialogInterface.OnClickListener() {						
@@ -113,19 +115,11 @@ public class UI3 extends Activity {
 	}
 	
 	private void startCountDown() {
-		new CountDownTimer(TIME_LIMIT, 1000) {
-
-		     public void onTick(long millisUntilFinished) {
-		        countdown.setText(Long.toString(millisUntilFinished/1000));
-		     }
-
-		     public void onFinish() {
-			     countdown.setText("0");
-			     closeDataBase();
-			     finish = true;
-		    	 finishGame(false);
-		     }
-		  }.start();
+		countDown.start();
+	}
+	
+	private void stopCountDown() {
+		countDown.cancel();
 	}
 	
 	private void prepareMusic() {
@@ -249,6 +243,19 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
+		countDown = new CountDownTimer(TIME_LIMIT, 1000) {
+
+		     public void onTick(long millisUntilFinished) {
+		        countdown.setText(Long.toString(millisUntilFinished/1000));
+		     }
+
+		     public void onFinish() {
+			     countdown.setText("0");
+			     closeDataBase();
+			     finish = true;
+		    	 finishGame(false);
+		     }
+		  };
 		m_Params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
 		density = getBaseContext().getResources().getDisplayMetrics().density;
