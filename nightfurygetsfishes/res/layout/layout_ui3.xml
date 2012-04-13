@@ -131,62 +131,62 @@
         android:src="@drawable/img_easy" />
 
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_width="28px"
+	android:layout_height="26px"
 	android:layout_marginTop="480dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_width="28px"
+	android:layout_height="26px"
 	android:layout_marginTop="440dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_width="28px"
+	android:layout_height="26px"
 	android:layout_marginTop="400dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="wrap_content"
-	 android:layout_height="wrap_content"
+	 android:layout_width="28px"
+	 android:layout_height="26px"
 	   android:layout_marginTop="360dip"
 	   android:layout_marginLeft="270dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="wrap_content"
-	 android:layout_height="wrap_content"
+	 android:layout_width="28px"
+	 android:layout_height="26px"
 	   android:layout_marginTop="320dip"
 	   android:layout_marginLeft="230dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="wrap_content"
-	 android:layout_height="wrap_content"
+	 android:layout_width="28px"
+	 android:layout_height="26px"
 	   android:layout_marginTop="260dip"
 	   android:layout_marginLeft="260dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
- 	android:layout_width="wrap_content"
- 	android:layout_height="wrap_content"
+ 	android:layout_width="28px"
+ 	android:layout_height="26px"
     android:layout_marginTop="230dip"
     android:layout_marginLeft="240dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="wrap_content"
-	 android:layout_height="wrap_content"
+	 android:layout_width="28px"
+	 android:layout_height="26px"
 	 android:layout_marginTop="190dip"
 	 android:layout_marginLeft="260dp"
  		 />
 	<com.origidgames.nightfurygetsfishes.GifView
- 		 android:layout_width="wrap_content"
- 		 android:layout_height="wrap_content"
+ 		 android:layout_width="28px"
+ 		 android:layout_height="26px"
  		 android:layout_marginTop="140dip"
  		 android:layout_marginLeft="270dp"
  	/>
 	<com.origidgames.nightfurygetsfishes.GifView
- 		 android:layout_width="wrap_content"
- 		 android:layout_height="wrap_content"
+ 		 android:layout_width="28px"
+ 		 android:layout_height="26px"
  		 android:layout_marginTop="80dip"
  		 android:layout_marginLeft="260dp"
  	/>

@@ -2,6 +2,8 @@ package com.origidgames.nightfurygetsfishes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -18,6 +20,7 @@ public class PublicResource {
 	anim_FadeOut,
 	anim_Rotate;
 	private static final String PrefName = "Preferences";
+	private static Bitmap bmpStar = null;
 	
 	public static void LoadResource(Context ct) {
 		anim_InFromLeft = AnimationUtils.loadAnimation(ct, R.anim.infromleft);
@@ -31,11 +34,13 @@ public class PublicResource {
 		anim_FadeIn = AnimationUtils.loadAnimation(ct, R.anim.fadein);
 		anim_FadeOut = AnimationUtils.loadAnimation(ct, R.anim.fadeout);
 		anim_Rotate = AnimationUtils.loadAnimation(ct, R.anim.rotate);
+		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 	}
 	public static Animation Rotate() { return anim_Rotate; }
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
 	public static Animation InFromBot() { return anim_InFromBot; }
+	public static Bitmap Star(){return bmpStar;}
 	
 	public static Boolean getAudioPref(Context ct) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
