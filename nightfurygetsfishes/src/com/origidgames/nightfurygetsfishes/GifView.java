@@ -49,7 +49,8 @@ public class GifView extends View {
 	    if (PublicResource.Star() != null) {
 	    	if(now - prev >= DURATION){
 		        currentImg = (currentImg + 1)%5;
-		        prev = now;
+		        if (currentImg == 0) prev+= 5000;
+		        else prev = now;
 	    	}
 	    	src.set(28*currentImg, 0, 28*(currentImg + 1), 26);
 	        canvas.drawBitmap(PublicResource.Star(), 

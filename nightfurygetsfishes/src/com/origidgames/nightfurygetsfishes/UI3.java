@@ -61,7 +61,8 @@ public class UI3 extends Activity {
 	private int answer_random[] = new int[5];
 	private float density;
 	private Boolean finish = false;
-	private CountDownTimer countDown;
+	private CountDownTimerWithPause countDown;
+	private int currentVolume;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,14 +80,17 @@ public class UI3 extends Activity {
 	
 	protected void onResume(){
 		super.onResume();
+		if (countDown.isPaused()) startCountDown();
 		if (mediaPlayer != null) {
-			if (PublicResource.getAudioPref(this.getBaseContext())) mediaPlayer.start();
+			if (!mediaPlayer.isPlaying()) mediaPlayer.start();
+			if (!PublicResource.getAudioPref(getBaseContext())) mediaPlayer.setVolume(0, 0);
 		}
 		wakeLock.acquire();
 	}
+	
 	protected void onPause() {
 		super.onPause();
-
+		stopCountDown();
 		if (mediaPlayer != null) {
 			mediaPlayer.pause();
 			if (isFinishing()) {
@@ -95,6 +99,13 @@ public class UI3 extends Activity {
 			}
 		}
 		wakeLock.release();
+	}
+	
+	protected void onDestroyed() {
+		super.onDestroy();
+		mediaPlayer.stop();
+		mediaPlayer.release();
+		if (countDown.isRunning()) stopCountDown();
 	}
 	
 	private Cursor getCurrentQuestion() {
@@ -115,11 +126,13 @@ public class UI3 extends Activity {
 	}
 	
 	private void startCountDown() {
-		countDown.start();
+		countDown.create();
+
 	}
 	
 	private void stopCountDown() {
-		countDown.cancel();
+		countDown.pause();
+
 	}
 	
 	private void prepareMusic() {
@@ -127,6 +140,8 @@ public class UI3 extends Activity {
 				(PowerManager)getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
 		mediaPlayer = new MediaPlayer();
 		try {
 			AssetManager assetManager = getAssets();
@@ -134,6 +149,7 @@ public class UI3 extends Activity {
 			mediaPlayer.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(),descriptor.getLength());
 			mediaPlayer.prepare();
 			mediaPlayer.setLooping(true);
+			mediaPlayer.start();
 			ToggleButton btt_sound = (ToggleButton) findViewById(R.id.btn_sound);
 			if (PublicResource.getAudioPref(getBaseContext())) btt_sound.setChecked(false); else btt_sound.setChecked(true);
 			btt_sound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -142,10 +158,11 @@ public class UI3 extends Activity {
 						boolean isChecked) {
 					// TODO Auto-generated method stub
 					if (isChecked) {
-						mediaPlayer.pause(); 
+						mediaPlayer.setVolume(0, 0);
 						PublicResource.setAudioPref(getBaseContext(), false);
 					}else {
-						mediaPlayer.start();
+						
+						mediaPlayer.setVolume(currentVolume,currentVolume);
 						PublicResource.setAudioPref(getBaseContext(), true);
 					}
 				}
@@ -243,7 +260,7 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
-		countDown = new CountDownTimer(TIME_LIMIT, 1000) {
+		countDown = new CountDownTimerWithPause(TIME_LIMIT, 1000, false) {
 
 		     public void onTick(long millisUntilFinished) {
 		        countdown.setText(Long.toString(millisUntilFinished/1000));
