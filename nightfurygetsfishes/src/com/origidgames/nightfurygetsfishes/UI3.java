@@ -61,7 +61,7 @@ public class UI3 extends Activity {
 	private float density;
 	private Boolean finish = false;
 	private CountDownTimerWithPause countDown;
-	private int currentVolume;
+	private AudioManager audio;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +82,7 @@ public class UI3 extends Activity {
 		if (countDown.isPaused()) startCountDown();
 		if (mediaPlayer != null) {
 			if (!mediaPlayer.isPlaying()) mediaPlayer.start();
-			if (!PublicResource.getAudioPref(getBaseContext())) mediaPlayer.setVolume(0, 0);
+			if (!PublicResource.getAudioPref(getBaseContext())) audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
 		}
 		wakeLock.acquire();
 	}
@@ -90,6 +90,7 @@ public class UI3 extends Activity {
 	protected void onPause() {
 		super.onPause();
 		stopCountDown();
+		if (!PublicResource.getAudioPref(getBaseContext())) audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
 		if (mediaPlayer != null) {
 			mediaPlayer.pause();
 			if (isFinishing()) {
@@ -139,8 +140,7 @@ public class UI3 extends Activity {
 				(PowerManager)getSystemService(Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		currentVolume = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+		audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mediaPlayer = new MediaPlayer();
 		try {
 			AssetManager assetManager = getAssets();
@@ -157,11 +157,11 @@ public class UI3 extends Activity {
 						boolean isChecked) {
 					// TODO Auto-generated method stub
 					if (isChecked) {
-						mediaPlayer.setVolume(0, 0);
+						audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
 						PublicResource.setAudioPref(getBaseContext(), false);
 					}else {
 						
-						mediaPlayer.setVolume(currentVolume,currentVolume);
+						audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
 						PublicResource.setAudioPref(getBaseContext(), true);
 					}
 				}
@@ -216,6 +216,7 @@ public class UI3 extends Activity {
 	private void processAnswer(final int a) {
 		flag=false;
 		if (getAnswer()==answer_random[a]) {
+			PublicResource.playSoundAnsRight();
 			stars++; 
 			currentPosition++;
 			final Handler handler = new Handler();
@@ -238,6 +239,7 @@ public class UI3 extends Activity {
 				stars--;
 				currentPosition--;
 			}
+			PublicResource.playSoundAnsWrong();
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
 			for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
@@ -263,6 +265,7 @@ public class UI3 extends Activity {
 
 		     public void onTick(long millisUntilFinished) {
 		        countdown.setText(Long.toString(millisUntilFinished/1000));
+		        if (millisUntilFinished <= 15000) PublicResource.playSoundClock();
 		     }
 
 		     public void onFinish() {
