@@ -14,12 +14,14 @@
         android:orientation="vertical" >
 
 	<FrameLayout
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+	    android:layout_width="220dp"
+        android:layout_height="190dp"
+        android:gravity="center_horizontal|center_vertical">
         <ImageView
             android:id="@+id/clock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|center_vertical"
             android:src="@drawable/img_clock" />
         <TextView
             android:id="@+id/count"
@@ -28,7 +30,7 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:gravity="center_horizontal|center_vertical"
             android:textColor="#DDDDDD"
-            android:textSize="30px"
+            android:textSize="22dp"
             android:textStyle="bold"
             android:text="@string/_90"/>
     </FrameLayout>
@@ -42,8 +44,8 @@
 
             <TextView
                 android:id="@+id/question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="220dp"
+                android:layout_height="150dp"
                 android:background="@drawable/img_question"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -56,6 +58,8 @@
                 android:id="@+id/ans1"
               	android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+               	android:minWidth="170dp"
+                android:minHeight="40dp"
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -66,6 +70,8 @@
                 android:id="@+id/ans2"
               	android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="170dp"
+                android:minHeight="40dp"
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -76,6 +82,8 @@
                 android:id="@+id/ans3"
               	android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="170dp"
+                android:minHeight="40dp"
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -86,6 +94,8 @@
                 android:id="@+id/ans4"
               	android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="170dp"
+                android:minHeight="40dp"
                 android:background="@drawable/button_answer"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -96,8 +106,8 @@
         </LinearLayout>
         <ToggleButton 
             android:id="@+id/btn_sound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
             android:textOn=""
             android:text=""
             android:textOff=""
@@ -112,8 +122,8 @@
 		
         <ImageView
             android:id="@+id/road"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="560dp"
             android:src="@drawable/img_road" />
        
     </FrameLayout>
@@ -124,69 +134,69 @@
 	android:layout_height="fill_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="250dp"
         android:layout_marginTop="60dip"
         android:src="@drawable/img_easy" />
 
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="28px"
-	android:layout_height="26px"
+	android:layout_width="20dp"
+	android:layout_height="19.5dp"
 	android:layout_marginTop="480dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="28px"
-	android:layout_height="26px"
+	android:layout_width="20dp"
+	android:layout_height="19.5dp"
 	android:layout_marginTop="440dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	android:layout_width="28px"
-	android:layout_height="26px"
+	android:layout_width="20dp"
+	android:layout_height="19.5dp"
 	android:layout_marginTop="400dip"
 	android:layout_marginLeft="260dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="28px"
-	 android:layout_height="26px"
+	 android:layout_width="20dp"
+	 android:layout_height="19.5dp"
 	   android:layout_marginTop="360dip"
 	   android:layout_marginLeft="270dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="28px"
-	 android:layout_height="26px"
+	 android:layout_width="20dp"
+	 android:layout_height="19.5dp"
 	   android:layout_marginTop="320dip"
 	   android:layout_marginLeft="230dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="28px"
-	 android:layout_height="26px"
+	 android:layout_width="20dp"
+	 android:layout_height="19.5dp"
 	   android:layout_marginTop="260dip"
 	   android:layout_marginLeft="260dp"
 	 />
 	<com.origidgames.nightfurygetsfishes.GifView
- 	android:layout_width="28px"
- 	android:layout_height="26px"
+ 	android:layout_width="20dp"
+ 	android:layout_height="19.5dp"
     android:layout_marginTop="230dip"
     android:layout_marginLeft="240dp"
 	/>
 	<com.origidgames.nightfurygetsfishes.GifView
-	 android:layout_width="28px"
-	 android:layout_height="26px"
+	 android:layout_width="20dp"
+	 android:layout_height="19.5dp"
 	 android:layout_marginTop="190dip"
 	 android:layout_marginLeft="260dp"
  		 />
 	<com.origidgames.nightfurygetsfishes.GifView
- 		 android:layout_width="28px"
- 		 android:layout_height="26px"
+ 		 android:layout_width="20dp"
+ 		 android:layout_height="19.5dp"
  		 android:layout_marginTop="140dip"
  		 android:layout_marginLeft="270dp"
  	/>
 	<com.origidgames.nightfurygetsfishes.GifView
- 		 android:layout_width="28px"
- 		 android:layout_height="26px"
+ 		 android:layout_width="20dp"
+ 		 android:layout_height="19.5dp"
  		 android:layout_marginTop="80dip"
  		 android:layout_marginLeft="260dp"
  	/>
@@ -198,8 +208,8 @@
 		    android:layout_height="fill_parent">
       		 <ImageView
          		   android:id="@+id/nightfury"
-         		   android:layout_width="wrap_content"
-        		   android:layout_height="wrap_content"
+         		   android:layout_width="100dp"
+        		   android:layout_height="80dp"
          		   android:layout_marginTop="450dip"
          		   android:layout_marginLeft="220dp"
           		   android:src="@drawable/img_nightfury" />

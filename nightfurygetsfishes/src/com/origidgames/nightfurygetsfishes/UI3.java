@@ -19,7 +19,6 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -260,7 +259,7 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
-		countDown = new CountDownTimerWithPause(TIME_LIMIT, 1000, false) {
+		countDown = new CountDownTimerWithPause(TIME_LIMIT, 1000, true) {
 
 		     public void onTick(long millisUntilFinished) {
 		        countdown.setText(Long.toString(millisUntilFinished/1000));
