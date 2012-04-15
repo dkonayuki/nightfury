@@ -13,6 +13,8 @@ public class GifView extends View {
 	private final int DURATION = 100;
 	private Rect src, dst;
 	private int currentImg = 0;
+	private float density;
+	private int w,h;
 	
 	public GifView(Context context) {
 		super(context);
@@ -32,12 +34,15 @@ public class GifView extends View {
 	private void _init(){
 		src = new Rect();
 		dst = new Rect();
+		density = this.getContext().getResources().getDisplayMetrics().density;
 	}
 	
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		dst.set(0, 0, w, h);
+		this.w = w;
+		this.h = h;
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class GifView extends View {
 		        if (currentImg == 0) prev+= 5000;
 		        else prev = now;
 	    	}
-	    	src.set(28*currentImg, 0, 28*(currentImg + 1), 26);
+	    	src.set(w*currentImg, 0, w*(currentImg + 1), h);
 	        canvas.drawBitmap(PublicResource.Star(), 
 	        				src, dst, null);	 
 	    	this.invalidate();	    	
