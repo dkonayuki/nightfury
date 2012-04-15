@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -42,6 +43,8 @@ public class UI3 extends Activity {
 	private static final int[] NIGHTFURY[] = {
 		{450,220},{410,220},{370,220},{330,230},{290,190},{230,220},{190,200},{160,220},{110,230},{50,220}
 	};
+	private static final int FURY_RUN_STEP = 5;
+	
 	private int currentPosition;
 	private RelativeLayout.LayoutParams m_Params;
 	private int question_checked[] = new int[QUESTION_NUMBER];
@@ -213,14 +216,40 @@ public class UI3 extends Activity {
 		return (getCurrentQuestion().getInt(6));
 	}
 	
+	
+	private void _animateFury(final int nowPos, final int toPos){
+		final int dx = (int)(((NIGHTFURY[toPos][1] - NIGHTFURY[nowPos][1])*density)/FURY_RUN_STEP);
+		final int dy = (int)(((NIGHTFURY[toPos][0] - NIGHTFURY[nowPos][0])*density)/FURY_RUN_STEP);
+		//Only 1s for animate Fury, this is same with the time which shows the next Question
+		new CountDownTimer(1000, 1000/FURY_RUN_STEP){
+
+			@Override
+			public void onFinish() {
+				
+			}
+
+			@Override
+			public void onTick(long millisUntilFinished) {
+				m_Params.setMargins(m_Params.leftMargin + dx,
+									m_Params.topMargin + dy, 
+									0, 
+									0);
+				nightfury.setLayoutParams(m_Params);
+			}
+			
+		}.start();
+	}
+	
 	private void processAnswer(final int a) {
 		flag=false;
 		if (getAnswer()==answer_random[a]) {
 			PublicResource.playSoundAnsRight();
-			stars++; 
+			stars++;
 			currentPosition++;
+			_animateFury(currentPosition - 1, currentPosition);
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_right);
+			
 			handler.postDelayed(new Runnable() {
 			  public void run() {
 			    //Do something after 1s
@@ -228,8 +257,10 @@ public class UI3 extends Activity {
 					if (stars==WIN) finishGame(true);
 					else {
 						flag=true;
+						/*
 						m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 						nightfury.setLayoutParams(m_Params);
+						*/
 						displayNewQuestion();
 					}
 			  }
@@ -238,6 +269,7 @@ public class UI3 extends Activity {
 			if (stars>0) {
 				stars--;
 				currentPosition--;
+				_animateFury(currentPosition + 1, currentPosition);
 			}
 			PublicResource.playSoundAnsWrong();
 			final Handler handler = new Handler();
@@ -251,8 +283,10 @@ public class UI3 extends Activity {
 					for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
 						ans[i].setBackgroundResource(R.drawable.button_answer);
 					flag=true;
+					/*
 					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 					nightfury.setLayoutParams(m_Params);
+					*/
 					displayNewQuestion();
 			  }
 			}, 1000);
