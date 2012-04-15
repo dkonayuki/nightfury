@@ -1,5 +1,8 @@
 package com.origidgames.nightfurygetsfishes;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 
 import android.content.ContentValues;
@@ -17,17 +20,31 @@ public class DBAdapter {
 	public static final String KEY_A3 = "answer3";
 	public static final String KEY_A4 = "answer4";
 	public static final String KEY_Aright = "answer_right";
+	public static final String KEY_NAME = "name";
+	public static final String KEY_TIME = "time";
 	private static final String TAG = "DBAdapter";
 	
 	private static final String DATABASE_NAME = "MyDB";
-	private static final String DATABASE_TABLE = "questions";
+	private static final String DATABASE_TABLE1 = "questions";
+	private static final String DATABASE_TABLE2 = "highscores_easy";
+	private static final String DATABASE_TABLE3 = "highscores_normal";
+	private static final String DATABASE_TABLE4 = "highscores_hard";
 	private static final int DATABASE_VERSION = 1;
 	
-	private static final String DATABASE_CREATE =
+	private static final String DATABASE_CREATE1 =
 			"CREATE TABLE IF NOT EXISTS questions (_id INTEGER PRIMARY KEY autoincrement, " 
 			+ "question TEXT not null, answer1 TEXT not null, answer2 TEXT not null, "
 			+ "answer3 TEXT not null, answer4 TEXT not null, answer_right NUMERIC not null);";
 	
+	private static final String DATABASE_CREATE2 =
+			"CREATE TABLE IF NOT EXISTS highscores_easy (_id INTEGER PRIMARY KEY autoincrement, "
+			+ "name TEXT not null, time NUMERIC not null);";
+	private static final String DATABASE_CREATE3 =
+			"CREATE TABLE IF NOT EXISTS highscores_normal (_id INTEGER PRIMARY KEY autoincrement, "
+			+ "name TEXT not null, time NUMERIC not null);";
+	private static final String DATABASE_CREATE4 =
+			"CREATE TABLE IF NOT EXISTS highscores_hard (_id INTEGER PRIMARY KEY autoincrement, "
+			+ "name TEXT not null, time NUMERIC not null);";
 	private final Context context;
 	
 	private DatabaseHelper DBHelper;
@@ -45,14 +62,18 @@ public class DBAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(DATABASE_CREATE);
+			db.execSQL(DATABASE_CREATE1);
+			db.execSQL(DATABASE_CREATE2);
+			db.execSQL(DATABASE_CREATE3);
+			db.execSQL(DATABASE_CREATE4);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// TODO Auto-generated method stub
 			Log.w(TAG,"Upgrading database from version "+ oldVersion + " to " + newVersion + ", which will destroy all old data"); 
-			db.execSQL("DROP TABLE contacts");
+			db.execSQL("DROP TABLE questions");
+			db.execSQL("DROP TABLE highscores");
 			onCreate(db);
 		}
 	}
@@ -66,7 +87,7 @@ public class DBAdapter {
 		DBHelper.close();
 	}
 	
-	public long insertContact(String question, String answer1, String answer2, String answer3, String answer4,
+	public long insertQuestion(String question, String answer1, String answer2, String answer3, String answer4,
 			int answer_right) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_Q, question);
@@ -75,30 +96,66 @@ public class DBAdapter {
 		initialValues.put(KEY_A3, answer3);
 		initialValues.put(KEY_A4, answer4);
 		initialValues.put(KEY_Aright, answer_right);
-		return db.insert(DATABASE_TABLE, null, initialValues);
+		return db.insert(DATABASE_TABLE1, null, initialValues);
 	}
 	
-	public boolean deleteContact(long rowId) {
-		return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null)>0;
+	public boolean deleteQuestion(long rowId) {
+		return db.delete(DATABASE_TABLE1, KEY_ROWID + "=" + rowId, null)>0;
 	}
 	
-	public Cursor getAllContacts() {
-		return db.query(DATABASE_TABLE, new String[] {KEY_ROWID,KEY_Q,KEY_A1,KEY_A2,KEY_A3,KEY_A4,KEY_Aright}, null, null, null, null, null);
+	public Cursor getAllQuestions() {
+		return db.query(DATABASE_TABLE1, new String[] {KEY_ROWID,KEY_Q,KEY_A1,KEY_A2,KEY_A3,KEY_A4,KEY_Aright}, null, null, null, null, null);
 	}
 	
-	public void deleteAllContacts() {
-		db.execSQL("DROP TABLE contacts");
+	public void deleteAllQuestions() {
+		db.execSQL("DROP TABLE questions");
 	}
 	
-	public Cursor getContact(long rowId) throws SQLException {
-		Cursor mCursor = db.query(true, DATABASE_TABLE, new String[]{KEY_ROWID,KEY_Q,KEY_A1,KEY_A2,KEY_A3,KEY_A4,KEY_Aright}, KEY_ROWID+"="+rowId, null, null, null, null, null);
+	public Cursor getAllEasy() {
+		return db.query(DATABASE_TABLE2,new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, null, null, null, null, null);
+	}
+	
+	public Cursor getAllNormal() {
+		return db.query(DATABASE_TABLE3,new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, null, null, null, null, null);
+	}
+	
+	public Cursor getAllHard() {
+		return db.query(DATABASE_TABLE4,new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, null, null, null, null, null);
+	}
+	
+	public Cursor getHighscoreEasy(long rowId)  {
+		Cursor mCursor = db.query(true, DATABASE_TABLE2, new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, KEY_ROWID+"="+rowId, null, null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
 		return mCursor;
 	}
 	
-	public boolean updateContact(long rowId, String question, String answer1, String answer2, String answer3, String answer4,
+	public Cursor getHighscoreNormal(long rowId)  {
+		Cursor mCursor = db.query(true, DATABASE_TABLE3, new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, KEY_ROWID+"="+rowId, null, null, null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	public Cursor getHighscoreHard(long rowId)  {
+		Cursor mCursor = db.query(true, DATABASE_TABLE4, new String[]{KEY_ROWID,KEY_NAME,KEY_TIME}, KEY_ROWID+"="+rowId, null, null, null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	public Cursor getQuestion(long rowId) throws SQLException {
+		Cursor mCursor = db.query(true, DATABASE_TABLE1, new String[]{KEY_ROWID,KEY_Q,KEY_A1,KEY_A2,KEY_A3,KEY_A4,KEY_Aright}, KEY_ROWID+"="+rowId, null, null, null, null, null);
+		if (mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
+	public boolean updateQuestion(long rowId, String question, String answer1, String answer2, String answer3, String answer4,
 			int answer_right) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_Q, question);
@@ -107,6 +164,16 @@ public class DBAdapter {
 		args.put(KEY_A3, answer3);
 		args.put(KEY_A4, answer4);
 		args.put(KEY_Aright, answer_right);
-		return db.update(DATABASE_TABLE, args, KEY_ROWID+"="+rowId, null)>0;
+		return db.update(DATABASE_TABLE1, args, KEY_ROWID+"="+rowId, null)>0;
 	}
+
+    public void CopyDB(InputStream inputStream,OutputStream outputStream) throws IOException {
+    	byte[] buffer = new byte[1024];
+    	int length;
+    	while ((length = inputStream.read(buffer))>0) {
+    		outputStream.write(buffer,0,length);
+    	}
+    	inputStream.close();
+    	outputStream.close();
+    }
 }

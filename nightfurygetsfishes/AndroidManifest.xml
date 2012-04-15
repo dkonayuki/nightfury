@@ -15,23 +15,45 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity 
             android:name=".UI3"
             android:screenOrientation="portrait"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryUI3" />
                 <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter></activity>
-            <activity 
+            </intent-filter>
+		</activity>
+		
+        <activity 
+            android:name=".UI6"
+            android:screenOrientation="portrait"
+             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            ><intent-filter >
+                <action android:name="com.origidgames.nightfuryUI6" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+		</activity>
+		
+        <activity 
             android:name=".UI1"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryUI1" />
                 <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name=".Intro"
+             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            ><intent-filter >
+                <action android:name="com.origidgames.nightfuryIntro" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

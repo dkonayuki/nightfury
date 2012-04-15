@@ -1,8 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/img_highscore_bg" >
+		
+        <Button
+            android:id="@+id/imageButton1"
+            android:layout_width="100dp"
+            android:layout_height="45dp"            
+            android:layout_marginLeft="200dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_back" />
+
+        <ToggleButton
+            android:id="@+id/btn_easy"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="43dp"
+            android:layout_marginTop="113dp"
+            android:background="@drawable/button_easybg"
+            android:checked="true"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <ToggleButton
+            android:id="@+id/btn_normal"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="133dp"
+            android:layout_marginTop="113dp"
+            android:background="@drawable/button_normalbg"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <ToggleButton
+            android:id="@+id/btn_hard"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="213dp"
+            android:layout_marginTop="113dp"
+            android:background="@drawable/button_hardbg"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
+        <TextView
+            android:id="@+id/name1"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="80dp"
+            android:paddingLeft="10dp"
+            android:text="Medium Text"
+            android:background="@drawable/img_highscore"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/time1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_highscore_time"
+            android:gravity="center_vertical|center_horizontal"
+ 			android:layout_marginTop="200dp"
+ 			android:layout_marginLeft="230dp"          
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="205dp"
+ 			android:layout_marginLeft="50dp"       
+            android:src="@drawable/img_1" />
+        
+        
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginTop="245dp"
+            android:layout_marginLeft="80dp"
+            android:paddingLeft="10dp"
+            android:text="Medium Text"
+            android:background="@drawable/img_highscore"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/time2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_highscore_time"
+            android:gravity="center_vertical|center_horizontal"
+ 			android:layout_marginTop="245dp"
+ 			android:layout_marginLeft="230dp"          
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="250dp"
+ 			android:layout_marginLeft="50dp"       
+            android:src="@drawable/img_2" />
+        
+          
+        <TextView
+            android:id="@+id/name3"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginTop="290dp"
+            android:layout_marginLeft="80dp"
+            android:paddingLeft="10dp"
+            android:text="Medium Text"
+            android:background="@drawable/img_highscore"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/time3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_highscore_time"
+            android:gravity="center_vertical|center_horizontal"
+ 			android:layout_marginTop="290dp"
+ 			android:layout_marginLeft="230dp"          
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="295dp"
+ 			android:layout_marginLeft="50dp"       
+            android:src="@drawable/img_3" />
+        
+           
+        <TextView
+            android:id="@+id/name4"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginTop="335dp"
+            android:layout_marginLeft="80dp"
+            android:paddingLeft="10dp"
+            android:text="Medium Text"
+            android:background="@drawable/img_highscore"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/time4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_highscore_time"
+            android:gravity="center_vertical|center_horizontal"
+ 			android:layout_marginTop="335dp"
+ 			android:layout_marginLeft="230dp"          
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="340dp"
+ 			android:layout_marginLeft="50dp"       
+            android:src="@drawable/img_4" />
+        
+           
+        <TextView
+            android:id="@+id/name5"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|left"
+            android:layout_marginTop="380dp"
+            android:layout_marginLeft="80dp"
+            android:paddingLeft="10dp"
+            android:text="Medium Text"
+            android:background="@drawable/img_highscore"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/time5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/img_highscore_time"
+            android:gravity="center_vertical|center_horizontal"
+ 			android:layout_marginTop="380dp"
+ 			android:layout_marginLeft="230dp"          
+            android:text="Time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="385dp"
+ 			android:layout_marginLeft="50dp"       
+            android:src="@drawable/img_5" />
+        
+    </RelativeLayout>
+
+ 	<ToggleButton 
+            android:id="@+id/btn_sound"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:textOn=""
+            android:text=""
+            android:textOff=""
+            android:background="@drawable/button_soundbg"
+            android:layout_gravity="left|bottom"
+            />
+</FrameLayout>

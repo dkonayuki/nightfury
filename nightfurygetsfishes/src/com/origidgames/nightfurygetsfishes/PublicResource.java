@@ -24,6 +24,7 @@ public class PublicResource {
 	anim_OutToBot,
 	anim_FadeIn,
 	anim_FadeOut,
+	anim_BotToTop,
 	anim_Rotate;
 	private static final String PrefName = "Preferences";
 	private static Bitmap bmpStar = null;
@@ -42,6 +43,7 @@ public class PublicResource {
 		anim_FadeIn = AnimationUtils.loadAnimation(ct, R.anim.fadein);
 		anim_FadeOut = AnimationUtils.loadAnimation(ct, R.anim.fadeout);
 		anim_Rotate = AnimationUtils.loadAnimation(ct, R.anim.rotate);
+		anim_BotToTop = AnimationUtils.loadAnimation(ct, R.anim.bottotop);
 		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 		soundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
 		
@@ -61,6 +63,7 @@ public class PublicResource {
 			e.printStackTrace();
 		}	
 	}
+	public static Animation BotToTop() { return anim_BotToTop; }
 	public static Animation Rotate() { return anim_Rotate; }
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
@@ -81,6 +84,18 @@ public class PublicResource {
 	
 	public static void playSoundChange() {
 		soundPool.play(page_flip, 1, 1, 0, 0, 1);
+	}
+	
+	public static int getHighscore(Context ct) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+		return m_Pref.getInt("Highscore", 1);
+	}
+	
+	public static void setHighscore(Context ct, int i) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = m_Pref.edit();
+		editor.putInt("Highscore", i);
+		editor.commit();
 	}
 	
 	public static Boolean getAudioPref(Context ct) {

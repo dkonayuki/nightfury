@@ -113,7 +113,8 @@
             android:textOff=""
             android:background="@drawable/button_soundbg"
             android:layout_gravity="left|bottom"
-            /></FrameLayout>
+            />
+	</FrameLayout>
     </LinearLayout>
 
     <FrameLayout 

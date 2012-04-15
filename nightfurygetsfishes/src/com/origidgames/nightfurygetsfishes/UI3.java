@@ -1,5 +1,6 @@
 package com.origidgames.nightfurygetsfishes;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +36,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
-	private static final int QUESTION_NUMBER = 25;
+	private static final int QUESTION_NUMBER = 35;
 	private static final int TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
@@ -68,7 +69,6 @@ public class UI3 extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.layout_ui3);
-		PublicResource.LoadResource(getBaseContext());
 		prepareMusic();
 		prepareDataBase();
 		prepareMenu();
@@ -181,18 +181,19 @@ public class UI3 extends Activity {
 	private void prepareDataBase() {
 		setUncheckedAll(question_checked);
 		currentPosition = 0;
+		 db = new DBAdapter(this);
         try {
         	String destPath = "/data/data/" + getPackageName() + "/databases/MyDB";
-        	//File f = new File(destPath);
-        	//if (!f.exists()) {
-        		CopyDB(getBaseContext().getAssets().open("mydb"),new FileOutputStream(destPath));
-        	//}
+        	File f = new File(destPath);
+        	if (!f.exists()) {
+        		db.CopyDB(getBaseContext().getAssets().open("mydb"),new FileOutputStream(destPath));
+        	}
         } catch (FileNotFoundException e) {
         	e.printStackTrace();
         } catch (IOException e) {
         	e.printStackTrace();
         }
-        db = new DBAdapter(this);
+       
         try {
 			db.open();
 		} catch (SQLException e) {
@@ -340,7 +341,7 @@ public class UI3 extends Activity {
 			
 			_question = null;
 			try {
-				_question = db.getContact(q+1);
+				_question = db.getQuestion(q+1);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -355,15 +356,4 @@ public class UI3 extends Activity {
 			}
 		}
 	}
-
-    private void CopyDB(InputStream inputStream,OutputStream outputStream) throws IOException {
-    	byte[] buffer = new byte[1024];
-    	int length;
-    	while ((length = inputStream.read(buffer))>0) {
-    		outputStream.write(buffer,0,length);
-    	}
-    	inputStream.close();
-    	outputStream.close();
-    }
-
 }
