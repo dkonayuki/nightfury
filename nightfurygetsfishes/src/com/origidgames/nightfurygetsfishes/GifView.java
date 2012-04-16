@@ -57,7 +57,7 @@ public class GifView extends View {
 		        if (currentImg == 0) prev+= 5000;
 		        else prev = now;
 	    	}
-	    	src.set(w*currentImg, 0, w*(currentImg + 1), h);
+	    	src.set(26*currentImg, 0, 26*(currentImg + 1), 26);
 	        canvas.drawBitmap(PublicResource.Star(), 
 	        				src, dst, null);	 
 	    	this.invalidate();	    	

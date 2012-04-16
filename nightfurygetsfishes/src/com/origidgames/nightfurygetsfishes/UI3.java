@@ -217,12 +217,15 @@ public class UI3 extends Activity {
 		return (getCurrentQuestion().getInt(6));
 	}
 	
+	private Boolean isWin() {
+		return (stars == WIN);
+	}
 	
 	private void _animateFury(final int nowPos, final int toPos){
 		final int dx = (int)(((NIGHTFURY[toPos][1] - NIGHTFURY[nowPos][1])*density)/FURY_RUN_STEP);
 		final int dy = (int)(((NIGHTFURY[toPos][0] - NIGHTFURY[nowPos][0])*density)/FURY_RUN_STEP);
 		//Only 1s for animate Fury, this is same with the time which shows the next Question
-		new CountDownTimer(1000, 1000/FURY_RUN_STEP){
+		new CountDownTimer(1000+2000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
 
 			@Override
 			public void onFinish() {
@@ -236,6 +239,7 @@ public class UI3 extends Activity {
 									0, 
 									0);
 				nightfury.setLayoutParams(m_Params);
+				
 			}
 			
 		}.start();
@@ -247,7 +251,7 @@ public class UI3 extends Activity {
 			PublicResource.playSoundAnsRight();
 			stars++;
 			currentPosition++;
-			_animateFury(currentPosition - 1, currentPosition);
+			if (!isWin()) _animateFury(currentPosition - 1, currentPosition);
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_right);
 			
@@ -255,7 +259,7 @@ public class UI3 extends Activity {
 			  public void run() {
 			    //Do something after 1s
 					ans[a].setBackgroundResource(R.drawable.button_answer);
-					if (stars==WIN) finishGame(true);
+					if (isWin()) finishGame(true);
 					else {
 						flag=true;
 						/*
