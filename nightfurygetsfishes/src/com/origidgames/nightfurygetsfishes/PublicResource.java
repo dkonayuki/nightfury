@@ -1,6 +1,10 @@
 package com.origidgames.nightfurygetsfishes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,6 +34,16 @@ public class PublicResource {
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
 	private static int answer_correct,answer_wrong,clock,page_flip;
+	private static DBAdapter db;
+	
+
+    public static DBAdapter getDataBase() {
+    	return db;
+    }
+    
+    public static void closeDataBase() {
+		db.close();
+	}
 	
 	public static void LoadResource(Context ct) {
 		anim_InFromLeft = AnimationUtils.loadAnimation(ct, R.anim.infromleft);
@@ -61,7 +75,29 @@ public class PublicResource {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
+		
+		db = new DBAdapter(ct);
+        try {
+        	String destPath = "/data/data/" + ct.getPackageName() + "/databases/";
+        	File dir = new File(destPath);	
+        	//File f = new File(destPath + "MyDB");
+        	if (!dir.exists()) {
+        		dir.mkdir();
+        	}
+        	db.CopyDB(ct.getAssets().open("mydb"),new FileOutputStream(destPath + "MyDB"));
+        } catch (FileNotFoundException e) {
+        	e.printStackTrace();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+       
+        try {
+			db.open();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static Animation BotToTop() { return anim_BotToTop; }
 	public static Animation Rotate() { return anim_Rotate; }

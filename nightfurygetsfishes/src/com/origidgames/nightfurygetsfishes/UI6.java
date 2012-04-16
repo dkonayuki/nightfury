@@ -1,11 +1,5 @@
 package com.origidgames.nightfurygetsfishes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.SQLException;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,31 +7,11 @@ import android.widget.TextView;
 
 public class UI6 extends Activity{
 	private Cursor c;
-	private DBAdapter db;
 	TextView name[] = new TextView[6];
 	TextView time[] = new TextView[6];
 	  public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.layout_ui6);
-	        db = new DBAdapter(this);
-	        try {
-	        	String destPath = "/data/data/" + getPackageName() + "/databases/MyDB";
-	        	File f = new File(destPath);
-	        	if (!f.exists()) {
-	        		db.CopyDB(getBaseContext().getAssets().open("mydb"),new FileOutputStream(destPath));
-	        	}
-	        } catch (FileNotFoundException e) {
-	        	e.printStackTrace();
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	        }
-	       
-	        try {
-				db.open();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	        
 	        name[1] = (TextView) findViewById(R.id.name1);
 	        name[2] = (TextView) findViewById(R.id.name2);
@@ -54,13 +28,13 @@ public class UI6 extends Activity{
 	        int scoretype = PublicResource.getHighscore(getBaseContext());
 	        switch (scoretype) {
 	        case 1: 
-	        	c = db.getAllEasy();
+	        	c = PublicResource.getDataBase().getAllEasy();
 	        	break;
 	        case 2: 
-	        	c = db.getAllNormal();
+	        	c = PublicResource.getDataBase().getAllNormal();
 	        	break;
 	        case 3:
-	        	c = db.getAllHard();
+	        	c = PublicResource.getDataBase().getAllHard();
 	        }
 	        
 	        c.moveToFirst();
@@ -70,7 +44,5 @@ public class UI6 extends Activity{
 	        	time[i].setText(c.getString(2));
 	        	c.moveToNext();
 	        }
-	       
-	        db.close();
 	    }
 }

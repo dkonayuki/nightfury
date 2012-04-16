@@ -174,6 +174,7 @@ public class DBAdapter {
     		outputStream.write(buffer,0,length);
     	}
     	inputStream.close();
+    	outputStream.flush();
     	outputStream.close();
     }
 }

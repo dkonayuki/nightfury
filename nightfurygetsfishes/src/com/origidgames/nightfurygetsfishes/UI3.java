@@ -1,11 +1,6 @@
 package com.origidgames.nightfurygetsfishes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Random;
@@ -52,7 +47,7 @@ public class UI3 extends Activity {
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
 	private int stars = 0;
-	private DBAdapter db;
+	
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
 	private static final String BGMFile = "bgm_question.mp3";
@@ -73,7 +68,6 @@ public class UI3 extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.layout_ui3);
 		prepareMusic();
-		prepareDataBase();
 		prepareMenu();
 		startCountDown();
 		displayNewQuestion();
@@ -177,33 +171,8 @@ public class UI3 extends Activity {
 		
 	}
 	
-	private void closeDataBase() {
-		db.close();
-	}
 	
-	private void prepareDataBase() {
-		setUncheckedAll(question_checked);
-		currentPosition = 0;
-		 db = new DBAdapter(this);
-        try {
-        	String destPath = "/data/data/" + getPackageName() + "/databases/MyDB";
-        	File f = new File(destPath);
-        	if (!f.exists()) {
-        		db.CopyDB(getBaseContext().getAssets().open("mydb"),new FileOutputStream(destPath));
-        	}
-        } catch (FileNotFoundException e) {
-        	e.printStackTrace();
-        } catch (IOException e) {
-        	e.printStackTrace();
-        }
-       
-        try {
-			db.open();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
 	
 	private void setChecked(int i) {
 		question_checked[i]=1;
@@ -300,6 +269,8 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
+		setUncheckedAll(question_checked);
+		currentPosition = 0;
 		countDown = new CountDownTimerWithPause(TIME_LIMIT, 1000, true) {
 
 		     public void onTick(long millisUntilFinished) {
@@ -308,8 +279,7 @@ public class UI3 extends Activity {
 		     }
 
 		     public void onFinish() {
-			     countdown.setText("0");
-			     closeDataBase();
+			     countdown.setText("0");			     
 			     finish = true;
 		    	 finishGame(false);
 		     }
@@ -375,11 +345,10 @@ public class UI3 extends Activity {
 		int q;
 		if (!finish) {
 			while (question_checked[q=m_random.nextInt(QUESTION_NUMBER)]==1);
-			setChecked(q);
-			
+			setChecked(q);		
 			_question = null;
 			try {
-				_question = db.getQuestion(q+1);
+				_question = PublicResource.getDataBase().getQuestion(q+1);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
