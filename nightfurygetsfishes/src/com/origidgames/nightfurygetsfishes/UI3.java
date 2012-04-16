@@ -47,7 +47,7 @@ public class UI3 extends Activity {
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
 	private int stars = 0;
-	
+	private long time_remain;
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
 	private static final String BGMFile = "bgm_question.mp3";
@@ -59,7 +59,8 @@ public class UI3 extends Activity {
 	private int answer_random[] = new int[5];
 	private float density;
 	private Boolean finish = false;
-	private CountDownTimerWithPause countDown;
+	private CountDownTimer countDown;
+	private Boolean countDownPause = false;
 	private AudioManager audio;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,14 +70,16 @@ public class UI3 extends Activity {
 		setContentView(R.layout.layout_ui3);
 		prepareMusic();
 		prepareMenu();
-		startCountDown();
 		displayNewQuestion();
 	
 	}
 	
 	protected void onResume(){
 		super.onResume();
-		if (countDown.isPaused()) startCountDown();
+		if (isCountDownPaused()) {
+			createCountDown(time_remain);
+			countDownPause = false;
+		}
 		if (mediaPlayer != null) {
 			if (!mediaPlayer.isPlaying()) mediaPlayer.start();
 			if (!PublicResource.getAudioPref(getBaseContext())) audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
@@ -86,7 +89,8 @@ public class UI3 extends Activity {
 	
 	protected void onPause() {
 		super.onPause();
-		stopCountDown();
+		countDown.cancel();
+		countDownPause = true;
 		if (!PublicResource.getAudioPref(getBaseContext())) audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
 		if (mediaPlayer != null) {
 			mediaPlayer.pause();
@@ -102,15 +106,23 @@ public class UI3 extends Activity {
 		super.onDestroy();
 		mediaPlayer.stop();
 		mediaPlayer.release();
-		if (countDown.isRunning()) stopCountDown();
+		if (isCountDownRunning()) countDown.cancel();
 	}
 	
 	private Cursor getCurrentQuestion() {
 		return _question;
 	}
 	
+	private Boolean isCountDownPaused() {
+		return countDownPause;
+	}
+	
+	private Boolean isCountDownRunning() {
+		return (time_remain > 0);
+	}
+	
 	private void finishGame(boolean result) {
-		stopCountDown();
+		countDown.cancel();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage((result==true)?"You win":"Gameover! You lost")
     			.setPositiveButton("OK", new DialogInterface.OnClickListener() {						
@@ -120,16 +132,6 @@ public class UI3 extends Activity {
 				});
     	AlertDialog alert = builder.create();
     	alert.show();
-	}
-	
-	private void startCountDown() {
-		countDown.create();
-
-	}
-	
-	private void stopCountDown() {
-		countDown.pause();
-
 	}
 	
 	private void prepareMusic() {
@@ -268,14 +270,13 @@ public class UI3 extends Activity {
 
 	}
 	
-	private void prepareMenu() {
-		setUncheckedAll(question_checked);
-		currentPosition = 0;
-		countDown = new CountDownTimerWithPause(TIME_LIMIT, 1000, true) {
+	private void createCountDown(long time) {
+		countDown = new CountDownTimer(time, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
 		        countdown.setText(Long.toString(millisUntilFinished/1000));
 		        if (millisUntilFinished <= 15000) PublicResource.playSoundClock();
+		        time_remain = millisUntilFinished;
 		     }
 
 		     public void onFinish() {
@@ -284,6 +285,13 @@ public class UI3 extends Activity {
 		    	 finishGame(false);
 		     }
 		  };
+		  countDown.start();
+	}
+	
+	private void prepareMenu() {
+		setUncheckedAll(question_checked);
+		currentPosition = 0;
+		createCountDown(TIME_LIMIT);
 		m_Params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
 		density = getBaseContext().getResources().getDisplayMetrics().density;

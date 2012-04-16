@@ -12,7 +12,7 @@ public class NightfurygetsfishesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         PublicResource.LoadResource(getBaseContext());
-        startActivity(new Intent("com.origidgames.nightfuryUI6"));
+        startActivity(new Intent("com.origidgames.nightfuryIntro"));
     }
     protected void onDestroy() {
     	super.onDestroy();
