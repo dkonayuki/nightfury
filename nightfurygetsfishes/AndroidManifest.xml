@@ -23,6 +23,7 @@
         <activity 
             android:name=".UI3"
             android:screenOrientation="portrait"
+             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryUI3" />
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -41,6 +42,7 @@
 		
         <activity 
             android:name=".UI1"
+            android:screenOrientation="portrait"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryUI1" />
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -49,6 +51,7 @@
         
         <activity 
             android:name=".Intro"
+            android:screenOrientation="portrait"
              android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryIntro" />

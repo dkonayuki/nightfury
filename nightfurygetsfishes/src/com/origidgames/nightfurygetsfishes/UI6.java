@@ -25,15 +25,15 @@ public class UI6 extends Activity{
 	        time[4] = (TextView) findViewById(R.id.time4);
 	        time[5] = (TextView) findViewById(R.id.time5);
 
-	        int scoretype = PublicResource.getHighscore(getBaseContext());
-	        switch (scoretype) {
-	        case 1: 
+	        GameMode gm = PublicResource.getHighscore(getBaseContext());
+	        switch (gm) {
+	        case EASY: 
 	        	c = PublicResource.getDataBase().getAllEasy();
 	        	break;
-	        case 2: 
+	        case NORMAL: 
 	        	c = PublicResource.getDataBase().getAllNormal();
 	        	break;
-	        case 3:
+	        case HARD:
 	        	c = PublicResource.getDataBase().getAllHard();
 	        }
 	        

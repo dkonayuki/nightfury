@@ -6,9 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -33,7 +31,7 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 35;
-	private static final int TIME_LIMIT = 90000;
+	private static final int TIME_LIMIT = 20000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int[] NIGHTFURY[] = {
@@ -55,23 +53,23 @@ public class UI3 extends Activity {
 	private Button ans[] = new Button[5];
 	private TextView question,countdown;
 	private ImageView nightfury;
-	private Boolean flag = true;
+	private Boolean wait1s = true;
 	private int answer_random[] = new int[5];
 	private float density;
 	private Boolean finish = false;
 	private CountDownTimer countDown;
 	private Boolean countDownPause = false;
 	private AudioManager audio;
+	private GameMode _gameMode;
+	private float actualVolume,maxVolume,volume;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.layout_ui3);
+		setGoal();
 		prepareMusic();
 		prepareMenu();
 		displayNewQuestion();
-	
 	}
 	
 	protected void onResume(){
@@ -104,9 +102,28 @@ public class UI3 extends Activity {
 	
 	protected void onDestroyed() {
 		super.onDestroy();
-		mediaPlayer.stop();
+		if (mediaPlayer.isPlaying()) mediaPlayer.stop();
 		mediaPlayer.release();
 		if (isCountDownRunning()) countDown.cancel();
+	}
+	
+	private GameMode getGameMode() {
+		return _gameMode;
+	}
+	
+	private void setGoal() {
+		ImageView goal = (ImageView) findViewById(R.id.goal);
+		_gameMode = PublicResource.getGameMode(this);
+		switch(_gameMode) {
+		case EASY:
+			goal.setBackgroundResource(R.drawable.img_easy);
+			break;
+		case NORMAL:
+			goal.setBackgroundResource(R.drawable.img_normal);
+			break;
+		case HARD:
+			goal.setBackgroundResource(R.drawable.img_hard);
+		}
 	}
 	
 	private Cursor getCurrentQuestion() {
@@ -123,57 +140,16 @@ public class UI3 extends Activity {
 	
 	private void finishGame(boolean result) {
 		countDown.cancel();
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage((result==true)?"You win":"Gameover! You lost")
-    			.setPositiveButton("OK", new DialogInterface.OnClickListener() {						
-					public void onClick(DialogInterface dialog, int which) {
-						finish();							
-					}
-				});
-    	AlertDialog alert = builder.create();
-    	alert.show();
-	}
-	
-	private void prepareMusic() {
-		PowerManager powerManager =
-				(PowerManager)getSystemService(Context.POWER_SERVICE);
-		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		mediaPlayer = new MediaPlayer();
-		try {
-			AssetManager assetManager = getAssets();
-			AssetFileDescriptor descriptor = assetManager.openFd(BGMFile);
-			mediaPlayer.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(),descriptor.getLength());
-			mediaPlayer.prepare();
-			mediaPlayer.setLooping(true);
-			mediaPlayer.start();
-			ToggleButton btt_sound = (ToggleButton) findViewById(R.id.btn_sound);
-			if (PublicResource.getAudioPref(getBaseContext())) btt_sound.setChecked(false); else btt_sound.setChecked(true);
-			btt_sound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
-					// TODO Auto-generated method stub
-					if (isChecked) {
-						audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
-						PublicResource.setAudioPref(getBaseContext(), false);
-					}else {
-						
-						audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
-						PublicResource.setAudioPref(getBaseContext(), true);
-					}
-				}
-				
-			});
-		} catch (IOException e) {
-			mediaPlayer = null;
-			e.printStackTrace();
+		mediaPlayer.pause();
+		ImageView game = (ImageView) findViewById(R.id.gameover);
+		if (result) game.setBackgroundResource(R.drawable.img_win);
+		else {
+			game.setBackgroundResource(R.drawable.img_gameover);
+			PublicResource.playSoundLose();
 		}
+		game.startAnimation(PublicResource.FadeIn());
 		
 	}
-	
-	
 	
 	
 	private void setChecked(int i) {
@@ -217,7 +193,7 @@ public class UI3 extends Activity {
 	}
 	
 	private void processAnswer(final int a) {
-		flag=false;
+		wait1s=false;
 		if (getAnswer()==answer_random[a]) {
 			PublicResource.playSoundAnsRight();
 			stars++;
@@ -232,7 +208,7 @@ public class UI3 extends Activity {
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					if (isWin()) finishGame(true);
 					else {
-						flag=true;
+						wait1s=true;
 						/*
 						m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 						nightfury.setLayoutParams(m_Params);
@@ -243,9 +219,17 @@ public class UI3 extends Activity {
 			}, 1000);
 		} else {
 			if (stars>0) {
-				stars--;
-				currentPosition--;
-				_animateFury(currentPosition + 1, currentPosition);
+				int down = 0;
+				switch (getGameMode()) {
+				case EASY: down = 0; break;
+				case NORMAL: down = m_random.nextInt(1);  break;
+				case HARD: down = 1;
+				}
+				if (down == 1) {
+					stars--;
+					currentPosition--;
+					_animateFury(currentPosition + 1, currentPosition);
+				}
 			}
 			PublicResource.playSoundAnsWrong();
 			final Handler handler = new Handler();
@@ -258,7 +242,7 @@ public class UI3 extends Activity {
 					ans[a].setBackgroundResource(R.drawable.button_answer);
 					for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
 						ans[i].setBackgroundResource(R.drawable.button_answer);
-					flag=true;
+					wait1s=true;
 					/*
 					m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
 					nightfury.setLayoutParams(m_Params);
@@ -275,8 +259,11 @@ public class UI3 extends Activity {
 
 		     public void onTick(long millisUntilFinished) {
 		        countdown.setText(Long.toString(millisUntilFinished/1000));
-		        if (millisUntilFinished <= 15000) PublicResource.playSoundClock();
 		        time_remain = millisUntilFinished;
+		        if (millisUntilFinished <= 15000) {
+		        	PublicResource.playSoundClock();
+		        	mediaPlayer.setVolume((float)volume*time_remain/15000, (float)volume*time_remain/15000);
+		        }  
 		     }
 
 		     public void onFinish() {
@@ -286,6 +273,49 @@ public class UI3 extends Activity {
 		     }
 		  };
 		  countDown.start();
+	}
+	
+
+	private void prepareMusic() {
+		
+		PowerManager powerManager =
+				(PowerManager)getSystemService(Context.POWER_SERVICE);
+		wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "My Lock");
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		mediaPlayer = new MediaPlayer();
+		try {
+			AssetManager assetManager = getAssets();
+			AssetFileDescriptor descriptor = assetManager.openFd(BGMFile);
+			mediaPlayer.setDataSource(descriptor.getFileDescriptor(),descriptor.getStartOffset(),descriptor.getLength());
+			mediaPlayer.prepare();
+			mediaPlayer.setLooping(true);
+			mediaPlayer.start();
+			ToggleButton btt_sound = (ToggleButton) findViewById(R.id.btn_sound);
+			if (PublicResource.getAudioPref(getBaseContext())) btt_sound.setChecked(false); else btt_sound.setChecked(true);
+			btt_sound.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				public void onCheckedChanged(CompoundButton buttonView,
+						boolean isChecked) {
+					// TODO Auto-generated method stub
+					if (isChecked) {
+						audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
+						PublicResource.setAudioPref(getBaseContext(), false);
+					}else {
+						
+						audio.setStreamMute(AudioManager.STREAM_MUSIC, false);
+						PublicResource.setAudioPref(getBaseContext(), true);
+					}
+				}
+				
+			});
+		} catch (IOException e) {
+			mediaPlayer = null;
+			e.printStackTrace();
+		}
+		actualVolume = (float) audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+		maxVolume = (float) audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+		volume = actualVolume / maxVolume;
 	}
 	
 	private void prepareMenu() {
@@ -319,7 +349,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(flag)processAnswer(1);
+				if(wait1s)processAnswer(1);
 			}
 			
 		});
@@ -327,7 +357,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(flag)processAnswer(2);
+				if(wait1s)processAnswer(2);
 			}
 			
 		});
@@ -335,7 +365,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(flag)processAnswer(3);
+				if(wait1s)processAnswer(3);
 			}
 			
 		});
@@ -343,7 +373,7 @@ public class UI3 extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(flag)processAnswer(4);
+				if(wait1s)processAnswer(4);
 			}
 			
 		});

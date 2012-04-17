@@ -30,12 +30,15 @@ public class PublicResource {
 	anim_FadeOut,
 	anim_BotToTop,
 	anim_Rotate;
-	private static final String PrefName = "Preferences";
+
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
-	private static int answer_correct,answer_wrong,clock,page_flip;
+	private static int answer_correct,answer_wrong,clock,page_flip,lose;
 	private static DBAdapter db;
-	
+	private static final String sPrefName = "Preferences";
+	private static final String sAudio = "Audio";
+	private static final String sHighScore = "Highscore";
+	private static final String sGameMode = "Gamemode";
 
     public static DBAdapter getDataBase() {
     	return db;
@@ -72,6 +75,8 @@ public class PublicResource {
 			clock = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("page_flip.mp3");
 			page_flip = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("lose.mp3");
+			lose = soundPool.load(descriptor, 1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,28 +127,76 @@ public class PublicResource {
 		soundPool.play(page_flip, 1, 1, 0, 0, 1);
 	}
 	
-	public static int getHighscore(Context ct) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
-		return m_Pref.getInt("Highscore", 1);
+	public static void playSoundLose() {
+		soundPool.play(lose, 1, 1, 0, 0, 1);
 	}
 	
-	public static void setHighscore(Context ct, int i) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+	public static GameMode getHighscore(Context ct) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		switch (m_Pref.getInt(sHighScore, 1))
+		{
+		case 2: return GameMode.NORMAL;
+		case 3: return GameMode.HARD;
+		}
+		return GameMode.EASY;
+	}
+	
+	public static void setHighscore(Context ct, GameMode gm) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = m_Pref.edit();
-		editor.putInt("Highscore", i);
+		switch (gm) {
+		case EASY: 
+			editor.putInt(sHighScore, 1); 
+			break;
+		case NORMAL: 
+			editor.putInt(sHighScore, 2);
+			break;
+		case HARD: 
+			editor.putInt(sHighScore, 3);
+			break;
+		}
 		editor.commit();
 	}
 	
 	public static Boolean getAudioPref(Context ct) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
-		Boolean b = m_Pref.getBoolean("Audio", true);
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		Boolean b = m_Pref.getBoolean(sAudio, true);
 		return b;
 	}
 	
 	public static void setAudioPref(Context ct,Boolean b) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(PrefName, Context.MODE_PRIVATE);
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = m_Pref.edit();
-		if (b) editor.putBoolean("Audio", true); else editor.putBoolean("Audio", false);
+		if (b) editor.putBoolean(sAudio, true); else editor.putBoolean("Audio", false);
 		editor.commit();
 	}
+	
+	public static void setGameMode(Context ct, GameMode gm) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = m_Pref.edit();
+		switch (gm) {
+		case EASY: 
+			editor.putInt(sGameMode, 1); 
+			break;
+		case NORMAL: 
+			editor.putInt(sGameMode, 2);
+			break;
+		case HARD: 
+			editor.putInt(sGameMode, 3);
+			break;
+		}
+		editor.commit();
+	}
+	
+	public static GameMode getGameMode(Context ct) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		switch (m_Pref.getInt(sGameMode, 1))
+		{
+		case 2: return GameMode.NORMAL;
+		case 3: return GameMode.HARD;
+		}
+		return GameMode.EASY;
+	}
+	
+	
 }
