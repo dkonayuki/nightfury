@@ -31,7 +31,7 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 35;
-	private static final int TIME_LIMIT = 20000;
+	private static final int TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int[] NIGHTFURY[] = {
@@ -138,14 +138,59 @@ public class UI3 extends Activity {
 		return (time_remain > 0);
 	}
 	
+	private Boolean checkNewHighscore() {
+		float time, timeleft;
+		Boolean newHS = false;
+		Cursor c = null;
+		GameMode gm = PublicResource.getHighscore(getBaseContext());
+        switch (gm) {
+        case EASY: 
+        	c = PublicResource.getDataBase().getAllEasy();
+        	break;
+        case NORMAL: 
+        	c = PublicResource.getDataBase().getAllNormal();
+        	break;
+        case HARD:
+        	c = PublicResource.getDataBase().getAllHard();
+        }
+        
+        timeleft = (float) time_remain/1000;
+        c.moveToFirst();
+        for (int i = 1; i <= 5; i++)
+        {
+        	time = new Float(c.getString(2)).floatValue();
+        	if (time > timeleft) { 
+        		newHS = true;
+        		break;	
+        	}
+        	c.moveToNext();
+        }
+        return newHS;
+	}
+	
 	private void finishGame(boolean result) {
 		countDown.cancel();
 		mediaPlayer.pause();
 		ImageView game = (ImageView) findViewById(R.id.gameover);
-		if (result) game.setBackgroundResource(R.drawable.img_win);
+		if (result) { 
+			game.setBackgroundResource(R.drawable.img_win);
+			
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {		
+					finish();
+				}
+			}, 4000);
+		}
 		else {
 			game.setBackgroundResource(R.drawable.img_gameover);
 			PublicResource.playSoundLose();
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				public void run() {		
+					finish();
+				}
+			}, 4000);
 		}
 		game.startAnimation(PublicResource.FadeIn());
 		
@@ -172,7 +217,12 @@ public class UI3 extends Activity {
 		final int dx = (int)(((NIGHTFURY[toPos][1] - NIGHTFURY[nowPos][1])*density)/FURY_RUN_STEP);
 		final int dy = (int)(((NIGHTFURY[toPos][0] - NIGHTFURY[nowPos][0])*density)/FURY_RUN_STEP);
 		//Only 1s for animate Fury, this is same with the time which shows the next Question
-		new CountDownTimer(1000+2000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
+		m_Params.setMargins((int)(NIGHTFURY[nowPos][1]*density),
+				 (int) (NIGHTFURY[nowPos][0]*density), 
+				 0,
+				 0);
+		nightfury.setLayoutParams(m_Params);
+		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
 
 			@Override
 			public void onFinish() {

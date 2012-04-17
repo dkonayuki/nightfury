@@ -89,7 +89,7 @@ public class PublicResource {
         	//File f = new File(destPath + "MyDB");
         	if (!dir.exists()) {
         		dir.mkdir();
-        	}
+        	}	
         	db.CopyDB(ct.getAssets().open("mydb"),new FileOutputStream(destPath + "MyDB"));
         } catch (FileNotFoundException e) {
         	e.printStackTrace();

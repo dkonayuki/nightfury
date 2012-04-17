@@ -1,5 +1,8 @@
 package com.origidgames.nightfurygetsfishes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -56,8 +59,10 @@ public class DBAdapter {
 	}
 	
 	private static class DatabaseHelper extends SQLiteOpenHelper {
+		Context ct;
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+			ct = context;
 		}
 
 		@Override
@@ -73,7 +78,9 @@ public class DBAdapter {
 			// TODO Auto-generated method stub
 			Log.w(TAG,"Upgrading database from version "+ oldVersion + " to " + newVersion + ", which will destroy all old data"); 
 			db.execSQL("DROP TABLE questions");
-			db.execSQL("DROP TABLE highscores");
+			db.execSQL("DROP TABLE highscores_easy");
+			db.execSQL("DROP TABLE highscores_normal");
+			db.execSQL("DROP TABLE highscores_hard");
 			onCreate(db);
 		}
 	}
