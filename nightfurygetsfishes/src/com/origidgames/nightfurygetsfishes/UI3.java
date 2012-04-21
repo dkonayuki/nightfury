@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class UI3 extends Activity {
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int[] NIGHTFURY[] = {
-		{450,220},{410,220},{370,220},{330,230},{290,190},{230,220},{190,200},{160,220},{110,230},{50,220}
+		{450,0},{410,0},{370,0},{330,10},{290,0},{230,0},{190,0},{160,0},{110,10},{50,0}
 	};
 	private static final int FURY_RUN_STEP = 5;
 	
@@ -375,7 +376,7 @@ public class UI3 extends Activity {
 		m_Params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
 		density = getBaseContext().getResources().getDisplayMetrics().density;
-		ImageView road = (ImageView) findViewById(R.id.road);
+		FrameLayout road = (FrameLayout) findViewById(R.id.road);
 		road.startAnimation(PublicResource.FadeIn());
 		ImageView clock = (ImageView) findViewById(R.id.clock);
 		clock.startAnimation(PublicResource.FadeIn());
