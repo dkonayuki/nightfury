@@ -45,7 +45,7 @@ public class UI3 extends Activity {
 	private int question_checked[] = new int[QUESTION_NUMBER];
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
-	private int stars = 0;
+	private int stars = 1;
 	private long time_remain;
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
@@ -249,7 +249,7 @@ public class UI3 extends Activity {
 			PublicResource.playSoundAnsRight();
 			stars++;
 			currentPosition++;
-			if (!isWin()) _animateFury(currentPosition - 1, currentPosition);
+			_animateFury(currentPosition - 1, currentPosition);
 			final Handler handler = new Handler();
 			ans[a].setBackgroundResource(R.drawable.img_answer_right);
 			
