@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -17,8 +18,10 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -38,6 +41,11 @@ public class UI3 extends Activity {
 	private static final int[] NIGHTFURY[] = {
 		{450,0},{410,0},{370,0},{330,10},{290,0},{230,0},{190,0},{160,0},{110,10},{50,0}
 	};
+	private static float NIGHTFURY_POSITION[][] = {
+		{0.33f, 0.035f}, {0.42f, 0.08f}, {0.42f, 0.19f}, {0.22f, 0.27f}, {0.24f, 0.35f}, {0.39f, 0.45f}, 
+		{0.09f, 0.51f}, {0.13f, 0.60f}, {0.44f, 0.68f}, {0.52f, 0.75f}, {0.36f, 0.82f}, {0.49f, 0.97f}
+	};
+	
 	private static final int FURY_RUN_STEP = 5;
 	
 	private int currentPosition;
@@ -73,6 +81,31 @@ public class UI3 extends Activity {
 		displayNewQuestion();
 	}
 	
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		_setUpStarAndGoal();
+	}
+	
+	
+	private void _setUpStarAndGoal(){
+		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
+		//Stars
+		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
+		for(int i = 0; i < layout_road.getChildCount(); i++){
+			View t = layout_road.getChildAt(i);
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)t.getLayoutParams();
+			NIGHTFURY_POSITION[i][0] *= roadWidth;
+			NIGHTFURY_POSITION[i][1] *= roadHeight;
+			params.setMargins((int)(NIGHTFURY_POSITION[i][0]), 
+								(int)(NIGHTFURY_POSITION[i][1]), 
+										0, 0);
+			t.setLayoutParams(params);
+		}
+
+	}
+	
 	protected void onResume(){
 		super.onResume();
 		if (isCountDownPaused()) {
@@ -84,6 +117,7 @@ public class UI3 extends Activity {
 			if (!PublicResource.getAudioPref(getBaseContext())) audio.setStreamMute(AudioManager.STREAM_MUSIC, true);
 		}
 		wakeLock.acquire();
+		
 	}
 	
 	protected void onPause() {
@@ -214,15 +248,18 @@ public class UI3 extends Activity {
 		return (stars == WIN);
 	}
 	
-	private void _animateFury(final int nowPos, final int toPos){
-		final int dx = (int)(((NIGHTFURY[toPos][1] - NIGHTFURY[nowPos][1])*density)/FURY_RUN_STEP);
-		final int dy = (int)(((NIGHTFURY[toPos][0] - NIGHTFURY[nowPos][0])*density)/FURY_RUN_STEP);
+	private void _animateFury(int nowPos, int toPos){
+		//Array's Position is reversed with real fury position
+		nowPos = 11 - nowPos; toPos = 11 - toPos;
+		final int dx = (int)((NIGHTFURY_POSITION[toPos][0] - NIGHTFURY_POSITION[nowPos][0])/FURY_RUN_STEP);
+		final int dy = (int)((NIGHTFURY_POSITION[toPos][1] - NIGHTFURY_POSITION[nowPos][1])/FURY_RUN_STEP);
 		//Only 1s for animate Fury, this is same with the time which shows the next Question
-		m_Params.setMargins((int)(NIGHTFURY[nowPos][1]*density),
-				 (int) (NIGHTFURY[nowPos][0]*density), 
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)nightfury.getLayoutParams();
+		params.setMargins((int)(NIGHTFURY_POSITION[nowPos][0]),
+				 (int) (NIGHTFURY_POSITION[nowPos][1]), 
 				 0,
 				 0);
-		nightfury.setLayoutParams(m_Params);
+		nightfury.setLayoutParams(params);
 		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
 
 			@Override
@@ -232,11 +269,12 @@ public class UI3 extends Activity {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				m_Params.setMargins(m_Params.leftMargin + dx,
-									m_Params.topMargin + dy, 
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)nightfury.getLayoutParams();
+				params.setMargins(params.leftMargin + dx,
+									params.topMargin + dy, 
 									0, 
 									0);
-				nightfury.setLayoutParams(m_Params);
+				nightfury.setLayoutParams(params);
 				
 			}
 			

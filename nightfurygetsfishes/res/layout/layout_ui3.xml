@@ -282,6 +282,12 @@
  		 android:layout_marginTop="80dip"
  		 android:layout_marginLeft="40dp"
  	/>
+	<com.origidgames.nightfurygetsfishes.GifView
+ 		 android:layout_width="20dp"
+ 		 android:layout_height="20dp"
+ 		 android:layout_marginTop="80dip"
+ 		 android:layout_marginLeft="40dp"
+ 	/>
 		 		
 		</RelativeLayout>
 		
