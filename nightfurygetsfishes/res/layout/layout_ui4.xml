@@ -1,8 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frlMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:background="@drawable/img_background_ui4" >
 
-</LinearLayout>
+    <ToggleButton
+        android:id="@+id/btn_sound_4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+		android:textOn=""
+		android:textOff=""
+        android:background="@drawable/button_soundbg" />
+
+    <Button
+        android:id="@+id/btnBacktoMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_backtomain" />
+
+    <LinearLayout
+        android:id="@+id/lnlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" 
+        android:weightSum="1.0">
+
+        <LinearLayout
+            android:id="@+id/lnlTopCenter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.81"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnlBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.19"
+            android:orientation="vertical"
+            android:weightSum="1.0" >
+
+            <LinearLayout
+                android:id="@+id/lnlInputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1.0" >
+
+                <EditText
+                    android:id="@+id/edtInputName"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/TextNameInput" >
+
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/btnInputName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="0.0"
+                    android:background="@drawable/button_inputname" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/lnlRetryShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight=".4" >
+
+                <Button
+                    android:id="@+id/btnShare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="70dp"
+                    android:background="@drawable/button_share" />
+
+                <Button
+                    android:id="@+id/btnRetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="70dp"
+                    android:background="@drawable/button_retry" />
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
