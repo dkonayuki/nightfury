@@ -279,6 +279,12 @@
 	 		 android:layout_marginTop="80dip"
 	 		 android:layout_marginLeft="40dp"
 	 	/>
+		<com.origidgames.nightfurygetsfishes.GifView
+ 		 android:layout_width="20dp"
+ 		 android:layout_height="20dp"
+ 		 android:layout_marginTop="80dip"
+ 		 android:layout_marginLeft="40dp"
+ 	/>
 		 		
 		</RelativeLayout>
 		
@@ -306,18 +312,22 @@
 	    android:layout_weight="0.1"
 	    android:weightSum="1"
 	    android:orientation="horizontal">
-		
+		 <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="0.125">
+	    </LinearLayout>
 	    <LinearLayout
 	        android:layout_width="0dp"
 	        android:layout_height="match_parent"
-	        android:layout_weight="0.3"
+	        android:layout_weight="0.15"
 	        android:gravity="right"
 	        android:orientation="horizontal" >
 
 	        <Button
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_margin="5dp"
+	            android:layout_margin="2dp"
 	            android:background="@drawable/button_upgrade_50" >
 	            
 	        </Button>
@@ -362,7 +372,7 @@
 	     <LinearLayout
 	        android:layout_width="0dp"
 	        android:layout_height="match_parent"
-	        android:layout_weight="0.25"
+	        android:layout_weight="0.15"
 	        android:gravity="left">
 	        <Button
 	            android:layout_width="wrap_content"
@@ -371,8 +381,13 @@
 	            android:background="@drawable/button_upgrade_speedup" >
 	            
 	        </Button>
+	        
 	    </LinearLayout>
-	    
+	    <LinearLayout
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="0.125">
+	    </LinearLayout>
 	     
 	</LinearLayout>
 
