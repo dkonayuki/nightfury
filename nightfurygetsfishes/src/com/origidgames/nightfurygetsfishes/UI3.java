@@ -364,6 +364,9 @@ public class UI3 extends Activity {
 		  countDown.start();
 	}
 	
+	private void pauseGame() {
+		
+	}
 
 	private void prepareMusic() {
 		
@@ -436,33 +439,39 @@ public class UI3 extends Activity {
 			ans[i].startAnimation(PublicResource.InFromBot());
 		ans[1].setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {			
 				if(wait1s)processAnswer(1);
 			}
 			
 		});
 		ans[2].setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {			
 				if(wait1s)processAnswer(2);
 			}
 			
 		});
 		ans[3].setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {	
 				if(wait1s)processAnswer(3);
 			}
 			
 		});
 		ans[4].setOnClickListener(new OnClickListener() {
 
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+			public void onClick(View v) {		
 				if(wait1s)processAnswer(4);
+			}
+			
+		});
+		ToggleButton btt_pause = (ToggleButton) findViewById(R.id.btn_pause);
+		btt_pause.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				
+				
 			}
 			
 		});

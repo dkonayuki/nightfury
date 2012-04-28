@@ -405,7 +405,7 @@
                   android:layout_gravity="left|bottom"
                   android:background="@drawable/button_soundbg" />
 	    <ToggleButton
-                  android:id="@+id/btn_sound"
+                  android:id="@+id/btn_pause"
                   android:layout_width="25dp"
                   android:layout_height="25dp"
                   android:layout_margin="10dp"
