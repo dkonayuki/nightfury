@@ -288,19 +288,22 @@
 		 		
 		</RelativeLayout>
 		
-		<RelativeLayout 
+		<FrameLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent">
 
       		 <ImageView
       		     android:id="@+id/nightfury"
-      		     android:layout_width="wrap_content"
-      		     android:layout_height="wrap_content"
-      		     android:layout_marginTop="450dip"
-         		 android:layout_marginLeft="0dp"
+      		     android:layout_width="100dp"
+      		     android:layout_height="60dp"
+      		     android:layout_gravity="center_horizontal"
+      		     android:layout_marginLeft="0dp"
+      		     android:layout_marginTop="0dp"
+      		     android:minHeight="60dp"
+      		     android:minWidth="100dp"
       		     android:src="@drawable/img_nightfury" />
       		
-		</RelativeLayout>	 
+		</FrameLayout>	 
     </FrameLayout>
     
 	</LinearLayout>

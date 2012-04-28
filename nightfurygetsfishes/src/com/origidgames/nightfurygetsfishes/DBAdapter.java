@@ -1,8 +1,5 @@
 package com.origidgames.nightfurygetsfishes;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -59,10 +56,8 @@ public class DBAdapter {
 	}
 	
 	private static class DatabaseHelper extends SQLiteOpenHelper {
-		Context ct;
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			ct = context;
 		}
 
 		@Override

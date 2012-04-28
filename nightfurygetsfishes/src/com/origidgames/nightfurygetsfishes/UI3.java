@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -18,12 +17,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View.OnClickListener;	
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -38,9 +33,6 @@ public class UI3 extends Activity {
 	private static final int TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
-	private static final int[] NIGHTFURY[] = {
-		{450,0},{410,0},{370,0},{330,10},{290,0},{230,0},{190,0},{160,0},{110,10},{50,0}
-	};
 	private static float NIGHTFURY_POSITION[][] = {
 		{0.33f, 0.035f}, {0.42f, 0.08f}, {0.42f, 0.19f}, {0.22f, 0.27f}, {0.24f, 0.35f}, {0.39f, 0.45f}, 
 		{0.09f, 0.51f}, {0.13f, 0.60f}, {0.44f, 0.68f}, {0.52f, 0.75f}, {0.36f, 0.82f}, {0.49f, 0.97f}
@@ -49,7 +41,6 @@ public class UI3 extends Activity {
 	private static final int FURY_RUN_STEP = 5;
 	
 	private int currentPosition;
-	private RelativeLayout.LayoutParams m_Params;
 	private int question_checked[] = new int[QUESTION_NUMBER];
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
@@ -64,7 +55,6 @@ public class UI3 extends Activity {
 	private ImageView nightfury;
 	private Boolean wait1s = true;
 	private int answer_random[] = new int[5];
-	private float density;
 	private Boolean finish = false;
 	private CountDownTimer countDownTimer;
 	private Boolean countDownPause = false;
@@ -93,19 +83,27 @@ public class UI3 extends Activity {
 	
 	private void _setUpStarAndGoal(){
 		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
-		//Stars
+		/* Stars */
 		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
 		for(int i = 0; i < layout_road.getChildCount(); i++){
 			View t = layout_road.getChildAt(i);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)t.getLayoutParams();
 			NIGHTFURY_POSITION[i][0] *= roadWidth;
 			NIGHTFURY_POSITION[i][1] *= roadHeight;
-			params.setMargins((int)(NIGHTFURY_POSITION[i][0]), 
-								(int)(NIGHTFURY_POSITION[i][1]), 
+			params.setMargins((int)(NIGHTFURY_POSITION[i][0]) - (int)(params.width/2), 
+								(int)(NIGHTFURY_POSITION[i][1]) - (int)(params.height/2), 
 										0, 0);
 			t.setLayoutParams(params);
 		}
-
+		/* Fury */
+		
+		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
+		
+		params.setMargins(
+				    (int)NIGHTFURY_POSITION[11][0] - (int)(params.width/2), (int)NIGHTFURY_POSITION[11][1] - (int)(params.height/2),
+				    0, 0);
+		nightfury.setLayoutParams(params);
+		nightfury.startAnimation(PublicResource.FadeIn());
 	}
 	
 	
@@ -189,6 +187,8 @@ public class UI3 extends Activity {
 		return (time_remain > 0);
 	}
 	
+	/* What is this function used for? If it's not necessary,
+	 * Remove it!!!*/
 	private Boolean checkNewHighscore() {
 		float time, timeleft;
 		Boolean newHS = false;
@@ -271,9 +271,9 @@ public class UI3 extends Activity {
 		final int dx = (int)((NIGHTFURY_POSITION[toPos][0] - NIGHTFURY_POSITION[nowPos][0])/FURY_RUN_STEP);
 		final int dy = (int)((NIGHTFURY_POSITION[toPos][1] - NIGHTFURY_POSITION[nowPos][1])/FURY_RUN_STEP);
 		//Only 1s for animate Fury, this is same with the time which shows the next Question
-		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)nightfury.getLayoutParams();
-		params.setMargins((int)(NIGHTFURY_POSITION[nowPos][0]),
-				 (int) (NIGHTFURY_POSITION[nowPos][1]), 
+		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
+		params.setMargins((int)NIGHTFURY_POSITION[nowPos][0] - (int)(params.width/2), 
+				(int)NIGHTFURY_POSITION[nowPos][1] - (int)(params.height/2),
 				 0,
 				 0);
 		nightfury.setLayoutParams(params);
@@ -286,7 +286,7 @@ public class UI3 extends Activity {
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)nightfury.getLayoutParams();
+				FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 				params.setMargins(params.leftMargin + dx,
 									params.topMargin + dy, 
 									0, 
@@ -518,15 +518,9 @@ public class UI3 extends Activity {
 		setUncheckedAll(question_checked);
 		currentPosition = 0;
 		createCountDown(TIME_LIMIT);
-		m_Params = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
-		density = getBaseContext().getResources().getDisplayMetrics().density;
 		prepareRoad();
 		prepareClock();
 		nightfury = (ImageView) findViewById(R.id.nightfury);
-		nightfury.setLayoutParams(m_Params);
-		m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
-		nightfury.startAnimation(PublicResource.FadeIn());
 		prepareQuestion();
 		prepareAnswer();
 		prepareButton();
