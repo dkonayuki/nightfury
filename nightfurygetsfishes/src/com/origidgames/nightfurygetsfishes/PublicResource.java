@@ -28,12 +28,11 @@ public class PublicResource {
 	anim_OutToBot,
 	anim_FadeIn,
 	anim_FadeOut,
-	anim_BotToTop,
-	anim_Rotate;
-
+	anim_BotToTop;
+	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
-	private static int answer_correct,answer_wrong,clock,page_flip,lose;
+	private static int answer_correct,answer_wrong,clock,page_flip,lose,pause;
 	private static DBAdapter db;
 	private static final String sPrefName = "Preferences";
 	private static final String sAudio = "Audio";
@@ -59,7 +58,9 @@ public class PublicResource {
 		anim_OutToTop= AnimationUtils.loadAnimation(ct, R.anim.outtotop);
 		anim_FadeIn = AnimationUtils.loadAnimation(ct, R.anim.fadein);
 		anim_FadeOut = AnimationUtils.loadAnimation(ct, R.anim.fadeout);
-		anim_Rotate = AnimationUtils.loadAnimation(ct, R.anim.rotate);
+		anim_Rotate = new PausableRotate(0,360,Animation.RELATIVE_TO_SELF,(float)0.5,
+				Animation.RELATIVE_TO_SELF,(float)0.5);
+		anim_Rotate.setDuration(90000);
 		anim_BotToTop = AnimationUtils.loadAnimation(ct, R.anim.bottotop);
 		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 		soundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
@@ -77,6 +78,8 @@ public class PublicResource {
 			page_flip = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("lose.mp3");
 			lose = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("pause.mp3");
+			pause = soundPool.load(descriptor, 1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,6 +109,12 @@ public class PublicResource {
 	}
 	public static Animation BotToTop() { return anim_BotToTop; }
 	public static Animation Rotate() { return anim_Rotate; }
+	public static void pauseRotate() {
+		anim_Rotate.pause();
+	}
+	public static void resumeRotate() {
+		anim_Rotate.resume();
+	}
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
 	public static Animation InFromBot() { return anim_InFromBot; }
@@ -129,6 +138,10 @@ public class PublicResource {
 	
 	public static void playSoundLose() {
 		soundPool.play(lose, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundPause() {
+		soundPool.play(pause, 1, 1, 0, 0, 1);
 	}
 	
 	public static GameMode getHighscore(Context ct) {

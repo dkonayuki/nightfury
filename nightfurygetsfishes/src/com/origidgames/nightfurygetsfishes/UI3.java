@@ -386,16 +386,18 @@ public class UI3 extends Activity {
 	private void pauseGame() {
 		mediaPlayer.pause();
 		isPaused = true;
+		PublicResource.playSoundPause();
 		pauseCountDownTimer();
-		clock.clearAnimation();
+		PublicResource.pauseRotate();
 		pause.setVisibility(View.VISIBLE);
 	}
 	
 	private void resumeGame() {
 		mediaPlayer.start();
 		isPaused = false;
+		PublicResource.playSoundPause();
 		resumeCountDownTimer();
-		clock.startAnimation(PublicResource.Rotate());
+		PublicResource.resumeRotate();
 		pause.setVisibility(View.GONE);
 	}
 
