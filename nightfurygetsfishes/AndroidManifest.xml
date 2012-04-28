@@ -19,7 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity 
+            android:name=".UI4"
+            android:screenOrientation="portrait"
+             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            ><intent-filter >
+                <action android:name="com.origidgames.nightfuryUI4" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+		</activity>
         <activity 
             android:name=".UI3"
             android:screenOrientation="portrait"
