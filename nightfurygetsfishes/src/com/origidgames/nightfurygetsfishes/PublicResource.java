@@ -115,6 +115,7 @@ public class PublicResource {
 	public static void resumeRotate() {
 		anim_Rotate.resume();
 	}
+	public static Animation FadeOut() { return anim_FadeOut;}
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
 	public static Animation InFromBot() { return anim_InFromBot; }
