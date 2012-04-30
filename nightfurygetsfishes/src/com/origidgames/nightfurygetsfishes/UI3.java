@@ -38,8 +38,8 @@ public class UI3 extends Activity {
 	private static final int RED_PERCENT = 3;
 	private static final int VIOLET_PERCENT = 6;
 	private static float NIGHTFURY_POSITION[][] = {
-		{0.33f, 0.035f}, {0.42f, 0.08f}, {0.42f, 0.19f}, {0.22f, 0.27f}, {0.24f, 0.35f}, {0.39f, 0.45f}, 
-		{0.09f, 0.51f}, {0.13f, 0.60f}, {0.44f, 0.68f}, {0.52f, 0.75f}, {0.36f, 0.82f}, {0.49f, 0.97f}
+		{0.46f, 0.05f}, {0.55f, 0.08f}, {0.55f, 0.19f}, {0.35f, 0.27f}, {0.37f, 0.35f}, {0.52f, 0.45f}, 
+		{0.22f, 0.51f}, {0.26f, 0.60f}, {0.57f, 0.68f}, {0.65f, 0.75f}, {0.49f, 0.82f}, {0.62f, 0.97f}
 	};
 	
 	private static final String sWIN = "Gotcha!";
@@ -75,7 +75,6 @@ public class UI3 extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_ui3);
-		setGoal();
 		prepareMusic();
 		prepareMenu();
 		displayNewQuestion();
@@ -90,6 +89,19 @@ public class UI3 extends Activity {
 	
 	
 	private void _setUpStarAndGoal(){
+		// Goal
+				ImageView goal = (ImageView) findViewById(R.id.goal);
+				_gameMode = PublicResource.getGameMode(this);
+				switch(_gameMode) {
+				case EASY:
+					goal.setBackgroundResource(R.drawable.img_easy);
+					break;
+				case NORMAL:
+					goal.setBackgroundResource(R.drawable.img_normal);
+					break;
+				case HARD:
+					goal.setBackgroundResource(R.drawable.img_hard);
+				}
 		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
 		/* Stars */
 		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
@@ -165,20 +177,6 @@ public class UI3 extends Activity {
 	}
 	
 	
-	private void setGoal() {
-		ImageView goal = (ImageView) findViewById(R.id.goal);
-		_gameMode = PublicResource.getGameMode(this);
-		switch(_gameMode) {
-		case EASY:
-			goal.setBackgroundResource(R.drawable.img_easy);
-			break;
-		case NORMAL:
-			goal.setBackgroundResource(R.drawable.img_normal);
-			break;
-		case HARD:
-			goal.setBackgroundResource(R.drawable.img_hard);
-		}
-	}
 
 	private GameMode getGameMode() {
 		return _gameMode;

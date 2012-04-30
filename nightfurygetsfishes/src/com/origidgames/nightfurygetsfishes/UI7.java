@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 
 public class UI7 extends Activity {
-	private Button btn_2times,btn_speed,btn_50,btn_autoanswer,btn_change,btn_time,btn_decrease,btn_fish;
+	private ImageView btn_2times,btn_speed,btn_50,btn_autoanswer,btn_change,btn_time,btn_decrease,btn_fish;
 	private ImageView upgrade;
 	private boolean focus;
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class UI7 extends Activity {
 			
 		});
 		
-		btn_2times = (Button) findViewById(R.id.btn_2times);
+		btn_2times = (ImageView) findViewById(R.id.btn_2times);
 		btn_2times.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -42,7 +41,7 @@ public class UI7 extends Activity {
 			}
 		});
 		
-		btn_speed = (Button) findViewById(R.id.btn_speed);
+		btn_speed = (ImageView) findViewById(R.id.btn_speed);
 		btn_speed.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -55,7 +54,7 @@ public class UI7 extends Activity {
 		});
 		
 
-		btn_50 = (Button) findViewById(R.id.btn_50);
+		btn_50 = (ImageView) findViewById(R.id.btn_50);
 		btn_50.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -67,7 +66,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_autoanswer = (Button) findViewById(R.id.btn_autoanswer);
+		btn_autoanswer = (ImageView) findViewById(R.id.btn_autoanswer);
 		btn_autoanswer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -79,7 +78,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_change = (Button) findViewById(R.id.btn_change);
+		btn_change = (ImageView) findViewById(R.id.btn_change);
 		btn_change.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -91,7 +90,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_time = (Button) findViewById(R.id.btn_time);
+		btn_time = (ImageView) findViewById(R.id.btn_time);
 		btn_time.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -103,7 +102,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_decrease = (Button) findViewById(R.id.btn_decrease);
+		btn_decrease = (ImageView) findViewById(R.id.btn_decrease);
 		btn_decrease.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -116,7 +115,7 @@ public class UI7 extends Activity {
 		});
 		
 
-		btn_fish = (Button) findViewById(R.id.btn_fish);
+		btn_fish = (ImageView) findViewById(R.id.btn_fish);
 		btn_fish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
