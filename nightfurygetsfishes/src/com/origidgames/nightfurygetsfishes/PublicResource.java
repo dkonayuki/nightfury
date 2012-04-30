@@ -154,30 +154,15 @@ public class PublicResource {
 		soundPool.play(pause, 1, 1, 0, 0, 1);
 	}
 	
-	public static GameMode getHighscore(Context ct) {
+	public static Boolean getNewHighscore(Context ct) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		switch (m_Pref.getInt(sHighScore, 1))
-		{
-		case 2: return GameMode.NORMAL;
-		case 3: return GameMode.HARD;
-		}
-		return GameMode.EASY;
+		return m_Pref.getBoolean(sHighScore, false);
 	}
 	
-	public static void setHighscore(Context ct, GameMode gm) {
+	public static void setNewHighscore(Context ct, Boolean game) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = m_Pref.edit();
-		switch (gm) {
-		case EASY: 
-			editor.putInt(sHighScore, 1); 
-			break;
-		case NORMAL: 
-			editor.putInt(sHighScore, 2);
-			break;
-		case HARD: 
-			editor.putInt(sHighScore, 3);
-			break;
-		}
+		editor.putBoolean(sHighScore, game);
 		editor.commit();
 	}
 	

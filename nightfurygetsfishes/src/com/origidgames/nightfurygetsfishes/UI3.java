@@ -164,9 +164,6 @@ public class UI3 extends Activity {
 		if (isCountDownRunning()) pauseCountDownTimer();
 	}
 	
-	private GameMode getGameMode() {
-		return _gameMode;
-	}
 	
 	private void setGoal() {
 		ImageView goal = (ImageView) findViewById(R.id.goal);
@@ -182,6 +179,10 @@ public class UI3 extends Activity {
 			goal.setBackgroundResource(R.drawable.img_hard);
 		}
 	}
+
+	private GameMode getGameMode() {
+		return _gameMode;
+	}
 	
 	private Cursor getCurrentQuestion() {
 		return _question;
@@ -195,13 +196,12 @@ public class UI3 extends Activity {
 		return (time_remain > 0);
 	}
 	
-	/* What is this function used for? If it's not necessary,
-	 * Remove it!!!*/
-	private Boolean checkNewHighscore() {
+	//check if there is a new highscore or not. After that, use PublicResource.getNewHighscore()
+	private void checkNewHighscore() {
 		float time, timeleft;
 		Boolean newHS = false;
 		Cursor c = null;
-		GameMode gm = PublicResource.getHighscore(getBaseContext());
+		GameMode gm = getGameMode();
         switch (gm) {
         case EASY: 
         	c = PublicResource.getDataBase().getAllEasy();
@@ -224,7 +224,7 @@ public class UI3 extends Activity {
         	}
         	c.moveToNext();
         }
-        return newHS;
+        PublicResource.setNewHighscore(getBaseContext(), newHS);
 	}
 	
 	private void finishGame(boolean result) {
@@ -238,6 +238,7 @@ public class UI3 extends Activity {
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {		
+					checkNewHighscore();
 					finish();
 					startActivity(new Intent("com.origidgames.nightfuryUI4"));
 				}
@@ -249,7 +250,8 @@ public class UI3 extends Activity {
 			PublicResource.playSoundLose();
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
-				public void run() {		
+				public void run() {	
+					checkNewHighscore();
 					finish();
 					startActivity(new Intent("com.origidgames.nightfuryUI5"));
 				}
@@ -273,9 +275,7 @@ public class UI3 extends Activity {
 		return (getCurrentQuestion().getInt(6));
 	}
 	
-	private Boolean isWin() {
-		return (stars == WIN);
-	}
+	
 	
 	private void _animateFury(int nowPos, int toPos){
 		//Array's Position is reversed with real fury position
@@ -310,17 +310,24 @@ public class UI3 extends Activity {
 		}.start();
 	}
 	
+	private Boolean isWin() {
+		return (stars == WIN);
+	}
+	
+	//if question type is red, then the game is over
 	private boolean isLose() {
 		if (_quesType == QuestionType.RED) return true;
 		else return false;
 	}
 	
+	//move nightfury forward
 	private void increaseNF() {
 		stars++;
 		currentPosition++;
 		_animateFury(currentPosition - 1, currentPosition);
 	}
 	
+	// move nightfury back
 	private void decreaseNF() {
 		int down = 0;
 		switch (getGameMode()) {
