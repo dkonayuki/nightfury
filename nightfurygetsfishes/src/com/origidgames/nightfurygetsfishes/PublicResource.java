@@ -12,6 +12,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.view.animation.Animation;
@@ -28,7 +29,8 @@ public class PublicResource {
 	anim_OutToBot,
 	anim_FadeIn,
 	anim_FadeOut,
-	anim_BotToTop;
+	anim_BotToTop,
+	anim_Question;
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
@@ -38,6 +40,7 @@ public class PublicResource {
 	private static final String sAudio = "Audio";
 	private static final String sHighScore = "Highscore";
 	private static final String sGameMode = "Gamemode";
+	private static Typeface font;
 
     public static DBAdapter getDataBase() {
     	return db;
@@ -62,9 +65,11 @@ public class PublicResource {
 				Animation.RELATIVE_TO_SELF,(float)0.5);
 		anim_Rotate.setDuration(90000);
 		anim_BotToTop = AnimationUtils.loadAnimation(ct, R.anim.bottotop);
+		anim_Question = AnimationUtils.loadAnimation(ct, R.anim.question);
 		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 		soundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
 		
+		font = Typeface.createFromAsset(ct.getAssets(), "TrajanPro-Regular.otf");
 		AssetFileDescriptor descriptor = null;
 		try {
 			AssetManager assetManager = ct.getAssets();
@@ -107,6 +112,10 @@ public class PublicResource {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Typeface getTrajanFont() { return font;}
+	
+	public static Animation Question() { return anim_Question;}
 	public static Animation BotToTop() { return anim_BotToTop; }
 	public static Animation Rotate() { return anim_Rotate; }
 	public static void pauseRotate() {

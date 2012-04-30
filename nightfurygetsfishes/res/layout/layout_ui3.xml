@@ -52,7 +52,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/_90"
                     android:textColor="#DDDDDD"
-                    android:textSize="22dp"
+                    android:textSize="23dp"
                     android:textStyle="bold" />
             </FrameLayout>
 
@@ -78,21 +78,33 @@
                     android:orientation="vertical" 
                     android:layout_weight="0.5"
                     >
-                    <TextView
-                       
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/question_bg"
+                            android:layout_width="match_parent"
+                        	android:layout_height="match_parent"
+                        	android:background="@drawable/img_question"
+                             >                           
+                        </ImageView>
+                        <TextView
                         android:id="@+id/question"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:background="@drawable/img_question"
+                        android:layout_gravity="center_horizontal|center_vertical" 
                         android:gravity="center_horizontal|center_vertical"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                         android:layout_marginTop="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
+                        android:background="@android:color/transparent"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#333333" />
+                        </FrameLayout>
 				</LinearLayout>
+                    
+                    
 				<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
@@ -406,28 +418,32 @@
 	       android:background="@drawable/img_pausetext"
 	       android:visibility="gone"
 	       />
-	       	    <ToggleButton
-                  android:id="@+id/btn_sound"
-                  android:layout_width="25dp"
-                  android:layout_height="25dp"
-                  android:layout_margin="10dp"
-                  android:textOn=""
-                  android:textOff=""
-                  android:layout_gravity="left|bottom"
-                  android:background="@drawable/button_soundbg" />
+	   <ToggleButton
+           android:id="@+id/btn_sound"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_margin="10dp"
+           android:textOn=""
+           android:textOff=""
+           android:layout_gravity="left|bottom"
+           android:background="@drawable/button_soundbg" />
 	    <ToggleButton
-                  android:id="@+id/btn_pause"
-                  android:layout_width="25dp"
-                  android:layout_height="25dp"
-                  android:layout_margin="10dp"
-                  android:textOn=""
-                  android:textOff=""
-                  android:layout_gravity="right|bottom"
-                  android:background="@drawable/button_pausebg" />
-	     <ImageView
-      		     android:id="@+id/gameover"
-      		     android:layout_width="fill_parent"
-      		     android:layout_height="fill_parent"
-      		 />
-	 
+	         android:id="@+id/btn_pause"
+	         android:layout_width="25dp"
+	         android:layout_height="25dp"
+	         android:layout_margin="10dp"
+	         android:textOn=""
+	         android:textOff=""
+	         android:layout_gravity="right|bottom"
+	         android:background="@drawable/button_pausebg" />
+	     <TextView
+	         android:id="@+id/gameover_text"
+	         android:layout_width="fill_parent"
+	         android:layout_height="match_parent"
+	         android:background="#AA000000"
+	         android:gravity="center_horizontal|center_vertical"
+	         android:textColor="#EEEEEE"
+	         android:textSize="40dp" 
+	         android:visibility="gone"/>
+ 
 </FrameLayout>
