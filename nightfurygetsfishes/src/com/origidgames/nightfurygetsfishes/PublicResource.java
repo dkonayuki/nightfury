@@ -40,6 +40,15 @@ public class PublicResource {
 	private static final String sAudio = "Audio";
 	private static final String sHighScore = "Highscore";
 	private static final String sGameMode = "Gamemode";
+	public static final String sUpgradeSpeed = "UpgradeSpeed";
+	public static final String sUpgradeTime = "UpgradeTime";
+	public static final String sUpgradeFish = "UpgradeFish";
+	public static final String sUpgradeDecrease = "UpgradeDecrease";
+	public static final String sUpgradeChange = "UpgradeChange";
+	public static final String sUpgradeAutoAnswer = "UpgradeAutoAnswer";
+	public static final String sUpgrade50 = "Upgrade50";
+	public static final String sUpgrade2Times = "Upgrade2Times";
+	
 	private static Typeface font;
 
     public static DBAdapter getDataBase() {
@@ -163,6 +172,18 @@ public class PublicResource {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = m_Pref.edit();
 		editor.putBoolean(sHighScore, game);
+		editor.commit();
+	}
+	
+	public static int getUpgrade(Context ct, String key) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		return m_Pref.getInt(key, 0);
+	}
+	
+	public static void setUpgrade(Context ct, String key, int n) {
+		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = m_Pref.edit();
+		editor.putInt(key, n);
 		editor.commit();
 	}
 	
