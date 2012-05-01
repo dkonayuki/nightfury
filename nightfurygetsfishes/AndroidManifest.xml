@@ -70,8 +70,19 @@
         <activity 
             android:name=".UI1"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             ><intent-filter >
                 <action android:name="com.origidgames.nightfuryUI1" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity 
+            android:name=".UI2"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            ><intent-filter >
+                <action android:name="com.origidgames.nightfuryUI2" />
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

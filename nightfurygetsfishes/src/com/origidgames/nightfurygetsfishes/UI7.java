@@ -8,17 +8,22 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class UI7 extends Activity {
 	private ImageView btn_2times,btn_speed,btn_50,btn_autoanswer,btn_change,btn_time,btn_decrease,btn_fish;
 	private ImageView upgrade;
+	private Button btn_upgrade;
 	private boolean focus;
+	private String upgradeType;
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_ui7);
 		focus = false;
 		
+		btn_upgrade = (Button) findViewById(R.id.btn_upgrade);
 		upgrade = (ImageView) findViewById(R.id.upgrade_text);
 		upgrade.setOnClickListener(new OnClickListener() {
 
@@ -28,6 +33,7 @@ public class UI7 extends Activity {
 					focus = false;
 					upgrade.setVisibility(View.GONE);
 					upgrade.startAnimation(PublicResource.FadeOut());
+					btn_upgrade.setVisibility(View.GONE);
 				}
 			}
 			
@@ -41,6 +47,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_2times);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -53,6 +60,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_speed);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -66,6 +74,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_5050);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -78,6 +87,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_autoanswer);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -90,6 +100,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_change);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -102,6 +113,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_time);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -114,6 +126,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_decrease);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -127,6 +140,7 @@ public class UI7 extends Activity {
 					upgrade.setBackgroundResource(R.drawable.upgrade_fish);
 					upgrade.setVisibility(View.VISIBLE);
 					upgrade.startAnimation(PublicResource.FadeIn());
+					btn_upgrade.setVisibility(View.VISIBLE);
 				}
 			}
 		});

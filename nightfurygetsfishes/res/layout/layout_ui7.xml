@@ -170,13 +170,26 @@
                   android:textOff=""
                   android:layout_gravity="left|bottom"
                   android:background="@drawable/button_soundbg" />
-       <Button
+      <LinearLayout
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:layout_gravity="right|bottom">
+	       <Button 
+	           android:id="@+id/btn_upgrade"
+	           android:layout_width="60dp"
+	           android:layout_height="30dp"
+	           android:layout_margin="10dp" 
+	           android:background="@drawable/button_upgrade"
+	           android:visibility="gone"/>
+           <Button
             android:id="@+id/btn_back"
             android:layout_width="100dp"
             android:layout_height="45dp"        
             android:layout_margin="10dp"    
-           	android:layout_gravity="right|bottom"
+           	
             android:background="@drawable/button_back" />
-
+          
+      </LinearLayout>
+      
        
 </FrameLayout>
