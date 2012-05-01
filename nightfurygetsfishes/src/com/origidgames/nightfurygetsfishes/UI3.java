@@ -81,26 +81,26 @@ public class UI3 extends Activity {
 	}
 	
 	
-	private void _setUpStarAndGoal(){
-		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
+	private void _setUpStarAndGoal() {
+		RelativeLayout layout_road = (RelativeLayout) ((FrameLayout) findViewById(R.id.road)).getChildAt(0);
 		/* Stars */
 		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
-		for(int i = 0; i < layout_road.getChildCount(); i++){
+		for (int i = 0; i < layout_road.getChildCount(); i++) {
 			View t = layout_road.getChildAt(i);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)t.getLayoutParams();
 			NIGHTFURY_POSITION[i][0] *= roadWidth;
 			NIGHTFURY_POSITION[i][1] *= roadHeight;
-			params.setMargins((int)(NIGHTFURY_POSITION[i][0]) - (int)(params.width/2), 
-								(int)(NIGHTFURY_POSITION[i][1]) - (int)(params.height/2), 
-										0, 0);
+			params.setMargins((int) (NIGHTFURY_POSITION[i][0]) - (int) (params.width/2), 
+							  (int) (NIGHTFURY_POSITION[i][1]) - (int) (params.height/2), 
+							   0, 0);
 			t.setLayoutParams(params);
 		}
 		/* Fury */
-		
+
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 		
 		params.setMargins(
-				    (int)NIGHTFURY_POSITION[11][0] - (int)(params.width/2), (int)NIGHTFURY_POSITION[11][1] - (int)(params.height/2),
+				    (int) NIGHTFURY_POSITION[11][0] - (int) (params.width/2), (int) NIGHTFURY_POSITION[11][1] - (int) (params.height/2),
 				    0, 0);
 		nightfury.setLayoutParams(params);
 		nightfury.startAnimation(PublicResource.FadeIn());
