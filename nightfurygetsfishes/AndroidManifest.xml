@@ -78,7 +78,7 @@
         </activity>
         
         <activity 
-            android:name=".UI1"
+            android:name=".UI2"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             ><intent-filter >
