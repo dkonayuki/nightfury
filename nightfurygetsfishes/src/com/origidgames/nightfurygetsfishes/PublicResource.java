@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.File;
@@ -12,12 +16,21 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 public class PublicResource {
+	/************************************************
+	 * Extra information between Activity 
+	 **********************************************/
+	public enum UI4 {
+		Fishes,
+		Time
+	}
+	
 	private static Animation 	anim_InFromLeft,
 	anim_InFromRight,
 	anim_InFromTop,
@@ -28,7 +41,8 @@ public class PublicResource {
 	anim_OutToBot,
 	anim_FadeIn,
 	anim_FadeOut,
-	anim_BotToTop;
+	anim_BotToTop,
+	anim_Question;
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
@@ -38,6 +52,7 @@ public class PublicResource {
 	private static final String sAudio = "Audio";
 	private static final String sHighScore = "Highscore";
 	private static final String sGameMode = "Gamemode";
+	private static Typeface font;
 
     public static DBAdapter getDataBase() {
     	return db;
@@ -62,9 +77,11 @@ public class PublicResource {
 				Animation.RELATIVE_TO_SELF,(float)0.5);
 		anim_Rotate.setDuration(90000);
 		anim_BotToTop = AnimationUtils.loadAnimation(ct, R.anim.bottotop);
+		anim_Question = AnimationUtils.loadAnimation(ct, R.anim.question);
 		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 		soundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
 		
+		font = Typeface.createFromAsset(ct.getAssets(), "TrajanPro-Regular.otf");
 		AssetFileDescriptor descriptor = null;
 		try {
 			AssetManager assetManager = ct.getAssets();
@@ -107,6 +124,10 @@ public class PublicResource {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Typeface getTrajanFont() { return font;}
+	
+	public static Animation Question() { return anim_Question;}
 	public static Animation BotToTop() { return anim_BotToTop; }
 	public static Animation Rotate() { return anim_Rotate; }
 	public static void pauseRotate() {
@@ -115,6 +136,7 @@ public class PublicResource {
 	public static void resumeRotate() {
 		anim_Rotate.resume();
 	}
+	public static Animation FadeOut() { return anim_FadeOut;}
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
 	public static Animation InFromBot() { return anim_InFromBot; }
@@ -144,30 +166,15 @@ public class PublicResource {
 		soundPool.play(pause, 1, 1, 0, 0, 1);
 	}
 	
-	public static GameMode getHighscore(Context ct) {
+	public static Boolean getNewHighscore(Context ct) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		switch (m_Pref.getInt(sHighScore, 1))
-		{
-		case 2: return GameMode.NORMAL;
-		case 3: return GameMode.HARD;
-		}
-		return GameMode.EASY;
+		return m_Pref.getBoolean(sHighScore, false);
 	}
 	
-	public static void setHighscore(Context ct, GameMode gm) {
+	public static void setNewHighscore(Context ct, Boolean game) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = m_Pref.edit();
-		switch (gm) {
-		case EASY: 
-			editor.putInt(sHighScore, 1); 
-			break;
-		case NORMAL: 
-			editor.putInt(sHighScore, 2);
-			break;
-		case HARD: 
-			editor.putInt(sHighScore, 3);
-			break;
-		}
+		editor.putBoolean(sHighScore, game);
 		editor.commit();
 	}
 	

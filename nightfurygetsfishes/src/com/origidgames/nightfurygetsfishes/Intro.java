@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.ByteArrayOutputStream;
@@ -18,8 +22,8 @@ public class Intro extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.intro);
 		TextView intro = (TextView) findViewById(R.id.intro);
-		//Typeface font = Typeface.createFromAsset(getAssets(), "viking.ttf");
-		//intro.setTypeface(font);
+		intro.setTypeface(PublicResource.getTrajanFont());
+		
 		final Handler handler = new Handler();
 		final Runnable my_run = new Runnable() {
 			  public void run() {

@@ -52,7 +52,7 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/_90"
                     android:textColor="#DDDDDD"
-                    android:textSize="22dp"
+                    android:textSize="23dp"
                     android:textStyle="bold" />
             </FrameLayout>
 
@@ -78,21 +78,33 @@
                     android:orientation="vertical" 
                     android:layout_weight="0.5"
                     >
-                    <TextView
-                       
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/question_bg"
+                            android:layout_width="match_parent"
+                        	android:layout_height="match_parent"
+                        	android:background="@drawable/img_question"
+                             >                           
+                        </ImageView>
+                        <TextView
                         android:id="@+id/question"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:background="@drawable/img_question"
+                        android:layout_gravity="center_horizontal|center_vertical" 
                         android:gravity="center_horizontal|center_vertical"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
-                         android:layout_marginTop="5dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
+                        android:background="@android:color/transparent"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#333333" />
+                        </FrameLayout>
 				</LinearLayout>
+                    
+                    
 				<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dip"
@@ -211,80 +223,80 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-  		<ImageView
-        android:id="@+id/goal"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="60dip"
-        />
-	
-		<com.origidgames.nightfurygetsfishes.GifView
-		android:layout_width="20dp"
-		android:layout_height="20dp"
-		android:layout_marginTop="480dip"
-		android:layout_marginLeft="40dp"
-		/>
-		<com.origidgames.nightfurygetsfishes.GifView
-		android:layout_width="20dp"
-		android:layout_height="20dp"
-		android:layout_marginTop="440dip"
-		android:layout_marginLeft="40dp"
-		/>
-		<com.origidgames.nightfurygetsfishes.GifView
-		android:layout_width="20dp"
-		android:layout_height="20dp"
-		android:layout_marginTop="400dip"
-		android:layout_marginLeft="40dp"
-		/>
-		<com.origidgames.nightfurygetsfishes.GifView
-		android:layout_width="20dp"
-		android:layout_height="20dp"
-	    android:layout_marginTop="360dip"
-	    android:layout_marginLeft="50dp"
-	 	/>
-		<com.origidgames.nightfurygetsfishes.GifView
-		android:layout_width="20dp"
-		android:layout_height="20dp"
-		android:layout_marginTop="320dip"
-	    android:layout_marginLeft="10dp"
-	 	/>
-		<com.origidgames.nightfurygetsfishes.GifView
-	 	android:layout_width="20dp"
-	 	android:layout_height="20dp"
-	    android:layout_marginTop="260dip"
-	    android:layout_marginLeft="40dp"
-	 	/>
-		<com.origidgames.nightfurygetsfishes.GifView
-	 	android:layout_width="20dp"
-	 	android:layout_height="20dp"
-	    android:layout_marginTop="230dip"
-	    android:layout_marginLeft="40dp"
-		/>
-		<com.origidgames.nightfurygetsfishes.GifView
-		 android:layout_width="20dp"
-		 android:layout_height="20dp"
-		 android:layout_marginTop="190dip"
-		 android:layout_marginLeft="40dp"
- 		 />
-		<com.origidgames.nightfurygetsfishes.GifView
-	 		 android:layout_width="20dp"
-	 		 android:layout_height="20dp"
-	 		 android:layout_marginTop="140dip"
-	 		 android:layout_marginLeft="40dp"
-	 	/>
-		<com.origidgames.nightfurygetsfishes.GifView
+	  		<ImageView
+	        android:id="@+id/goal"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginTop="60dip"
+	        />
+		
+			<com.origidgames.nightfurygetsfishes.GifView
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+			android:layout_marginTop="480dip"
+			android:layout_marginLeft="40dp"
+			/>
+			<com.origidgames.nightfurygetsfishes.GifView
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+			android:layout_marginTop="440dip"
+			android:layout_marginLeft="40dp"
+			/>
+			<com.origidgames.nightfurygetsfishes.GifView
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+			android:layout_marginTop="400dip"
+			android:layout_marginLeft="40dp"
+			/>
+			<com.origidgames.nightfurygetsfishes.GifView
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+		    android:layout_marginTop="360dip"
+		    android:layout_marginLeft="50dp"
+		 	/>
+			<com.origidgames.nightfurygetsfishes.GifView
+			android:layout_width="20dp"
+			android:layout_height="20dp"
+			android:layout_marginTop="320dip"
+		    android:layout_marginLeft="10dp"
+		 	/>
+			<com.origidgames.nightfurygetsfishes.GifView
+		 	android:layout_width="20dp"
+		 	android:layout_height="20dp"
+		    android:layout_marginTop="260dip"
+		    android:layout_marginLeft="40dp"
+		 	/>
+			<com.origidgames.nightfurygetsfishes.GifView
+		 	android:layout_width="20dp"
+		 	android:layout_height="20dp"
+		    android:layout_marginTop="230dip"
+		    android:layout_marginLeft="40dp"
+			/>
+			<com.origidgames.nightfurygetsfishes.GifView
+			 android:layout_width="20dp"
+			 android:layout_height="20dp"
+			 android:layout_marginTop="190dip"
+			 android:layout_marginLeft="40dp"
+	 		 />
+			<com.origidgames.nightfurygetsfishes.GifView
+		 		 android:layout_width="20dp"
+		 		 android:layout_height="20dp"
+		 		 android:layout_marginTop="140dip"
+		 		 android:layout_marginLeft="40dp"
+		 	/>
+			<com.origidgames.nightfurygetsfishes.GifView
+		 		 android:layout_width="20dp"
+		 		 android:layout_height="20dp"
+		 		 android:layout_marginTop="80dip"
+		 		 android:layout_marginLeft="40dp"
+		 	/>
+			<com.origidgames.nightfurygetsfishes.GifView
 	 		 android:layout_width="20dp"
 	 		 android:layout_height="20dp"
 	 		 android:layout_marginTop="80dip"
 	 		 android:layout_marginLeft="40dp"
 	 	/>
-		<com.origidgames.nightfurygetsfishes.GifView
- 		 android:layout_width="20dp"
- 		 android:layout_height="20dp"
- 		 android:layout_marginTop="80dip"
- 		 android:layout_marginLeft="40dp"
- 	/>
 		 		
 		</RelativeLayout>
 		
@@ -328,10 +340,10 @@
 	      >
 
 	        <Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
 	            android:layout_margin="2dp"
-	            android:background="@drawable/button_upgrade_50" />
+	            android:background="@drawable/img_upgrade_50_disable" />
 
 	    </LinearLayout>
 	     <LinearLayout
@@ -341,10 +353,10 @@
 	        android:gravity="center_horizontal|center_vertical">
 	        
 	        <Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	           android:layout_width="40dp"
+	            android:layout_height="40dp"
 	            android:layout_margin="2dp"
-	            android:background="@drawable/button_upgrade_change" >
+	            android:background="@drawable/img_upgrade_change_disable" >
 	            
 	        </Button>
 	    </LinearLayout>
@@ -354,10 +366,10 @@
 	        android:layout_weight="0.15"
 	         android:gravity="center_horizontal|center_vertical">
 	         <Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
 	            android:layout_margin="2dp"
-	            android:background="@drawable/button_upgrade_doubleanswer" >
+	            android:background="@drawable/img_upgrade_doubleanswer_disable" >
 	            
 	        </Button>
 	    </LinearLayout>
@@ -367,10 +379,10 @@
 	        android:layout_weight="0.15"
 	         android:gravity="center_horizontal|center_vertical">
 	        <Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
+	            android:layout_width="40dp"
+	            android:layout_height="40dp"
 	            android:layout_margin="2dp"
-	            android:background="@drawable/button_upgrade_plustime" >
+	            android:background="@drawable/img_upgrade_plustime_disable" >
 	            
 	        </Button>
 	    </LinearLayout>
@@ -380,10 +392,10 @@
 	        android:layout_weight="0.15"
 	         android:gravity="center_horizontal|center_vertical">
 	        <Button
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_margin="2dp"
-	            android:background="@drawable/button_upgrade_speedup" >
+	           android:layout_width="40dp"
+	            android:layout_height="40dp"
+	            android:layout_margin="5dp"
+	            android:background="@drawable/img_upgrade_speedup_disable" >
 	            
 	        </Button>
 	        
@@ -406,28 +418,32 @@
 	       android:background="@drawable/img_pausetext"
 	       android:visibility="gone"
 	       />
-	       	    <ToggleButton
-                  android:id="@+id/btn_sound"
-                  android:layout_width="25dp"
-                  android:layout_height="25dp"
-                  android:layout_margin="10dp"
-                  android:textOn=""
-                  android:textOff=""
-                  android:layout_gravity="left|bottom"
-                  android:background="@drawable/button_soundbg" />
+	   <ToggleButton
+           android:id="@+id/btn_sound"
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:layout_margin="10dp"
+           android:textOn=""
+           android:textOff=""
+           android:layout_gravity="left|bottom"
+           android:background="@drawable/button_soundbg" />
 	    <ToggleButton
-                  android:id="@+id/btn_pause"
-                  android:layout_width="25dp"
-                  android:layout_height="25dp"
-                  android:layout_margin="10dp"
-                  android:textOn=""
-                  android:textOff=""
-                  android:layout_gravity="right|bottom"
-                  android:background="@drawable/button_pausebg" />
-	     <ImageView
-      		     android:id="@+id/gameover"
-      		     android:layout_width="fill_parent"
-      		     android:layout_height="fill_parent"
-      		 />
-	 
+	         android:id="@+id/btn_pause"
+	         android:layout_width="25dp"
+	         android:layout_height="25dp"
+	         android:layout_margin="10dp"
+	         android:textOn=""
+	         android:textOff=""
+	         android:layout_gravity="right|bottom"
+	         android:background="@drawable/button_pausebg" />
+	     <TextView
+	         android:id="@+id/gameover_text"
+	         android:layout_width="fill_parent"
+	         android:layout_height="match_parent"
+	         android:background="#AA000000"
+	         android:gravity="center_horizontal|center_vertical"
+	         android:textColor="#EEEEEE"
+	         android:textSize="40dp" 
+	         android:visibility="gone"/>
+ 
 </FrameLayout>

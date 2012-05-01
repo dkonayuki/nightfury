@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.IOException;
@@ -7,9 +11,11 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -30,21 +36,26 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 35;
-	private static final int TIME_LIMIT = 90000;
+	public static final long TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
+	private static final int RED_PERCENT = 3;
+	private static final int VIOLET_PERCENT = 6;
 	private static float NIGHTFURY_POSITION[][] = {
-		{0.33f, 0.035f}, {0.42f, 0.08f}, {0.42f, 0.19f}, {0.22f, 0.27f}, {0.24f, 0.35f}, {0.39f, 0.45f}, 
-		{0.09f, 0.51f}, {0.13f, 0.60f}, {0.44f, 0.68f}, {0.52f, 0.75f}, {0.36f, 0.82f}, {0.49f, 0.97f}
+		{0.46f, 0.05f}, {0.55f, 0.08f}, {0.55f, 0.19f}, {0.35f, 0.27f}, {0.37f, 0.35f}, {0.52f, 0.45f}, 
+		{0.22f, 0.51f}, {0.26f, 0.60f}, {0.57f, 0.68f}, {0.65f, 0.75f}, {0.49f, 0.82f}, {0.62f, 0.97f}
 	};
 	
+	private static final String sWIN = "Gotcha!";
+	private static final String sLOSETIME = "Time out!";
+	private static final String sLOSERED = "You lose!";
 	private static final int FURY_RUN_STEP = 5;
 	
 	private int currentPosition;
 	private int question_checked[] = new int[QUESTION_NUMBER];
 	private int answer_checked[] = new int[ANSWER_NUMBER];
 	private Random m_random = new Random();
-	private int stars = 1;
+	private int stars = 0;
 	private long time_remain;
 	private WakeLock wakeLock;
 	private MediaPlayer mediaPlayer;
@@ -60,14 +71,14 @@ public class UI3 extends Activity {
 	private Boolean countDownPause = false;
 	private AudioManager audio;
 	private GameMode _gameMode;
+	private QuestionType _quesType;
 	private float actualVolume,maxVolume,volume;
-	private ImageView clock,pause;
+	private ImageView clock,pause,questionBG;
 	private Boolean isPaused;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_ui3);
-		setGoal();
 		prepareMusic();
 		prepareMenu();
 		displayNewQuestion();
@@ -80,9 +91,23 @@ public class UI3 extends Activity {
 		_setUpStarAndGoal();
 	}
 	
-	
-	private void _setUpStarAndGoal() {
-		RelativeLayout layout_road = (RelativeLayout) ((FrameLayout) findViewById(R.id.road)).getChildAt(0);
+
+private void _setUpStarAndGoal(){
+		// Goal
+				ImageView goal = (ImageView) findViewById(R.id.goal);
+				_gameMode = PublicResource.getGameMode(this);
+				switch(_gameMode) {
+				case EASY:
+					goal.setBackgroundResource(R.drawable.img_easy);
+					break;
+				case NORMAL:
+					goal.setBackgroundResource(R.drawable.img_normal);
+					break;
+				case HARD:
+					goal.setBackgroundResource(R.drawable.img_hard);
+				}
+		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
+
 		/* Stars */
 		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
 		for (int i = 0; i < layout_road.getChildCount(); i++) {
@@ -156,23 +181,10 @@ public class UI3 extends Activity {
 		if (isCountDownRunning()) pauseCountDownTimer();
 	}
 	
+	
+
 	private GameMode getGameMode() {
 		return _gameMode;
-	}
-	
-	private void setGoal() {
-		ImageView goal = (ImageView) findViewById(R.id.goal);
-		_gameMode = PublicResource.getGameMode(this);
-		switch(_gameMode) {
-		case EASY:
-			goal.setBackgroundResource(R.drawable.img_easy);
-			break;
-		case NORMAL:
-			goal.setBackgroundResource(R.drawable.img_normal);
-			break;
-		case HARD:
-			goal.setBackgroundResource(R.drawable.img_hard);
-		}
 	}
 	
 	private Cursor getCurrentQuestion() {
@@ -187,13 +199,12 @@ public class UI3 extends Activity {
 		return (time_remain > 0);
 	}
 	
-	/* What is this function used for? If it's not necessary,
-	 * Remove it!!!*/
-	private Boolean checkNewHighscore() {
+	//check if there is a new highscore or not. After that, use PublicResource.getNewHighscore()
+	private void checkNewHighscore() {
 		float time, timeleft;
 		Boolean newHS = false;
 		Cursor c = null;
-		GameMode gm = PublicResource.getHighscore(getBaseContext());
+		GameMode gm = getGameMode();
         switch (gm) {
         case EASY: 
         	c = PublicResource.getDataBase().getAllEasy();
@@ -216,36 +227,46 @@ public class UI3 extends Activity {
         	}
         	c.moveToNext();
         }
-        return newHS;
+        PublicResource.setNewHighscore(getBaseContext(), newHS);
 	}
 	
 	private void finishGame(boolean result) {
 		countDownTimer.cancel();
 		mediaPlayer.pause();
 		clock.clearAnimation();
-		ImageView game = (ImageView) findViewById(R.id.gameover);
+		TextView game = (TextView) findViewById(R.id.gameover_text);
 		if (result) { 
-			game.setBackgroundResource(R.drawable.img_win);
+			game.setText(sWIN);
 			
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {		
+					checkNewHighscore();
 					finish();
+					Intent intent = new Intent("com.origidgames.nightfuryUI4");
+					// Add fishes here when completed counting fishes (100)
+					intent.putExtra(PublicResource.UI4.Fishes.toString(), 100);
+					intent.putExtra(PublicResource.UI4.Time.toString(),  (float) time_remain/1000);
+					startActivity(intent);
 				}
 			}, 4000);
 		}
 		else {
-			game.setBackgroundResource(R.drawable.img_gameover);
+			if (isLose()) game.setText(sLOSERED); else 
+				game.setText(sLOSETIME);
 			PublicResource.playSoundLose();
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
-				public void run() {		
+				public void run() {	
+					checkNewHighscore();
 					finish();
+					startActivity(new Intent("com.origidgames.nightfuryUI5"));
 				}
 			}, 4000);
 		}
+		game.setVisibility(View.VISIBLE);
 		game.startAnimation(PublicResource.FadeIn());
-		
+		game.setTypeface(PublicResource.getTrajanFont());
 	}
 	
 	
@@ -261,23 +282,21 @@ public class UI3 extends Activity {
 		return (getCurrentQuestion().getInt(6));
 	}
 	
-	private Boolean isWin() {
-		return (stars == WIN);
-	}
+	
 	
 	private void _animateFury(int nowPos, int toPos){
-		//Array's Position is reversed with real fury position
+		// Array's Position is reversed with real fury position
 		nowPos = 11 - nowPos; toPos = 11 - toPos;
 		final int dx = (int)((NIGHTFURY_POSITION[toPos][0] - NIGHTFURY_POSITION[nowPos][0])/FURY_RUN_STEP);
 		final int dy = (int)((NIGHTFURY_POSITION[toPos][1] - NIGHTFURY_POSITION[nowPos][1])/FURY_RUN_STEP);
-		//Only 1s for animate Fury, this is same with the time which shows the next Question
+		// Only 1s for animate Fury, this is same with the time which shows the next Question
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 		params.setMargins((int)NIGHTFURY_POSITION[nowPos][0] - (int)(params.width/2), 
 				(int)NIGHTFURY_POSITION[nowPos][1] - (int)(params.height/2),
 				 0,
 				 0);
 		nightfury.setLayoutParams(params);
-		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
+		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP) {
 
 			@Override
 			public void onFinish() {
@@ -285,7 +304,7 @@ public class UI3 extends Activity {
 			}
 
 			@Override
-			public void onTick(long millisUntilFinished) {
+			public void onTick (long millisUntilFinished) {
 				FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 				params.setMargins(params.leftMargin + dx,
 									params.topMargin + dy, 
@@ -298,15 +317,48 @@ public class UI3 extends Activity {
 		}.start();
 	}
 	
+	private Boolean isWin() {
+		return (stars == WIN);
+	}
+	
+	//if question type is red, then the game is over
+	private boolean isLose() {
+		if (_quesType == QuestionType.RED) return true;
+		else return false;
+	}
+	
+	//move nightfury forward
+	private void increaseNF() {
+		stars++;
+		currentPosition++;
+		_animateFury(currentPosition - 1, currentPosition);
+	}
+	
+	// move nightfury back
+	private void decreaseNF() {
+		int down = 0;
+		switch (getGameMode()) {
+		case EASY: down = 0; break;
+		case NORMAL: down = m_random.nextInt(1);  break;
+		case HARD: down = 1;
+		}
+		if (_quesType == QuestionType.VIOLET) down = 2;
+		if (down == 1 || down == 2) {
+			if (stars > 1) stars = stars - down; else stars--;	
+			_animateFury(currentPosition, stars);
+			currentPosition = stars;
+		}
+	}
+	
 	private void processAnswer(final int a) {
 		if (wait1s&&!isPaused)
 		{
+			//wait1s forces user wait for 1s
 			wait1s=false;
 			if (getAnswer()==answer_random[a]) {
+				// correct answer
 				PublicResource.playSoundAnsRight();
-				stars++;
-				currentPosition++;
-				_animateFury(currentPosition - 1, currentPosition);
+				increaseNF();
 				final Handler handler = new Handler();
 				ans[a].setBackgroundResource(R.drawable.img_answer_right);
 				
@@ -317,27 +369,14 @@ public class UI3 extends Activity {
 						if (isWin()) finishGame(true);
 						else {
 							wait1s=true;
-							/*
-							m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
-							nightfury.setLayoutParams(m_Params);
-							*/
 							displayNewQuestion();
 						}
 				  }
 				}, 1000);
 			} else {
-				if (stars>0) {
-					int down = 0;
-					switch (getGameMode()) {
-					case EASY: down = 0; break;
-					case NORMAL: down = m_random.nextInt(1);  break;
-					case HARD: down = 1;
-					}
-					if (down == 1) {
-						stars--;
-						currentPosition--;
-						_animateFury(currentPosition + 1, currentPosition);
-					}
+				// wrong answer
+				if ((stars>0)&&!isLose()) {				
+					decreaseNF();
 				}
 				PublicResource.playSoundAnsWrong();
 				final Handler handler = new Handler();
@@ -350,12 +389,13 @@ public class UI3 extends Activity {
 						ans[a].setBackgroundResource(R.drawable.button_answer);
 						for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
 							ans[i].setBackgroundResource(R.drawable.button_answer);
-						wait1s=true;
-						/*
-						m_Params.setMargins(Math.round(NIGHTFURY[currentPosition][1]*density),Math.round(NIGHTFURY[currentPosition][0]*density), 0, 0);
-						nightfury.setLayoutParams(m_Params);
-						*/
-						displayNewQuestion();
+						// if red question -> lose
+						if (isLose()) finishGame(false);
+						else {
+							wait1s=true;
+							displayNewQuestion();
+						}
+						
 				  }
 				}, 1000);
 			}
@@ -441,6 +481,7 @@ public class UI3 extends Activity {
 	private void prepareQuestion() {
 		question = (TextView) findViewById(R.id.question);
 		question.startAnimation(PublicResource.InFromLeft());
+		questionBG = (ImageView) findViewById(R.id.question_bg);
 	}
 	
 	private void prepareAnswer() {
@@ -528,12 +569,23 @@ public class UI3 extends Activity {
 		prepareButton();
 	}
 	
+	// get the type of question: Red or Violet
+	private void getQuestionType() {
+		int q;
+		q = m_random.nextInt(100);
+		_quesType = QuestionType.NORMAL;
+		if (q < RED_PERCENT) _quesType = QuestionType.RED;
+		else if (q < VIOLET_PERCENT) _quesType = QuestionType.VIOLET;
+	}
+	
 	private void displayNewQuestion() {
 		int q;
 		if (!finish) {
+			
 			// find random question
 			while (question_checked[q=m_random.nextInt(QUESTION_NUMBER)]==1);
 			setChecked(q);		
+			getQuestionType();
 			
 			//get question
 			_question = null;
@@ -541,6 +593,25 @@ public class UI3 extends Activity {
 				_question = PublicResource.getDataBase().getQuestion(q+1);
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+			
+			//print question
+			questionBG.setBackgroundResource(R.drawable.img_question);
+			questionBG.clearAnimation();
+			question.setTextColor(Color.parseColor("#333333"));
+			switch (_quesType) {
+			case RED: {
+				questionBG.setBackgroundResource(R.drawable.img_question_red);
+				questionBG.startAnimation(PublicResource.Question());
+				question.setTextColor(Color.WHITE);
+				break;
+			}
+			case VIOLET: {
+				questionBG.setBackgroundResource(R.drawable.img_question_violet);
+				questionBG.startAnimation(PublicResource.Question());
+				question.setTextColor(Color.WHITE);
+				break;
+			}
 			}
 			question.setText(_question.getString(1));
 			setUncheckedAll(answer_checked);

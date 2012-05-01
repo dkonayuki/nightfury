@@ -9,13 +9,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/img_highscore_bg" >
 		
-        <Button
-            android:id="@+id/imageButton1"
-            android:layout_width="100dp"
-            android:layout_height="45dp"            
-            android:layout_marginLeft="200dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/button_back" />
+        
 
         <ToggleButton
             android:id="@+id/btn_easy"
@@ -206,15 +200,21 @@
             android:src="@drawable/img_5" />
         
     </RelativeLayout>
+    <Button
+            android:id="@+id/btn_back"
+            android:layout_width="100dp"
+            android:layout_height="45dp"        
+            android:layout_margin="10dp"    
+           	android:layout_gravity="right|bottom"
+            android:background="@drawable/button_back" />
 
- 	<ToggleButton 
-            android:id="@+id/btn_sound"
-            android:layout_width="20dp"
-            android:layout_height="25dp"
-            android:textOn=""
-            android:text=""
-            android:textOff=""
-            android:background="@drawable/button_soundbg"
-            android:layout_gravity="left|bottom"
-            />
+ 	  <ToggleButton
+                  android:id="@+id/btn_sound"
+                  android:layout_width="25dp"
+                  android:layout_height="25dp"
+                  android:layout_margin="10dp"
+                  android:textOn=""
+                  android:textOff=""
+                  android:layout_gravity="left|bottom"
+                  android:background="@drawable/button_soundbg" />
 </FrameLayout>
