@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.File;
@@ -19,6 +23,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 public class PublicResource {
+	/************************************************
+	 * Extra information between Activity 
+	 **********************************************/
+	public enum UI4 {
+		Fishes,
+		Time
+	}
+	
 	private static Animation 	anim_InFromLeft,
 	anim_InFromRight,
 	anim_InFromTop,
