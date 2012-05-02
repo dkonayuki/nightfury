@@ -177,7 +177,7 @@ public class PublicResource {
 	
 	public static int getFishesNumber(Context ct, GameMode gm) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		int upgrade = m_Pref.getInt(UpgradeType.UpgradeFish.toString(), 0);
+		int upgrade = m_Pref.getInt("UpgradeFish", 0);
 		switch (gm) {
 		case NORMAL: return caculateFishesNumber(200,upgrade);
 		case HARD: return caculateFishesNumber(400,upgrade);
