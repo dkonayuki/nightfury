@@ -92,7 +92,7 @@ public class UI3 extends Activity {
 	}
 	
 
-private void _setUpStarAndGoal(){
+	private void _setUpStarAndGoal(){
 		// Goal
 				ImageView goal = (ImageView) findViewById(R.id.goal);
 				_gameMode = PublicResource.getGameMode(this);

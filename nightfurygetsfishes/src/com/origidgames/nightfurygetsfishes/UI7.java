@@ -19,6 +19,17 @@ public class UI7 extends Activity {
 	private Button btn_upgrade;
 	private boolean focus;
 	private Hashtable<UpgradeType,ImageView> upgrades = new Hashtable<UpgradeType,ImageView> ();
+	private Hashtable upgrades_btn = new Hashtable(); 
+	private Hashtable upgrades_bg = new Hashtable();
+	private static final int btnList[] = {
+		R.id.btn_2times, R.id.btn_speed, R.id.btn_50, R.id.btn_autoanswer, R.id.btn_change
+		, R.id.btn_time, R.id.btn_decrease, R.id.btn_fish
+	};
+	
+	private static final int bgList[] = {
+		R.drawable.upgrade_2times, R.drawable.upgrade_speed, R.drawable.upgrade_5050, R.drawable.upgrade_autoanswer
+		, R.drawable.upgrade_change, R.drawable.upgrade_time, R.drawable.upgrade_decrease, R.drawable.upgrade_fish
+	};
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +51,8 @@ public class UI7 extends Activity {
 			}
 			
 		});
+		
+		
 			
 		btn_2times = (ImageView) findViewById(R.id.btn_2times);
 		upgrades.put(UpgradeType.Upgrade2Times, btn_2times);
@@ -57,6 +70,7 @@ public class UI7 extends Activity {
 		upgrades.put(UpgradeType.UpgradeDecrease, btn_decrease);
 		btn_fish = (ImageView) findViewById(R.id.btn_fish);
 		upgrades.put(UpgradeType.UpgradeFish, btn_fish);
+		
 		
 		btn_2times.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
