@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 /**
  * This Activity class is used for implement UI4 layout. 
@@ -20,9 +21,9 @@ public class UI4 extends Activity{
 	/**************************************
 	 * Private class's constant 
 	 *************************************/
-	/** Fishes, Time TextView running time (in milliseconds). */
+	/** Fishes, Time TextView running CountdownTimer (in milliseconds). */
 	private static final long lFishesTimeRun = 1500; 
-	/** Step for elapsed time*/
+	/** Step for elapsed time*/ 
 	private static final float fElaspedTimeStep = 2.1f;
 	/** Step for fishes */
 	private static final int iFishesStep = 5;
@@ -66,7 +67,9 @@ public class UI4 extends Activity{
         /* Initiate Views' first state  */
         imgHighScore.setVisibility(PublicResource.getNewHighscore(this) ? View.VISIBLE : View.INVISIBLE);
         txtTime.setText(String.format("%.1f", (float) (UI3.TIME_LIMIT / 1000)));
-        txtFishes.setText("0");
+        txtFishes.setText("0"); 
+        // Set Sound Button State
+        ((ToggleButton) findViewById(R.id.btn_sound_4)).setChecked(PublicResource.getAudioPref(getBaseContext()));
     }
 
 	@Override
