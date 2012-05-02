@@ -40,14 +40,6 @@ public class PublicResource {
 	private static final String sAudio = "Audio";
 	private static final String sHighScore = "Highscore";
 	private static final String sGameMode = "Gamemode";
-	public static final String sUpgradeSpeed = "UpgradeSpeed";
-	public static final String sUpgradeTime = "UpgradeTime";
-	public static final String sUpgradeFish = "UpgradeFish";
-	public static final String sUpgradeDecrease = "UpgradeDecrease";
-	public static final String sUpgradeChange = "UpgradeChange";
-	public static final String sUpgradeAutoAnswer = "UpgradeAutoAnswer";
-	public static final String sUpgrade50 = "Upgrade50";
-	public static final String sUpgrade2Times = "Upgrade2Times";
 	
 	private static Typeface font;
 

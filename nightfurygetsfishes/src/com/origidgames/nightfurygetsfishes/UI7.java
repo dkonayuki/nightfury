@@ -1,5 +1,7 @@
 package com.origidgames.nightfurygetsfishes;
 
+import java.util.Hashtable;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +14,7 @@ public class UI7 extends Activity {
 	private ImageView upgrade;
 	private Button btn_upgrade;
 	private boolean focus;
-	private String upgradeType;
+	private Hashtable<UpgradeType,ImageView> upgrades = new Hashtable<UpgradeType,ImageView> ();
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,8 +36,24 @@ public class UI7 extends Activity {
 			}
 			
 		});
-		
+			
 		btn_2times = (ImageView) findViewById(R.id.btn_2times);
+		upgrades.put(UpgradeType.Upgrade2Times, btn_2times);
+		btn_speed = (ImageView) findViewById(R.id.btn_speed);
+		upgrades.put(UpgradeType.UpgradeSpeed, btn_speed);
+		btn_50 = (ImageView) findViewById(R.id.btn_50);
+		upgrades.put(UpgradeType.Upgrade50, btn_50);
+		btn_autoanswer = (ImageView) findViewById(R.id.btn_autoanswer);
+		upgrades.put(UpgradeType.UpgradeAutoAnswer, btn_autoanswer);
+		btn_change = (ImageView) findViewById(R.id.btn_change);
+		upgrades.put(UpgradeType.UpgradeChange, btn_change);
+		btn_time = (ImageView) findViewById(R.id.btn_time);
+		upgrades.put(UpgradeType.UpgradeTime, btn_time);
+		btn_decrease = (ImageView) findViewById(R.id.btn_decrease);
+		upgrades.put(UpgradeType.UpgradeDecrease, btn_decrease);
+		btn_fish = (ImageView) findViewById(R.id.btn_fish);
+		upgrades.put(UpgradeType.UpgradeFish, btn_fish);
+		
 		btn_2times.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -48,7 +66,6 @@ public class UI7 extends Activity {
 			}
 		});
 		
-		btn_speed = (ImageView) findViewById(R.id.btn_speed);
 		btn_speed.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -62,7 +79,7 @@ public class UI7 extends Activity {
 		});
 		
 
-		btn_50 = (ImageView) findViewById(R.id.btn_50);
+		
 		btn_50.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -75,7 +92,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_autoanswer = (ImageView) findViewById(R.id.btn_autoanswer);
+		
 		btn_autoanswer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -88,7 +105,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_change = (ImageView) findViewById(R.id.btn_change);
+		
 		btn_change.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -101,7 +118,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_time = (ImageView) findViewById(R.id.btn_time);
+		
 		btn_time.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -114,7 +131,7 @@ public class UI7 extends Activity {
 			}
 		});
 
-		btn_decrease = (ImageView) findViewById(R.id.btn_decrease);
+		
 		btn_decrease.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
@@ -128,7 +145,7 @@ public class UI7 extends Activity {
 		});
 		
 
-		btn_fish = (ImageView) findViewById(R.id.btn_fish);
+		
 		btn_fish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (!focus) {
