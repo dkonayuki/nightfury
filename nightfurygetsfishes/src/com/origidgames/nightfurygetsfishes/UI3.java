@@ -49,6 +49,7 @@ public class UI3 extends Activity {
 	private static final String sWIN = "Gotcha!";
 	private static final String sLOSETIME = "Time out!";
 	private static final String sLOSERED = "You lose!";
+	private static final String sPAUSE = "Pause.";
 	private static final int FURY_RUN_STEP = 5;
 	
 	private int currentPosition;
@@ -62,7 +63,7 @@ public class UI3 extends Activity {
 	private static final String BGMFile = "bgm_question.mp3";
 	private Cursor _question;
 	private Button ans[] = new Button[5];
-	private TextView question,countDownText;
+	private TextView question,countDownText,display;
 	private ImageView nightfury;
 	private Boolean wait1s = true;
 	private int answer_random[] = new int[5];
@@ -92,7 +93,7 @@ public class UI3 extends Activity {
 	}
 	
 
-private void _setUpStarAndGoal(){
+	private void _setUpStarAndGoal(){
 		// Goal
 				ImageView goal = (ImageView) findViewById(R.id.goal);
 				_gameMode = PublicResource.getGameMode(this);
@@ -234,10 +235,8 @@ private void _setUpStarAndGoal(){
 		countDownTimer.cancel();
 		mediaPlayer.pause();
 		clock.clearAnimation();
-		TextView game = (TextView) findViewById(R.id.gameover_text);
 		if (result) { 
-			game.setText(sWIN);
-			
+			displayMessage(sWIN);
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {		
@@ -252,8 +251,8 @@ private void _setUpStarAndGoal(){
 			}, 4000);
 		}
 		else {
-			if (isLose()) game.setText(sLOSERED); else 
-				game.setText(sLOSETIME);
+			if (isLose()) displayMessage(sLOSERED); else 
+				displayMessage(sLOSETIME);
 			PublicResource.playSoundLose();
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
@@ -264,9 +263,6 @@ private void _setUpStarAndGoal(){
 				}
 			}, 4000);
 		}
-		game.setVisibility(View.VISIBLE);
-		game.startAnimation(PublicResource.FadeIn());
-		game.setTypeface(PublicResource.getTrajanFont());
 	}
 	
 	
@@ -423,13 +419,24 @@ private void _setUpStarAndGoal(){
 		  countDownTimer.start();
 	}
 	
+	private void displayMessage(String msg) {
+		display.setText(msg);
+		display.setVisibility(View.VISIBLE);
+		display.startAnimation(PublicResource.FadeIn());
+		display.setTypeface(PublicResource.getTrajanFont());
+	}
+	
+	private void hideMessage() {
+		display.setVisibility(View.GONE);
+	}
+	
 	private void pauseGame() {
 		mediaPlayer.pause();
 		isPaused = true;
 		PublicResource.playSoundPause();
 		pauseCountDownTimer();
 		PublicResource.pauseRotate();
-		pause.setVisibility(View.VISIBLE);
+		displayMessage(sPAUSE);
 	}
 	
 	private void resumeGame() {
@@ -438,7 +445,7 @@ private void _setUpStarAndGoal(){
 		PublicResource.playSoundPause();
 		resumeCountDownTimer();
 		PublicResource.resumeRotate();
-		pause.setVisibility(View.GONE);
+		hideMessage();
 	}
 
 	private void prepareMusic() {
@@ -553,7 +560,6 @@ private void _setUpStarAndGoal(){
 			}
 			
 		});
-		pause = (ImageView) findViewById(R.id.pause);
 	}
 	
 	private void prepareMenu() {
@@ -564,6 +570,7 @@ private void _setUpStarAndGoal(){
 		prepareRoad();
 		prepareClock();
 		nightfury = (ImageView) findViewById(R.id.nightfury);
+		display = (TextView) findViewById(R.id.display);
 		prepareQuestion();
 		prepareAnswer();
 		prepareButton();
