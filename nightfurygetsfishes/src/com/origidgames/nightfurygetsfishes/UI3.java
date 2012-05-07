@@ -74,8 +74,10 @@ public class UI3 extends Activity {
 	private GameMode _gameMode;
 	private QuestionType _quesType;
 	private float actualVolume,maxVolume,volume;
-	private ImageView clock,pause,questionBG;
+	private ImageView clock,questionBG;
 	private Boolean isPaused;
+	private Button btn50, btnChange, btnDouble, btnTime, btnSpeed;
+	private Status btn50Used, btnChangeUsed, btnDoubleUsed, btnTimeUsed, btnSpeedUsed;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -244,7 +246,7 @@ public class UI3 extends Activity {
 					finish();
 					Intent intent = new Intent("com.origidgames.nightfuryUI4");
 					// Add fishes here when completed counting fishes (100)
-					intent.putExtra(PublicResource.UI4.Fishes.toString(), 100);
+					intent.putExtra(PublicResource.UI4.Fishes.toString(), PublicResource.getFishesNumber(getBaseContext(), getGameMode()));
 					intent.putExtra(PublicResource.UI4.Time.toString(),  (float) time_remain/1000);
 					startActivity(intent);
 				}
@@ -346,56 +348,66 @@ public class UI3 extends Activity {
 		}
 	}
 	
+	private void clearAnswer() {
+		for (int i=1; i<=4; i++) {
+			if (ans[i].getVisibility() == View.GONE) {
+				ans[i].setVisibility(View.VISIBLE);
+			}
+			ans[i].setBackgroundResource(R.drawable.button_answer);
+		}
+	}
+	
 	private void processAnswer(final int a) {
 		if (wait1s&&!isPaused)
-		{
-			//wait1s forces user wait for 1s
-			wait1s=false;
-			if (getAnswer()==answer_random[a]) {
-				// correct answer
-				PublicResource.playSoundAnsRight();
-				increaseNF();
-				final Handler handler = new Handler();
-				ans[a].setBackgroundResource(R.drawable.img_answer_right);
-				
-				handler.postDelayed(new Runnable() {
-				  public void run() {
-				    //Do something after 1s
-						ans[a].setBackgroundResource(R.drawable.button_answer);
-						if (isWin()) finishGame(true);
-						else {
-							wait1s=true;
-							displayNewQuestion();
-						}
-				  }
-				}, 1000);
-			} else {
-				// wrong answer
-				if ((stars>0)&&!isLose()) {				
-					decreaseNF();
-				}
-				PublicResource.playSoundAnsWrong();
-				final Handler handler = new Handler();
-				ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
-				for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
-					ans[i].setBackgroundResource(R.drawable.img_answer_right);
-				handler.postDelayed(new Runnable() {
-				  public void run() {
-				    //Do something after 1s
-						ans[a].setBackgroundResource(R.drawable.button_answer);
-						for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
-							ans[i].setBackgroundResource(R.drawable.button_answer);
-						// if red question -> lose
-						if (isLose()) finishGame(false);
-						else {
-							wait1s=true;
-							displayNewQuestion();
-						}
+			if (btnDoubleUsed == Status.RUNNING) processDoubleAnswer(a);
+			else
+				{
+					//wait1s forces user wait for 1s
+					wait1s=false;
+					if (getAnswer()==answer_random[a]) {
+						// correct answer
+						PublicResource.playSoundAnsRight();
+						increaseNF();
+						final Handler handler = new Handler();
+						ans[a].setBackgroundResource(R.drawable.img_answer_right);
 						
-				  }
-				}, 1000);
-			}
-		}
+						handler.postDelayed(new Runnable() {
+						  public void run() {
+						    //Do something after 1s
+								clearAnswer();
+								if (isWin()) finishGame(true);
+								else {
+									wait1s=true;
+									displayNewQuestion();
+								}
+						  }
+						}, 1000);
+					} else {
+						// wrong answer
+						if ((stars>0)&&!isLose()) {				
+							decreaseNF();
+						}
+						PublicResource.playSoundAnsWrong();
+						final Handler handler = new Handler();
+						ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
+						for(int i=1;i<=4;i++) if (answer_random[i]==getAnswer())
+							ans[i].setBackgroundResource(R.drawable.img_answer_right);
+						handler.postDelayed(new Runnable() {
+						  public void run() {
+						    //Do something after 1s
+								clearAnswer();
+								// if red question -> lose
+								if (isLose()) finishGame(false);
+								else {
+									wait1s=true;
+									displayNewQuestion();
+								}
+								
+						  }
+						}, 1000);
+					}
+				}
+			
 	}
 	
 	private void createCountDown(long time) {
@@ -529,6 +541,20 @@ public class UI3 extends Activity {
 		});
 	}
 	
+	private void processDoubleAnswer(final int a) {
+		btnDoubleUsed = Status.DISABLE;
+		if (getAnswer()==answer_random[a]) {
+			// correct answer
+			processAnswer(a);
+		} else {
+			// wrong answer
+			PublicResource.playSoundAnsWrong();
+			ans[a].setBackgroundResource(R.drawable.img_answer_wrong);
+			ans[a].startAnimation(PublicResource.FadeOut());
+			ans[a].setVisibility(View.GONE);
+		}
+	}
+	
 	private void prepareButton() {
 		//Button sound
 		ToggleButton btt_sound = (ToggleButton) findViewById(R.id.btn_sound);
@@ -557,6 +583,96 @@ public class UI3 extends Activity {
 					boolean isChecked) {
 				if (isChecked) pauseGame();
 				else resumeGame();
+			}
+			
+		});
+		
+		//Upgrade Buttons
+		btn50 = (Button) findViewById(R.id.btn_upgrade_50);
+		if (PublicResource.getUpgrade(getBaseContext(), "Upgrade50") == 1) {
+			btn50.setBackgroundResource(R.drawable.img_upgrade_50);
+			btn50Used = Status.ENABLE;
+		} else btn50Used = Status.DISABLE;
+		btn50.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {				
+				if (btn50Used == Status.ENABLE) {
+					btn50.setBackgroundResource(R.drawable.img_upgrade_50_disable);
+					int i;
+					do {
+						i = m_random.nextInt(4);
+					} while (getAnswer() == answer_random[i+1]);
+					int temp = i;
+					ans[i + 1].setVisibility(View.GONE);
+					do {
+						i = m_random.nextInt(4);
+					} while ((getAnswer() == answer_random[i+1])||(i == temp));
+					ans[i + 1].setVisibility(View.GONE);
+					btn50Used = Status.DISABLE;
+				}		
+			}
+			
+		});
+		btnChange = (Button) findViewById(R.id.btn_upgrade_change);
+		if (PublicResource.getUpgrade(getBaseContext(), "UpgradeChange") == 1) {
+			btnChange.setBackgroundResource(R.drawable.img_upgrade_change);
+			btnChangeUsed = Status.ENABLE;
+		} else btnChangeUsed = Status.DISABLE;
+		btnChange.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {			
+				if (btnChangeUsed == Status.ENABLE) {
+					btnChange.setBackgroundResource(R.drawable.img_upgrade_change_disable);
+					displayNewQuestion();
+					btnChangeUsed = Status.DISABLE;
+				}
+			}
+			
+		});
+		btnDouble = (Button) findViewById(R.id.btn_upgrade_double);
+		if (PublicResource.getUpgrade(getBaseContext(), "Upgrade2Times") == 1) {
+			btnDouble.setBackgroundResource(R.drawable.img_upgrade_doubleanswer);
+			btnDoubleUsed = Status.ENABLE;
+		} else btnDoubleUsed = Status.DISABLE;
+		btnDouble.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {			
+				if (btnDoubleUsed == Status.ENABLE) {		
+					btnDouble.setBackgroundResource(R.drawable.img_upgrade_doubleanswer_disable);
+					btnDoubleUsed = Status.RUNNING;
+				}
+			}
+			
+		});
+		btnTime = (Button) findViewById(R.id.btn_upgrade_plus);
+		if (PublicResource.getUpgrade(getBaseContext(), "UpgradeTime") == 1) {
+			btnTime.setBackgroundResource(R.drawable.img_upgrade_plustime);
+			btnTimeUsed = Status.ENABLE;
+		} else btnTimeUsed = Status.DISABLE;
+		btnTime.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				if (btnTimeUsed == Status.ENABLE) {
+					btnTime.setBackgroundResource(R.drawable.img_upgrade_plustime_disable);
+					btnTimeUsed = Status.DISABLE;
+					countDownTimer.cancel();
+					createCountDown(time_remain + 15000);
+				}		
+			}
+			
+		});
+		btnSpeed = (Button) findViewById(R.id.btn_upgrade_speed);
+		if (PublicResource.getUpgrade(getBaseContext(), "UpgradeSpeed") == 1) {
+			btnSpeed.setBackgroundResource(R.drawable.img_upgrade_speedup);
+			btnSpeedUsed = Status.ENABLE;
+		} else btnSpeedUsed = Status.DISABLE;
+		btnSpeed.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				if (btnSpeedUsed == Status.ENABLE) {
+					btnSpeed.setBackgroundResource(R.drawable.img_upgrade_speedup_disable);
+					btnSpeedUsed = Status.RUNNING;
+				}
 			}
 			
 		});
