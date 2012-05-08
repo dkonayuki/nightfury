@@ -18,8 +18,8 @@ public class UI7 extends Activity {
 	private Button btn_upgrade;
 	private boolean focus;
 	private static final String preference[] = {
-		"Upgrade2Times","UpgradeSpeed", "Upgrade50" ,"UpgradeAutoAnswer", "UpgradeTime", 
-		"UpgradeChange", "UpgradeDecrease",  "UpgradeFish"
+		"Upgrade2Times","UpgradeSpeed", "Upgrade50" ,"UpgradeAutoAnswer", 
+		"UpgradeChange", "UpgradeTime", "UpgradeDecrease",  "UpgradeFish"
 	};
 	private static final int btnList[] = {
 		R.id.btn_2times, R.id.btn_speed, R.id.btn_50, R.id.btn_autoanswer, R.id.btn_change

@@ -42,7 +42,8 @@ public class PublicResource {
 	anim_FadeIn,
 	anim_FadeOut,
 	anim_BotToTop,
-	anim_Question;
+	anim_Question,
+	anim_Time;
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
@@ -79,6 +80,7 @@ public class PublicResource {
 		anim_Rotate.setDuration(90000);
 		anim_BotToTop = AnimationUtils.loadAnimation(ct, R.anim.bottotop);
 		anim_Question = AnimationUtils.loadAnimation(ct, R.anim.question);
+		anim_Time = AnimationUtils.loadAnimation(ct, R.anim.time);
 		bmpStar = BitmapFactory.decodeResource(ct.getResources(), R.drawable.img_checkpoint);
 		soundPool = new SoundPool(20,AudioManager.STREAM_MUSIC,0);
 		
@@ -137,6 +139,7 @@ public class PublicResource {
 	public static void resumeRotate() {
 		anim_Rotate.resume();
 	}
+	public static Animation Time() { return anim_Time; }
 	public static Animation FadeOut() { return anim_FadeOut;}
 	public static Animation FadeIn() { return anim_FadeIn; }
 	public static Animation InFromLeft() { return anim_InFromLeft; }
