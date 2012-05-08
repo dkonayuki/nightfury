@@ -37,10 +37,12 @@ import android.widget.ToggleButton;
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 35;
 	public static final long TIME_LIMIT = 90000;
+	private static final int SPEED_UP_TIME = 7000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
-	private static final int RED_PERCENT = 3;
-	private static final int VIOLET_PERCENT = 6;
+	private static final int AUTO_ANSWER = 15000;
+	private int RED_PERCENT = 30;
+	private int VIOLET_PERCENT = 60;
 	private static float NIGHTFURY_POSITION[][] = {
 		{0.46f, 0.05f}, {0.55f, 0.08f}, {0.55f, 0.19f}, {0.35f, 0.27f}, {0.37f, 0.35f}, {0.52f, 0.45f}, 
 		{0.22f, 0.51f}, {0.26f, 0.60f}, {0.57f, 0.68f}, {0.65f, 0.75f}, {0.49f, 0.82f}, {0.62f, 0.97f}
@@ -68,7 +70,7 @@ public class UI3 extends Activity {
 	private Boolean wait1s = true;
 	private int answer_random[] = new int[5];
 	private Boolean finish = false;
-	private CountDownTimer countDownTimer;
+	private CountDownTimer countDownTimer, autoAnswer;
 	private Boolean countDownPause = false;
 	private AudioManager audio;
 	private GameMode _gameMode;
@@ -78,6 +80,7 @@ public class UI3 extends Activity {
 	private Boolean isPaused;
 	private Button btn50, btnChange, btnDouble, btnTime, btnSpeed;
 	private Status btn50Used, btnChangeUsed, btnDoubleUsed, btnTimeUsed, btnSpeedUsed;
+	private float density;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -327,9 +330,12 @@ public class UI3 extends Activity {
 	
 	//move nightfury forward
 	private void increaseNF() {
-		stars++;
-		currentPosition++;
-		_animateFury(currentPosition - 1, currentPosition);
+		int up = 1;
+		if (btnSpeedUsed == Status.RUNNING) up = 2;
+		if (stars < 9) stars += up; 
+			else stars++;
+		_animateFury(currentPosition, stars);
+		currentPosition = stars;
 	}
 	
 	// move nightfury back
@@ -363,8 +369,8 @@ public class UI3 extends Activity {
 			else
 				{
 					//wait1s forces user wait for 1s
-					wait1s=false;
-					if (getAnswer()==answer_random[a]) {
+					wait1s = false;
+					if (getAnswer() == answer_random[a]) {
 						// correct answer
 						PublicResource.playSoundAnsRight();
 						increaseNF();
@@ -414,7 +420,7 @@ public class UI3 extends Activity {
 		countDownTimer = new CountDownTimer(time, 1000) {
 
 		     public void onTick(long millisUntilFinished) {
-		        countDownText.setText(Long.toString(millisUntilFinished/1000));
+		        countDownText.setText(Long.toString(millisUntilFinished/1000));	  
 		        time_remain = millisUntilFinished;
 		        if (millisUntilFinished <= 15000) {
 		        	PublicResource.playSoundClock();
@@ -489,6 +495,7 @@ public class UI3 extends Activity {
 		clock.startAnimation(PublicResource.FadeIn());
 		clock.startAnimation(PublicResource.Rotate());
 		countDownText = (TextView) findViewById(R.id.count);
+		countDownText.setTextSize(22);
 		countDownText.startAnimation(PublicResource.FadeIn());
 	}
 	
@@ -672,6 +679,24 @@ public class UI3 extends Activity {
 				if (btnSpeedUsed == Status.ENABLE) {
 					btnSpeed.setBackgroundResource(R.drawable.img_upgrade_speedup_disable);
 					btnSpeedUsed = Status.RUNNING;
+					//set color
+		        	countDownText.setTextSize(25);
+		        	countDownText.setTextColor(Color.parseColor("#DD3355DD"));
+		        	countDownText.startAnimation(PublicResource.Time());
+					CountDownTimer speedUpTime = new CountDownTimer(SPEED_UP_TIME, 1000) {
+
+					     public void onTick(long millisUntilFinished) {
+					       
+					     }
+
+					     public void onFinish() {
+						    btnSpeedUsed = Status.DISABLE;
+						    countDownText.setTextSize(22);
+				        	countDownText.setTextColor(Color.parseColor("#DDDDDD"));
+				        	countDownText.clearAnimation();
+					     }
+					  };
+					speedUpTime.start();
 				}
 			}
 			
@@ -679,6 +704,11 @@ public class UI3 extends Activity {
 	}
 	
 	private void prepareMenu() {
+		if (PublicResource.getUpgrade(getBaseContext(), "UpgradeDecrease") == 1) {
+			RED_PERCENT = (int)(RED_PERCENT * 0.75);
+			VIOLET_PERCENT = (int)(VIOLET_PERCENT * 0.75);
+		}
+		density = getResources().getDisplayMetrics().density;
 		isPaused = false;
 		setUncheckedAll(question_checked);
 		currentPosition = 0;
@@ -695,7 +725,7 @@ public class UI3 extends Activity {
 	// get the type of question: Red or Violet
 	private void getQuestionType() {
 		int q;
-		q = m_random.nextInt(100);
+		q = m_random.nextInt(1000);
 		_quesType = QuestionType.NORMAL;
 		if (q < RED_PERCENT) _quesType = QuestionType.RED;
 		else if (q < VIOLET_PERCENT) _quesType = QuestionType.VIOLET;
@@ -746,6 +776,28 @@ public class UI3 extends Activity {
 				ans[i].setText(_question.getString(q+2));	
 				answer_checked[q] = 1;
 			}
+			
+			//autoanswer
+			if (autoAnswer != null) autoAnswer.cancel();
+			autoAnswer = new CountDownTimer(AUTO_ANSWER,1000){
+
+				@Override
+				public void onFinish() {
+					int i;
+					for (i = 1; i <= 4; i++) {
+						if (getAnswer() != answer_random[i]) {
+							ans[i].startAnimation(PublicResource.FadeOut());
+							ans[i].setVisibility(View.GONE);
+						}
+					}
+				}
+
+				@Override
+				public void onTick(long millisUntilFinished) {
+				
+				}
+				
+			}.start();
 		}
 	}
 }
