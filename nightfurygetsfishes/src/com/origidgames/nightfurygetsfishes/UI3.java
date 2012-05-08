@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.IOException;
@@ -32,7 +36,7 @@ import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
 	private static final int QUESTION_NUMBER = 35;
-	private static final int TIME_LIMIT = 90000;
+	public static final long TIME_LIMIT = 90000;
 	private static final int ANSWER_NUMBER = 4;
 	private static final int WIN = 10;
 	private static final int RED_PERCENT = 3;
@@ -45,6 +49,7 @@ public class UI3 extends Activity {
 	private static final String sWIN = "Gotcha!";
 	private static final String sLOSETIME = "Time out!";
 	private static final String sLOSERED = "You lose!";
+	private static final String sPAUSE = "Pause.";
 	private static final int FURY_RUN_STEP = 5;
 	
 	private int currentPosition;
@@ -58,7 +63,7 @@ public class UI3 extends Activity {
 	private static final String BGMFile = "bgm_question.mp3";
 	private Cursor _question;
 	private Button ans[] = new Button[5];
-	private TextView question,countDownText;
+	private TextView question,countDownText,display;
 	private ImageView nightfury;
 	private Boolean wait1s = true;
 	private int answer_random[] = new int[5];
@@ -87,7 +92,7 @@ public class UI3 extends Activity {
 		_setUpStarAndGoal();
 	}
 	
-	
+
 	private void _setUpStarAndGoal(){
 		// Goal
 				ImageView goal = (ImageView) findViewById(R.id.goal);
@@ -103,24 +108,25 @@ public class UI3 extends Activity {
 					goal.setBackgroundResource(R.drawable.img_hard);
 				}
 		RelativeLayout layout_road = (RelativeLayout)((FrameLayout)findViewById(R.id.road)).getChildAt(0);
+
 		/* Stars */
 		int roadWidth = layout_road.getWidth(), roadHeight = layout_road.getHeight();
-		for(int i = 0; i < layout_road.getChildCount(); i++){
+		for (int i = 0; i < layout_road.getChildCount(); i++) {
 			View t = layout_road.getChildAt(i);
 			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)t.getLayoutParams();
 			NIGHTFURY_POSITION[i][0] *= roadWidth;
 			NIGHTFURY_POSITION[i][1] *= roadHeight;
-			params.setMargins((int)(NIGHTFURY_POSITION[i][0]) - (int)(params.width/2), 
-								(int)(NIGHTFURY_POSITION[i][1]) - (int)(params.height/2), 
-										0, 0);
+			params.setMargins((int) (NIGHTFURY_POSITION[i][0]) - (int) (params.width/2), 
+							  (int) (NIGHTFURY_POSITION[i][1]) - (int) (params.height/2), 
+							   0, 0);
 			t.setLayoutParams(params);
 		}
 		/* Fury */
-		
+
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 		
 		params.setMargins(
-				    (int)NIGHTFURY_POSITION[11][0] - (int)(params.width/2), (int)NIGHTFURY_POSITION[11][1] - (int)(params.height/2),
+				    (int) NIGHTFURY_POSITION[11][0] - (int) (params.width/2), (int) NIGHTFURY_POSITION[11][1] - (int) (params.height/2),
 				    0, 0);
 		nightfury.setLayoutParams(params);
 		nightfury.startAnimation(PublicResource.FadeIn());
@@ -229,22 +235,24 @@ public class UI3 extends Activity {
 		countDownTimer.cancel();
 		mediaPlayer.pause();
 		clock.clearAnimation();
-		TextView game = (TextView) findViewById(R.id.gameover_text);
 		if (result) { 
-			game.setText(sWIN);
-			
+			displayMessage(sWIN);
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {		
 					checkNewHighscore();
 					finish();
-					startActivity(new Intent("com.origidgames.nightfuryUI4"));
+					Intent intent = new Intent("com.origidgames.nightfuryUI4");
+					// Add fishes here when completed counting fishes (100)
+					intent.putExtra(PublicResource.UI4.Fishes.toString(), 100);
+					intent.putExtra(PublicResource.UI4.Time.toString(),  (float) time_remain/1000);
+					startActivity(intent);
 				}
 			}, 4000);
 		}
 		else {
-			if (isLose()) game.setText(sLOSERED); else 
-				game.setText(sLOSETIME);
+			if (isLose()) displayMessage(sLOSERED); else 
+				displayMessage(sLOSETIME);
 			PublicResource.playSoundLose();
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
@@ -255,9 +263,6 @@ public class UI3 extends Activity {
 				}
 			}, 4000);
 		}
-		game.setVisibility(View.VISIBLE);
-		game.startAnimation(PublicResource.FadeIn());
-		game.setTypeface(PublicResource.getTrajanFont());
 	}
 	
 	
@@ -276,18 +281,18 @@ public class UI3 extends Activity {
 	
 	
 	private void _animateFury(int nowPos, int toPos){
-		//Array's Position is reversed with real fury position
+		// Array's Position is reversed with real fury position
 		nowPos = 11 - nowPos; toPos = 11 - toPos;
 		final int dx = (int)((NIGHTFURY_POSITION[toPos][0] - NIGHTFURY_POSITION[nowPos][0])/FURY_RUN_STEP);
 		final int dy = (int)((NIGHTFURY_POSITION[toPos][1] - NIGHTFURY_POSITION[nowPos][1])/FURY_RUN_STEP);
-		//Only 1s for animate Fury, this is same with the time which shows the next Question
+		// Only 1s for animate Fury, this is same with the time which shows the next Question
 		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 		params.setMargins((int)NIGHTFURY_POSITION[nowPos][0] - (int)(params.width/2), 
 				(int)NIGHTFURY_POSITION[nowPos][1] - (int)(params.height/2),
 				 0,
 				 0);
 		nightfury.setLayoutParams(params);
-		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP){
+		new CountDownTimer(1000+1000/FURY_RUN_STEP, 1000/FURY_RUN_STEP) {
 
 			@Override
 			public void onFinish() {
@@ -295,7 +300,7 @@ public class UI3 extends Activity {
 			}
 
 			@Override
-			public void onTick(long millisUntilFinished) {
+			public void onTick (long millisUntilFinished) {
 				FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)nightfury.getLayoutParams();
 				params.setMargins(params.leftMargin + dx,
 									params.topMargin + dy, 
@@ -414,13 +419,24 @@ public class UI3 extends Activity {
 		  countDownTimer.start();
 	}
 	
+	private void displayMessage(String msg) {
+		display.setText(msg);
+		display.setVisibility(View.VISIBLE);
+		display.startAnimation(PublicResource.FadeIn());
+		display.setTypeface(PublicResource.getTrajanFont());
+	}
+	
+	private void hideMessage() {
+		display.setVisibility(View.GONE);
+	}
+	
 	private void pauseGame() {
 		mediaPlayer.pause();
 		isPaused = true;
 		PublicResource.playSoundPause();
 		pauseCountDownTimer();
 		PublicResource.pauseRotate();
-		pause.setVisibility(View.VISIBLE);
+		displayMessage(sPAUSE);
 	}
 	
 	private void resumeGame() {
@@ -429,7 +445,7 @@ public class UI3 extends Activity {
 		PublicResource.playSoundPause();
 		resumeCountDownTimer();
 		PublicResource.resumeRotate();
-		pause.setVisibility(View.GONE);
+		hideMessage();
 	}
 
 	private void prepareMusic() {
@@ -544,7 +560,6 @@ public class UI3 extends Activity {
 			}
 			
 		});
-		pause = (ImageView) findViewById(R.id.pause);
 	}
 	
 	private void prepareMenu() {
@@ -555,6 +570,7 @@ public class UI3 extends Activity {
 		prepareRoad();
 		prepareClock();
 		nightfury = (ImageView) findViewById(R.id.nightfury);
+		display = (TextView) findViewById(R.id.display);
 		prepareQuestion();
 		prepareAnswer();
 		prepareButton();

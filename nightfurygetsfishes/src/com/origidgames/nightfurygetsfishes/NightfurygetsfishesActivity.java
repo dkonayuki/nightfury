@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import android.app.Activity;
@@ -12,7 +16,8 @@ public class NightfurygetsfishesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         PublicResource.LoadResource(getBaseContext());
-        startActivity(new Intent("com.origidgames.nightfuryUI2"));
+        startActivity(new Intent("com.origidgames.nightfuryUI3"));
+
     }
     protected void onDestroy() {
     	super.onDestroy();

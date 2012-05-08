@@ -1,3 +1,7 @@
+/**************************************************************************************************************
+ * Copyright (c) 2012 ORIGID GAMES STUDIO. 
+ *************************************************************************************************************/
+
 package com.origidgames.nightfurygetsfishes;
 
 import java.io.File;
@@ -19,6 +23,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 public class PublicResource {
+	/************************************************
+	 * Extra information between Activity 
+	 **********************************************/
+	public enum UI4 {
+		Fishes,
+		Time
+	}
+	
 	private static Animation 	anim_InFromLeft,
 	anim_InFromRight,
 	anim_InFromTop,
@@ -38,17 +50,9 @@ public class PublicResource {
 	private static DBAdapter db;
 	private static final String sPrefName = "Preferences";
 	private static final String sAudio = "Audio";
-	private static final String sHighScore = "Highscore";
-	private static final String sGameMode = "Gamemode";
-	public static final String sUpgradeSpeed = "UpgradeSpeed";
-	public static final String sUpgradeTime = "UpgradeTime";
-	public static final String sUpgradeFish = "UpgradeFish";
-	public static final String sUpgradeDecrease = "UpgradeDecrease";
-	public static final String sUpgradeChange = "UpgradeChange";
-	public static final String sUpgradeAutoAnswer = "UpgradeAutoAnswer";
-	public static final String sUpgrade50 = "Upgrade50";
-	public static final String sUpgrade2Times = "Upgrade2Times";
 	
+	private static GameMode _gameMode;
+	private static Boolean _highscore;
 	private static Typeface font;
 
     public static DBAdapter getDataBase() {
@@ -163,16 +167,31 @@ public class PublicResource {
 		soundPool.play(pause, 1, 1, 0, 0, 1);
 	}
 	
-	public static Boolean getNewHighscore(Context ct) {
+	private static int caculateFishesNumber(int base, int upgrade) {
+		int sum = base;
+		for (int i = 1; i <= upgrade; i++) {
+			sum = sum*105/100;
+		}
+		return sum;
+	}
+	
+	public static int getFishesNumber(Context ct, GameMode gm) {
 		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		return m_Pref.getBoolean(sHighScore, false);
+		int upgrade = m_Pref.getInt("UpgradeFish", 0);
+		switch (gm) {
+		case NORMAL: return caculateFishesNumber(200,upgrade);
+		case HARD: return caculateFishesNumber(400,upgrade);
+		}
+		//Default: EASY mode
+	return caculateFishesNumber(100,upgrade); 
+	}
+	
+	public static Boolean getNewHighscore(Context ct) {
+		return _highscore;
 	}
 	
 	public static void setNewHighscore(Context ct, Boolean game) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = m_Pref.edit();
-		editor.putBoolean(sHighScore, game);
-		editor.commit();
+		_highscore = game;
 	}
 	
 	public static int getUpgrade(Context ct, String key) {
@@ -201,30 +220,12 @@ public class PublicResource {
 	}
 	
 	public static void setGameMode(Context ct, GameMode gm) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = m_Pref.edit();
-		switch (gm) {
-		case EASY: 
-			editor.putInt(sGameMode, 1); 
-			break;
-		case NORMAL: 
-			editor.putInt(sGameMode, 2);
-			break;
-		case HARD: 
-			editor.putInt(sGameMode, 3);
-			break;
-		}
-		editor.commit();
+		_gameMode = gm;
 	}
 	
 	public static GameMode getGameMode(Context ct) {
-		SharedPreferences m_Pref = ct.getSharedPreferences(sPrefName, Context.MODE_PRIVATE);
-		switch (m_Pref.getInt(sGameMode, 1))
-		{
-		case 2: return GameMode.NORMAL;
-		case 3: return GameMode.HARD;
-		}
-		return GameMode.EASY;
+		if (_gameMode!= null) return _gameMode;
+		else return GameMode.EASY;
 	}
 	
 	
