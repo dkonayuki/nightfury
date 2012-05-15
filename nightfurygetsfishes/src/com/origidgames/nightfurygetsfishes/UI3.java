@@ -35,7 +35,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class UI3 extends Activity {
-	private static final int QUESTION_NUMBER = 35;
+	private static final int QUESTION_NUMBER = 125;
 	public static final long TIME_LIMIT = 90000;
 	private static final int SPEED_UP_TIME = 7000;
 	private static final int ANSWER_NUMBER = 4;
