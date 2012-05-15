@@ -237,11 +237,13 @@ public class UI3 extends Activity {
 	}
 	
 	private void finishGame(boolean result) {
+		autoAnswer.cancel();
 		countDownTimer.cancel();
 		mediaPlayer.pause();
 		clock.clearAnimation();
 		if (result) { 
 			displayMessage(sWIN);
+			PublicResource.playSoundWin();
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 				public void run() {		
