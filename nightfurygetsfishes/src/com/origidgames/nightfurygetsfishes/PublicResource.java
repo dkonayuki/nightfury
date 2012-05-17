@@ -47,7 +47,8 @@ public class PublicResource {
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
-	private static int answer_correct,answer_wrong,clock,page_flip,lose,pause;
+	private static int seAnswerCorrect,seAnswerWrong,seClock,sePageFlip,seLose,sePause,seWin;
+	private static int seUpgrade50,seUpgradeChange,seUpgradeDouble,seUpgradeTime,seUpgradeSpeed;
 	private static DBAdapter db;
 	private static final String sPrefName = "Preferences";
 	private static final String sAudio = "Audio";
@@ -89,17 +90,29 @@ public class PublicResource {
 		try {
 			AssetManager assetManager = ct.getAssets();
 			descriptor = assetManager.openFd("answer_correct.mp3");
-			answer_correct = soundPool.load(descriptor, 1);
+			seAnswerCorrect = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("answer_wrong.mp3");
-			answer_wrong = soundPool.load(descriptor, 1);
+			seAnswerWrong = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("clock.wav");
-			clock = soundPool.load(descriptor, 1);
+			seClock = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("page_flip.mp3");
-			page_flip = soundPool.load(descriptor, 1);
+			sePageFlip = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("lose.mp3");
-			lose = soundPool.load(descriptor, 1);
+			seLose = soundPool.load(descriptor, 1);
 			descriptor = assetManager.openFd("pause.mp3");
-			pause = soundPool.load(descriptor, 1);
+			sePause = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("upgrade_50.mp3");
+			seUpgrade50 = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("upgrade_change.mp3");
+			seUpgradeChange = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("upgrade_double.mp3");
+			seUpgradeDouble = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("upgrade_speedup.wav");
+			seUpgradeSpeed = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("upgrade_time.mp3");
+			seUpgradeTime = soundPool.load(descriptor, 1);
+			descriptor = assetManager.openFd("win.mp3");
+			seWin = soundPool.load(descriptor, 1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -147,27 +160,51 @@ public class PublicResource {
 	public static Bitmap Star(){return bmpStar;}
 	
 	public static void playSoundAnsRight() {
-		soundPool.play(answer_correct, 1, 1, 0, 0, 1);
+		soundPool.play(seAnswerCorrect, 1, 1, 0, 0, 1);
 	}
 	
 	public static void playSoundAnsWrong() {
-		soundPool.play(answer_wrong, 1, 1, 0, 0, 1);
+		soundPool.play(seAnswerWrong, 1, 1, 0, 0, 1);
 	}
 	
 	public static void playSoundClock() {
-		soundPool.play(clock, 1, 1, 0, 0, 1);
+		soundPool.play(seClock, 1, 1, 0, 0, 1);
 	}
 	
 	public static void playSoundChange() {
-		soundPool.play(page_flip, 1, 1, 0, 0, 1);
+		soundPool.play(sePageFlip, 1, 1, 0, 0, 1);
 	}
 	
 	public static void playSoundLose() {
-		soundPool.play(lose, 1, 1, 0, 0, 1);
+		soundPool.play(seLose, 1, 1, 0, 0, 1);
 	}
 	
 	public static void playSoundPause() {
-		soundPool.play(pause, 1, 1, 0, 0, 1);
+		soundPool.play(sePause, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundWin() {
+		soundPool.play(seWin, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundUpgrade50() {
+		soundPool.play(seUpgrade50, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundUpgradeChange() {
+		soundPool.play(seUpgradeChange, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundUpgradeDouble() {
+		soundPool.play(seUpgradeDouble, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundUpgradeSpeedUp() {
+		soundPool.play(seUpgradeSpeed, 1, 1, 0, 0, 1);
+	}
+	
+	public static void playSoundUpgradeTime() {
+		soundPool.play(seUpgradeTime, 1, 1, 0, 0, 1);
 	}
 	
 	private static int caculateFishesNumber(int base, int upgrade) {
