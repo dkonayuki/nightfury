@@ -161,6 +161,15 @@ public class DBAdapter {
 		return mCursor;
 	}
 	
+	/**
+	 * If user name exists it will update highscore,
+	 * if not it will insert new user name with new hightscore 
+	 * @param username New User Name
+	 * @return TRUE = UserName does not exist; FALSE = UserName exists
+	 */
+	public void InsertNewHighScoreOrUpdate(String username) {
+		// Cursor = db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
+	}
 	public boolean updateQuestion(long rowId, String question, String answer1, String answer2, String answer3, String answer4,
 			int answer_right) {
 		ContentValues args = new ContentValues();

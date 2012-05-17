@@ -103,7 +103,7 @@ public class UI4 extends Activity{
 			@Override
 			public void onFinish() {
 				txtTime.setText(String.format("%.1f s", (float) (UI3.TIME_LIMIT / 1000 - fElapsedTime)));
-			}
+			} 
 
 			@Override
 			public void onTick(long millisUntilFinished) {

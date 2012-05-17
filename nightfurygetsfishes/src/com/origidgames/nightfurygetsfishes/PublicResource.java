@@ -32,18 +32,18 @@ public class PublicResource {
 	}
 	
 	private static Animation 	anim_InFromLeft,
-	anim_InFromRight,
-	anim_InFromTop,
-	anim_InFromBot,
-	anim_OutToLeft,
-	anim_OutToRight,
-	anim_OutToTop,
-	anim_OutToBot,
-	anim_FadeIn,
-	anim_FadeOut,
-	anim_BotToTop,
-	anim_Question,
-	anim_Time;
+								anim_InFromRight,
+								anim_InFromTop,
+								anim_InFromBot,
+								anim_OutToLeft,
+								anim_OutToRight,
+								anim_OutToTop,
+								anim_OutToBot,
+								anim_FadeIn,
+								anim_FadeOut,
+								anim_BotToTop,
+								anim_Question,
+								anim_Time;
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
