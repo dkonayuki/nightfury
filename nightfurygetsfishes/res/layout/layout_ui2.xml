@@ -12,16 +12,16 @@
 
       <FrameLayout
           android:layout_width="320dp"
-          android:layout_height="135dp"
+          android:layout_height="205dp"
           android:gravity="center_horizontal|center_vertical" >
 
           <ImageView
               android:id="@+id/group1"
-              android:layout_width="255dp"
-              android:layout_height="130dp"
-              android:layout_marginTop="5dp"
+              android:layout_width="265dp"
+              android:layout_height="110dp"
+              android:layout_marginTop="45dp"
               android:layout_gravity="center_horizontal|center_vertical"
-              android:src="@drawable/group1" />
+              android:src="@drawable/group1-1" />
 
           <RelativeLayout
               android:layout_width="match_parent"
@@ -29,28 +29,28 @@
 
               <Button
                   android:id="@+id/pk1"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="60dp"
-                  android:layout_marginTop="20dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="50dp"
+                  android:layout_marginTop="97dp"
                   android:background="@drawable/button_easybg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk2"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="125dp"
-                  android:layout_marginTop="20dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="127dp"
+                  android:layout_marginTop="97dp"
                   android:background="@drawable/button_normalbg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk3"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="190dp"
-                  android:layout_marginTop="20dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="204dp"
+                  android:layout_marginTop="97dp"
                   android:background="@drawable/button_hardbg"
                   android:gravity="center_horizontal|center_vertical" />
           </RelativeLayout>
@@ -63,10 +63,10 @@
 
           <ImageView
               android:id="@+id/group2"
-              android:layout_width="255dp"
-              android:layout_height="130dp"
+              android:layout_width="265dp"
+              android:layout_height="110dp"
               android:layout_gravity="center_horizontal|center_vertical"
-              android:src="@drawable/group1" />
+              android:src="@drawable/group1-1" />
 
           <RelativeLayout
               android:layout_width="match_parent"
@@ -74,28 +74,28 @@
 
               <Button
                   android:id="@+id/pk1"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="60dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="50dp"
+                  android:layout_marginTop="18dp"
                   android:background="@drawable/button_easybg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk2"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="125dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="127dp"
+                  android:layout_marginTop="18dp"
                   android:background="@drawable/button_normalbg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk3"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="190dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="204dp"
+                  android:layout_marginTop="18dp"
                   android:background="@drawable/button_hardbg"
                   android:gravity="center_horizontal|center_vertical" />
           </RelativeLayout>
@@ -103,15 +103,15 @@
       
       <FrameLayout
           android:layout_width="320dp"
-          android:layout_height="130dp"
+          android:layout_height="110dp"
           android:gravity="center_horizontal|center_vertical" >
 
           <ImageView
               android:id="@+id/group3"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_width="265dp"
+              android:layout_height="110dp"
               android:layout_gravity="center_horizontal|center_vertical"
-              android:src="@drawable/group1" />
+              android:src="@drawable/group1-1" />
 
           <RelativeLayout
               android:layout_width="match_parent"
@@ -119,28 +119,28 @@
 
               <Button
                   android:id="@+id/pk1"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="60dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="50dp"
+                  android:layout_marginTop="5dp"
                   android:background="@drawable/button_easybg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk2"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="125dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="127dp"
+                  android:layout_marginTop="5dp"
                   android:background="@drawable/button_normalbg"
                   android:gravity="center_horizontal|center_vertical" />
 
               <Button
                   android:id="@+id/pk3"
-                  android:layout_width="65dp"
-                  android:layout_height="90dp"
-                  android:layout_marginLeft="190dp"
-                  android:layout_marginTop="12dp"
+                  android:layout_width="70dp"
+                  android:layout_height="95dp"
+                  android:layout_marginLeft="204dp"
+                  android:layout_marginTop="5dp"
                   android:background="@drawable/button_hardbg"
                   android:gravity="center_horizontal|center_vertical" />
           </RelativeLayout>
