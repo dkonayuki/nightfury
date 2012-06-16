@@ -5,12 +5,14 @@
 package com.origidgames.nightfurygetsfishes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 /**
@@ -32,7 +34,8 @@ public class UI4 extends Activity{
 	 * Private UI4's views variable
 	 ***************************************/
 	private ImageView imgHighScore;
-	private TextView txtFishes, txtTime;
+	private TextView txtFishes, txtTime, txtInputName;
+	private Button btnInputName;
 	
 	/*****************************************
 	 * Private variable which is used for this activity only
@@ -43,7 +46,8 @@ public class UI4 extends Activity{
 	private int iFishes;
 	/** Elapsed time */
 	private float fElapsedTime;
-	
+	/** Current game mode */
+	private GameMode curGameMode;
 	
 	/*****************************************
 	 * Define override functions 
@@ -58,16 +62,22 @@ public class UI4 extends Activity{
         txtFishes = (TextView)findViewById(R.id.txtFishes);
         txtTime = (TextView)findViewById(R.id.txtTime);
         imgHighScore = (ImageView)findViewById(R.id.imgNewHighScore);
+        txtInputName = (TextView)findViewById(R.id.edtInputName);
+        btnInputName = (Button)findViewById(R.id.btnInputName);
         
         /* Get values used for this Activity */
         Bundle bd = getIntent().getExtras();
         iFishes = bd.getInt(PublicResource.UI4.Fishes.toString());
         fElapsedTime   = (float) (UI3.TIME_LIMIT / 1000) - bd.getFloat(PublicResource.UI4.Time.toString());
+        curGameMode = GameMode.values()[bd.getInt(PublicResource.UI4.GameMode.toString())];
         
         /* Initiate Views' first state  */
-        imgHighScore.setVisibility(PublicResource.getNewHighscore(this) ? View.VISIBLE : View.INVISIBLE);
+        imgHighScore.setVisibility(PublicResource.getNewHighscore() ? View.VISIBLE : View.INVISIBLE);
         txtTime.setText(String.format("%.1f", (float) (UI3.TIME_LIMIT / 1000)));
         txtFishes.setText("0"); 
+        /* TODO: Add animation to txtInputName, btnInputName when there is a new high score */
+        txtInputName.setEnabled(false);
+        btnInputName.setEnabled(false);
         // Set Sound Button State
         ((ToggleButton) findViewById(R.id.btn_sound_4)).setChecked(PublicResource.getAudioPref(getBaseContext()));
     }
@@ -87,6 +97,11 @@ public class UI4 extends Activity{
 			@Override
 			public void onFinish() {
 				txtFishes.setText(Integer.toString(iFishes));
+				/* TODO: Add animation to txtInputName, btnInputName when there is a new high score */
+				if (PublicResource.getNewHighscore()) {
+					txtInputName.setEnabled(true);
+					btnInputName.setEnabled(true);
+				}
 			}
 
 			@Override
@@ -123,32 +138,37 @@ public class UI4 extends Activity{
 	/**
 	 * Share user's name and score to fb, twitter, etc...
 	 * @param btn Share Button
+	 * @param btn Share Button
 	 */
-	protected void onShareClick(Button btn) {
-		
+	public void onShareClick(View btn) {
+		Intent share = new Intent(Intent.ACTION_SEND);
+		share.setType("text/plain");
+		share.putExtra(Intent.EXTRA_TEXT, String.format("!! NEW HIGHSCORES !! I have gotten %s fishes during %s seconds !!",
+														Integer.toString(iFishes), Float.toString(fElapsedTime)));
+		startActivity(Intent.createChooser(share, "Share with"));
 	}
 	
 	/**
 	 * 
 	 * @param btn Retry Button
 	 */
-	protected void onRetryClick(Button btn) {
-		
+	public void onRetryClick(View btn) {
+		this.startActivity(new Intent("com.origidgames.nightfuryUI3"));
 	}
 	
 	/**
 	 * Back to Main Menu when clicked
 	 * @param btn BackToMenu Button 
 	 */
-	protected void onBackToMenuClick(Button btn) {
-		
+	public void onBackToMenuClick(View btn) {
+		this.startActivity(new Intent("com.origidgames.nightfuryUI1"));
 	}
 	
 	/**
 	 * Turn on/off background sound.
 	 * @param btn Sound Button
 	 */
-	protected void onSoundClick(Button btn) {
+	public void onSoundClick(View btn) {
 		
 	}
 	
@@ -157,8 +177,16 @@ public class UI4 extends Activity{
 	 * insert it into database.
 	 * @param btn InputName Button
 	 */
-	protected void onInputNameClick(Button btn) {
-		
+	public void onInputNameClick(View btn)
+	{
+		if (txtInputName.getText() != "") {
+			PublicResource.getDataBase().InsertHighscore(curGameMode, txtInputName.getText().toString(), fElapsedTime);
+			/* TODO: Add animation to txtInputName, btnInputName when there is a new high score */
+	        txtInputName.setEnabled(false);
+	        btnInputName.setEnabled(false);
+		} else {
+			Toast.makeText(this, getString(R.string.InsertYourName), Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	/****************************************

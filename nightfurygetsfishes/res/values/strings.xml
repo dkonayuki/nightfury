@@ -5,5 +5,5 @@
     <string name="app_name">Nightfurygetsfishes</string>
     <string name="_90">90</string>
     <string name="FailMessage">Ops! Toothless couldn’t get the fishes. Now he asks you to ride  with him challenging the Giant Dragon again. what say you?</string>
-
+    <string name="InsertYourName">Please insert your name !</string>
 </resources>

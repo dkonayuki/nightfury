@@ -253,6 +253,7 @@ public class UI3 extends Activity {
 					// Add fishes here when completed counting fishes (100)
 					intent.putExtra(PublicResource.UI4.Fishes.toString(), PublicResource.getFishesNumber(getBaseContext(), getGameMode()));
 					intent.putExtra(PublicResource.UI4.Time.toString(),  (float) time_remain/1000);
+					intent.putExtra(PublicResource.UI4.GameMode.toString(), getGameMode().ordinal());
 					startActivity(intent);
 				}
 			}, 4000);
