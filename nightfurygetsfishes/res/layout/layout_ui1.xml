@@ -39,20 +39,13 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal|center_vertical"
             android:src="@drawable/img_fishes" />
-                <ImageView
-            android:id="@+id/bookofdragon"
-            android:layout_width="110dp"
-            android:layout_height="70dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="right|bottom"
-            android:src="@drawable/img_bookofdragon" />
+             
               
               
                 <Button
-                android:id="@+id/play_button"
+                android:id="@+id/btn_play"
               	android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginRight="100dp"
                 android:layout_marginTop="120dp"
                	android:background="@drawable/img_play_button"
@@ -61,9 +54,9 @@
                	                 />
               
              <Button
-                android:id="@+id/highscore_button"
+                android:id="@+id/btn_highscore"
               	android:layout_width="80dp"
-                  android:layout_height="30dp"
+                  android:layout_height="35dp"
                   android:layout_marginLeft="0dp"
                   android:layout_marginTop="120dp"
                 android:background="@drawable/img_highscore_button"
@@ -71,9 +64,9 @@
                 android:layout_gravity="center_horizontal|center_vertical"
                 />
               <Button
-                android:id="@+id/exit_button"
+                android:id="@+id/btn_exit"
               	android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="120dp"
                 android:background="@drawable/img_exit_button"
@@ -84,28 +77,33 @@
                 android:textColor="#333333" />
                          
             <ToggleButton
-                android:id="@+id/btn_sound"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="left|bottom"
-                android:background="@drawable/img_sound"
-                android:text=""
-                android:textOff=""
-                android:textOn="" />
+	           android:id="@+id/btn_sound"
+	           android:layout_width="25dp"
+	           android:layout_height="25dp"
+	           android:layout_margin="10dp"
+	           android:textOn=""
+	           android:textOff=""
+	           android:layout_gravity="left|bottom"
+	           android:background="@drawable/button_soundbg" />
 
-            <ToggleButton
+            <Button
                 android:id="@+id/btn_help"
                 android:layout_width="40dp"
-                android:layout_height="20dp"
+                android:layout_height="21dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_gravity="right|bottom"
                 android:background="@drawable/img_help_button"
-                android:text=""
-                android:textOff=""
-                android:textOn="" />
+                 />
+
+  			 <Button
+  			     android:id="@+id/btn_bookofdragon"
+  			     android:layout_width="70dp"
+  			     android:layout_height="70dp"
+  			     android:layout_gravity="right|bottom"
+  			     android:layout_marginBottom="20dp"
+  			     android:layout_marginRight="60dp"
+  			     android:background="@drawable/img_bookofdragon" />
 
             </FrameLayout>
               

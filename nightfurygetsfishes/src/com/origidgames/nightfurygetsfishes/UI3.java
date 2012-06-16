@@ -80,7 +80,6 @@ public class UI3 extends Activity {
 	private Boolean isPaused;
 	private Button btn50, btnChange, btnDouble, btnTime, btnSpeed;
 	private Status btn50Used, btnChangeUsed, btnDoubleUsed, btnTimeUsed, btnSpeedUsed;
-	private float density;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -710,7 +709,7 @@ public class UI3 extends Activity {
 			RED_PERCENT = (int)(RED_PERCENT * 0.75);
 			VIOLET_PERCENT = (int)(VIOLET_PERCENT * 0.75);
 		}
-		density = getResources().getDisplayMetrics().density;
+		//density = getResources().getDisplayMetrics().density;
 		isPaused = false;
 		setUncheckedAll(question_checked);
 		currentPosition = 0;
