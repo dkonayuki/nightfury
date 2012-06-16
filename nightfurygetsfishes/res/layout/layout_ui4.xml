@@ -139,7 +139,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="0.0"
-                    android:background="@drawable/button_inputname" />
+                    android:background="@drawable/button_inputname" 
+                    android:onClick="onInputNameClick"/>
 
             </LinearLayout>
 
@@ -157,7 +158,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginRight="70dp"
-                    android:background="@drawable/button_share" />
+                    android:background="@drawable/button_share"
+                    android:onClick="onShareClick"/>
 
                 <Button
                     android:id="@+id/btnRetry"
@@ -165,7 +167,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="70dp"
-                    android:background="@drawable/button_retry" />
+                    android:background="@drawable/button_retry" 
+                    android:onClick="onRetryClick"/>
             </FrameLayout>
         </LinearLayout>
 

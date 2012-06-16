@@ -16,7 +16,10 @@ public class NightfurygetsfishesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         PublicResource.LoadResource(getBaseContext());
-        startActivity(new Intent("com.origidgames.nightfuryUI3"));
+        
+        //
+        Intent intent = new Intent("com.origidgames.nightfuryUI3");
+        startActivity(intent);
 
     }
     protected void onDestroy() {

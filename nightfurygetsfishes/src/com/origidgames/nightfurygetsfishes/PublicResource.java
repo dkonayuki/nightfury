@@ -28,22 +28,23 @@ public class PublicResource {
 	 **********************************************/
 	public enum UI4 {
 		Fishes,
-		Time
+		Time,
+		GameMode,
 	}
 	
 	private static Animation 	anim_InFromLeft,
-	anim_InFromRight,
-	anim_InFromTop,
-	anim_InFromBot,
-	anim_OutToLeft,
-	anim_OutToRight,
-	anim_OutToTop,
-	anim_OutToBot,
-	anim_FadeIn,
-	anim_FadeOut,
-	anim_BotToTop,
-	anim_Question,
-	anim_Time;
+								anim_InFromRight,
+								anim_InFromTop,
+								anim_InFromBot,
+								anim_OutToLeft,
+								anim_OutToRight,
+								anim_OutToTop,
+								anim_OutToBot,
+								anim_FadeIn,
+								anim_FadeOut,
+								anim_BotToTop,
+								anim_Question,
+								anim_Time;
 	private static PausableRotate anim_Rotate;
 	private static Bitmap bmpStar = null;
 	private static SoundPool soundPool;
@@ -54,7 +55,7 @@ public class PublicResource {
 	private static final String sAudio = "Audio";
 	
 	private static GameMode _gameMode;
-	private static Boolean _highscore;
+	private static boolean _highscore = false;
 	private static Typeface font;
 
     public static DBAdapter getDataBase() {
@@ -226,11 +227,11 @@ public class PublicResource {
 	return caculateFishesNumber(100,upgrade); 
 	}
 	
-	public static Boolean getNewHighscore(Context ct) {
+	public static boolean getNewHighscore() {
 		return _highscore;
 	}
 	
-	public static void setNewHighscore(Context ct, Boolean game) {
+	public static void setNewHighscore(Context ct, boolean game) {
 		_highscore = game;
 	}
 	

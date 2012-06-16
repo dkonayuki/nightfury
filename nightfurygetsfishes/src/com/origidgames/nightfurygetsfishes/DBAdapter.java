@@ -105,6 +105,82 @@ public class DBAdapter {
 		return db.insert(DATABASE_TABLE1, null, initialValues);
 	}
 	
+	/**
+	 * Insert a new record into Highscore table.
+	 * @param name user name
+	 * @param score user's score
+	 * @return True if user name is existed in the table 
+	 */
+	public boolean InsertHighscore(GameMode mode, String name, float score)
+	{
+		/* Table name corresponds to Game mode */
+		String sTblName = null;
+		switch (mode) {
+			case NORMAL:
+				sTblName = DATABASE_TABLE3;
+				break;
+			case EASY:
+				sTblName = DATABASE_TABLE2;
+				break;
+			case HARD:
+				sTblName = DATABASE_TABLE4;
+				break;
+		}
+		
+		/* Build content values */
+		ContentValues cv = new ContentValues();
+		cv.put(KEY_NAME, name);
+		cv.put(KEY_TIME, Float.toString(score));
+		
+		/* Find whether name is existed in the table */
+		Cursor c = db.query(sTblName, new String[]{KEY_NAME},
+				KEY_NAME + "=\"" + name + "\"" ,
+				null, null, null, null);
+		if (c != null && c.getCount() == 0) {			
+			db.insert(sTblName, null, cv);
+			return true;
+		}
+		db.update(sTblName, cv, KEY_NAME + "=\"" + name + "\"", null);
+		return false;
+	}
+	
+	/**
+	 * Check whether name's score is better than score in table
+	 * @param name user name
+	 * @param score user's score
+	 * @return True if [name] attached with [score] is higher than the latest score in table
+	 */
+	public boolean IsHighScore(GameMode mode, String name, float score)
+	{
+		/* Table name corresponds to Game mode */
+		String sTblName = null;
+		switch (mode) {
+			case NORMAL:
+				sTblName = DATABASE_TABLE3;
+				break;
+			case EASY:
+				sTblName = DATABASE_TABLE2;
+				break;
+			case HARD:
+				sTblName = DATABASE_TABLE4;
+				break;
+		}
+		
+		/* Gets current user's score */
+		Cursor c = db.query(sTblName,
+					new String[]{KEY_TIME},
+					KEY_NAME + "=\"" + name + "\"" ,
+					null, null, null, null);
+		if (c != null && c.getCount() != 0) {
+			c.moveToFirst();
+			float fCurrentTime = Float.parseFloat(c.getString(0)); /* 0 is the first column (KEY_TIME) */
+			if (fCurrentTime < score) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean deleteQuestion(long rowId) {
 		return db.delete(DATABASE_TABLE1, KEY_ROWID + "=" + rowId, null)>0;
 	}
